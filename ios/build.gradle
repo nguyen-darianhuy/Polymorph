@@ -4,7 +4,7 @@ sourceCompatibility = '1.7'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 ext {
-	mainClassName = "durianhln.polymorph.IOSLauncher"
+    mainClassName = "durianhln.polymorph.IOSLauncher"
 }
 
 launchIPhoneSimulator.dependsOn build
@@ -13,7 +13,7 @@ launchIOSDevice.dependsOn build
 createIPA.dependsOn build
 
 robovm {
-	archs = "thumbv7:arm64"
+    archs = "thumbv7:arm64"
 }
 
 eclipse.project {

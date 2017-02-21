@@ -1,33 +1,40 @@
 package durianhln.polymorph;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Polymorph extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-	}
+public class Polymorph extends Game {
+    public final static String BACKGROUND_PATH = "background.png";
+    public final static String TRIANGLE_PATH = "triangle.png";
+    public final static String CIRCLE_PATH = "circle.png";
+    public final static String SQUARE_PATH = "square.png";
 
-	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
-	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
-	}
+    private SpriteBatch batch;
+    private AssetManager assetManager;
+
+    @Override
+    public void create() {
+        assetManager = new AssetManager();
+        loadAssets();
+        setScreen(new GameScreen(assetManager));
+    }
+
+    private void loadAssets() {
+        assetManager.load(BACKGROUND_PATH, Texture.class);
+        assetManager.load(TRIANGLE_PATH, Texture.class);
+        assetManager.load(CIRCLE_PATH, Texture.class);
+        assetManager.load(SQUARE_PATH, Texture.class);
+        assetManager.finishLoading();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        assetManager.dispose();
+    }
 }
