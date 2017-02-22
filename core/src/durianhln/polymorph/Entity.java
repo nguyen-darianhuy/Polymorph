@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package durianhln.polymorph;
 
 import com.badlogic.gdx.math.Vector2;
+import java.awt.Dimension;
 
 /**
  *
@@ -13,11 +9,28 @@ import com.badlogic.gdx.math.Vector2;
  */
 public abstract class Entity implements Updatable {
     private Vector2 position;
-    public Entity(Vector2 position) {
+    private Vector2 velocity;
+    private Dimension size;
+
+    public Entity(Vector2 position, Vector2 velocity, Dimension size) {
         this.position = position;
+        this.velocity = velocity;
+        this.size = size;
     }
 
     public Vector2 getPosition() {
         return position;
+    }
+
+    public void setPosition(Vector2 position) {
+        this.position = position;
+    }
+
+    public Vector2 getVelocity() {
+        return velocity;
+    }
+
+    public Dimension getSize() {
+        return size;
     }
 }
