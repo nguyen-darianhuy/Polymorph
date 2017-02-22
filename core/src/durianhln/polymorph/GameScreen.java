@@ -21,10 +21,11 @@ public class GameScreen implements Screen {
     private AssetManager assetManager;
 
     public GameScreen(AssetManager assetManager) {
-        game = new Game(new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        Dimension screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        game = new Game(screenSize);
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(true);
+        camera.setToOrtho(false, screenSize.width, screenSize.height);
 
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
@@ -44,6 +45,7 @@ public class GameScreen implements Screen {
         Texture square, circle, triangle;
         background = assetManager.get(Polymorph.BACKGROUND_PATH, Texture.class);
         square = assetManager.get(Polymorph.SQUARE_PATH, Texture.class);
+        triangle = assetManager.get(Polymorph.TRIANGLE_PATH, Texture.class);
         //TODO: continue loading
 
         game.update(delta);
@@ -54,10 +56,15 @@ public class GameScreen implements Screen {
         batch.begin();
         batch.disableBlending();
         //draw opaques
-        batch.draw(background, mapFront.getPosition().x, mapFront.getPosition().y, mapFront.getSize().width, mapFront.getSize().height);
-        batch.draw(background, mapBack.getPosition().x, mapBack.getPosition().y, mapBack.getSize().width, mapBack.getSize().height);
+        batch.draw(background, mapFront.getPosition().x, mapFront.getPosition().y,
+                   mapFront.getSize().width, mapFront.getSize().height);
+        batch.draw(background, mapBack.getPosition().x, mapBack.getPosition().y,
+                   mapBack.getSize().width, mapBack.getSize().height);
+
         batch.enableBlending();
         //draw transparents
+        batch.draw(triangle, player.getPosition().x, player.getPosition().y,
+                   player.getSize().width, player.getSize().height);
         batch.end();
     }
 
@@ -85,7 +92,7 @@ public class GameScreen implements Screen {
     public void dispose() {
     }
 
-    private class InputHandler implements InputProcessor {
+    private class InputHandler implements InputProcessor { //touch coordinates are y-down!!!
         @Override
         public boolean keyDown(int keycode) {
             return false;

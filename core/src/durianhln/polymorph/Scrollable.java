@@ -18,7 +18,7 @@ public abstract class Scrollable extends Entity {
     @Override
     public void update(float delta) {
         getPosition().add(getVelocity().cpy().scl(delta));
-        if (getPosition().y >= getSize().height) {
+        if (getPosition().y + getSize().height <= 0) {
             isScrolled = true;
 
         }

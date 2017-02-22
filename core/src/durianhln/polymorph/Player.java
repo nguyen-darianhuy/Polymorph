@@ -13,8 +13,8 @@ public class Player extends Entity {
     private Color color;
     private double hitpoints;
     private int score;
-    public Player(Vector2 position) {
-        super(position, new Vector2(0, 0), new Dimension(0, 0));
+    public Player(Vector2 position, Dimension size) {
+        super(position, new Vector2(0, 0), size);
         shape = Shape.getRandomShape(); //probably should change to random shape
         color = Color.RED; //should change to random color
         hitpoints = 0.5;
