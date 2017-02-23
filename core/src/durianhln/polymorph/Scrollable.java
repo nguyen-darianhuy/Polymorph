@@ -15,16 +15,7 @@ public abstract class Scrollable extends Entity {
         isScrolled = false;
     }
 
-    @Override
-    public void update(float delta) {
-        getPosition().add(getVelocity().cpy().scl(delta));
-        if (getPosition().y + getSize().height <= 0) {
-            isScrolled = true;
-
-        }
-    }
-
-    public abstract void reset(Vector2 position);
+    public abstract void reset(float x, float y);
 
     public boolean isScrolled() {
         return isScrolled;

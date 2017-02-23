@@ -29,7 +29,7 @@ public class GameScreen implements Screen {
         game = new Game(screenSize, assetManager.get(Polymorph.OBJECTS_PATH, TextureAtlas.class));
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, screenSize.width, screenSize.height);
+        camera.setToOrtho(true, screenSize.width, screenSize.height);
 
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
@@ -52,6 +52,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        fps.log();
         batch.begin();
         batch.disableBlending();
         //draw opaques
@@ -106,6 +107,7 @@ public class GameScreen implements Screen {
 
         @Override
         public boolean touchDown(int x, int y, int pointer, int button) {
+            System.out.printf("X: %d, Y: %d\n", x, y);
             return false;
         }
 

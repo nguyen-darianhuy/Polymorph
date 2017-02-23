@@ -14,8 +14,17 @@ public class Map extends Scrollable {
     }
 
     @Override
-    public void reset(Vector2 position) {
-        setPosition(position);
+    public void update(float delta) {
+        getPosition().add(getVelocity().cpy().scl(delta));
+        if (getPosition().y >= getSize().height) {
+            setScrolled(true);
+        }
+    }
+
+    @Override
+    public void reset(float x, float y) {
+        getPosition().x = x;
+        getPosition().y = y;
         setScrolled(false);
     }
 }

@@ -20,12 +20,12 @@ public class Game implements Updatable {
             shape.setTexture(textureAtlas.findRegion(shape.name));
         }
 
-        player = new Player(new Vector2(1*screenSize.width/3, screenSize.height/6),
-                            new Dimension(screenSize.width/4, screenSize.width/6));
+        player = new Player(new Vector2(1*screenSize.width/3, 5*screenSize.height/6),
+                            new Dimension(screenSize.width/4, screenSize.width/4));
 
-        Vector2 mapVelocity = new Vector2(0, -200);
+        Vector2 mapVelocity = new Vector2(0, 200);
         mapFront = new Map(new Vector2(0, 0), mapVelocity, screenSize, textureAtlas.findRegion("background"));
-        mapBack = new Map(new Vector2(0, screenSize.height - 1), mapVelocity, screenSize, textureAtlas.findRegion("background"));
+        mapBack = new Map(new Vector2(0, -screenSize.height), mapVelocity, screenSize, textureAtlas.findRegion("background"));
         maps = new Map[]{mapFront, mapBack};
     }
 
@@ -36,10 +36,9 @@ public class Game implements Updatable {
             map.update(delta);
         }
 
-        final int OVERLAP_OFFSET = 5;
         for (Map map : maps) {
             if (map.isScrolled()) {
-                map.reset(new Vector2(0, map.getSize().height - OVERLAP_OFFSET));
+                map.reset(0, -map.getSize().height);
             }
         }
     }
