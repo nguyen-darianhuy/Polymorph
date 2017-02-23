@@ -4,10 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import java.awt.Dimension;
 
 /**
@@ -16,13 +17,16 @@ import java.awt.Dimension;
  */
 public class GameScreen implements Screen {
     private Game game;
+
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private AssetManager assetManager;
+    private FPSLogger fps;
+
 
     public GameScreen(AssetManager assetManager) {
         Dimension screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        game = new Game(screenSize);
+        game = new Game(screenSize, assetManager.get(Polymorph.OBJECTS_PATH, TextureAtlas.class));
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, screenSize.width, screenSize.height);
@@ -33,20 +37,15 @@ public class GameScreen implements Screen {
         this.assetManager = assetManager;
 
         Gdx.input.setInputProcessor(new InputHandler());
+        fps = new FPSLogger();
     }
 
     @Override
     public void render(float delta) {
+        delta = Math.min(delta, 0.03f);
         Player player = game.getPlayer();
         Map mapFront = game.getMapFront();
         Map mapBack = game.getMapBack();
-
-        Texture background;
-        Texture square, circle, triangle;
-        background = assetManager.get(Polymorph.BACKGROUND_PATH, Texture.class);
-        square = assetManager.get(Polymorph.SQUARE_PATH, Texture.class);
-        triangle = assetManager.get(Polymorph.TRIANGLE_PATH, Texture.class);
-        //TODO: continue loading
 
         game.update(delta);
 
@@ -56,15 +55,12 @@ public class GameScreen implements Screen {
         batch.begin();
         batch.disableBlending();
         //draw opaques
-        batch.draw(background, mapFront.getPosition().x, mapFront.getPosition().y,
-                   mapFront.getSize().width, mapFront.getSize().height);
-        batch.draw(background, mapBack.getPosition().x, mapBack.getPosition().y,
-                   mapBack.getSize().width, mapBack.getSize().height);
+        mapFront.render(batch);
+        mapBack.render(batch);
 
         batch.enableBlending();
         //draw transparents
-        batch.draw(triangle, player.getPosition().x, player.getPosition().y,
-                   player.getSize().width, player.getSize().height);
+        player.render(batch);
         batch.end();
     }
 

@@ -1,6 +1,7 @@
 package durianhln.polymorph;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import java.awt.Dimension;
 
@@ -9,14 +10,18 @@ import java.awt.Dimension;
  * @author Darian
  */
 public class Player extends Entity {
-    private Shape shape;
-    private Color color;
     private double hitpoints;
     private int score;
+
+    private Shape currentShape;
+    private Color color;
+
     public Player(Vector2 position, Dimension size) {
-        super(position, new Vector2(0, 0), size);
-        shape = Shape.getRandomShape(); //probably should change to random shape
+        super(position, new Vector2(0, 0), size, null);
+        currentShape = Shape.getRandomShape();
+        setTexture(currentShape.getTexture());
         color = Color.RED; //should change to random color
+
         hitpoints = 0.5;
         score = 0;
     }

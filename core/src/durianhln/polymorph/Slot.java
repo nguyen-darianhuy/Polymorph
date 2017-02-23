@@ -5,6 +5,7 @@
  */
 package durianhln.polymorph;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import java.awt.Dimension;
 
@@ -13,8 +14,8 @@ import java.awt.Dimension;
  * @author Darian
  */
 public class Slot extends Entity {
-    public Slot(Vector2 position, Vector2 velocity, Dimension size) {
-        super(position, velocity, size);
+    public Slot(Vector2 position, Vector2 velocity, Dimension size, TextureRegion texture) {
+        super(position, velocity, size, null);
     }
     @Override
     public void update(float delta) {
