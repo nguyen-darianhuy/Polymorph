@@ -1,7 +1,7 @@
 package durianhln.polymorph;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import java.awt.Dimension;
 
@@ -26,6 +26,15 @@ public class Player extends Entity {
         score = 0;
     }
 
+    @Override
+    public void render(SpriteBatch batch) {
+        Color originalColor = batch.getColor();
+        batch.setColor(color);
+
+        super.render(batch);
+
+        batch.setColor(originalColor);
+    }
     @Override
     public void update(float delta) {
 

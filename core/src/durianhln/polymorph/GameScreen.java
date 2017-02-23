@@ -26,7 +26,7 @@ public class GameScreen implements Screen {
 
     public GameScreen(AssetManager assetManager) {
         Dimension screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        game = new Game(screenSize, assetManager.get(Polymorph.OBJECTS_PATH, TextureAtlas.class));
+        game = new Game(screenSize, assetManager);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(true, screenSize.width, screenSize.height);
