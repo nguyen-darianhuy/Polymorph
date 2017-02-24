@@ -5,7 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import java.awt.Dimension;
 
 /**
- *
+ * Represents an object that moves with a constant velocity such that when it
+ * goes out of bounds, it resets its position.
  * @author Darian
  */
 public abstract class Scrollable extends Entity {

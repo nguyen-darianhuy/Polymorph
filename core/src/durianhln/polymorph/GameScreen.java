@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.Array;
 import java.awt.Dimension;
 
 /**
@@ -17,6 +17,7 @@ import java.awt.Dimension;
  */
 public class GameScreen implements Screen {
     private Game game;
+
 
     private OrthographicCamera camera;
     private SpriteBatch batch;
@@ -43,11 +44,24 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         delta = Math.min(delta, 0.03f);
+
         Player player = game.getPlayer();
+        Array<Slot> slots = game.getSlots();
         Map mapFront = game.getMapFront();
         Map mapBack = game.getMapBack();
 
-        game.update(delta);
+        switch (game.getState()) {
+            case READY: //TODO: Change this shit
+                System.out.println("HERE WE GO");
+                game.setState(State.RUNNING);
+                break;
+            case RUNNING:
+                game.update(delta);
+                break;
+            case STOPPED:
+                dispose(); //TODO: gracefully end the game
+                return;
+        }
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -62,6 +76,9 @@ public class GameScreen implements Screen {
         batch.enableBlending();
         //draw transparents
         player.render(batch);
+        for (Slot slot : slots) {
+            slot.render(batch);
+        }
         batch.end();
     }
 

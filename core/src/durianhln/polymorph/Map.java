@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import java.awt.Dimension;
 
 /**
- *
+ * Represents a moving Scrollable backdrop that moves vertically.
  * @author Darian
  */
 public class Map extends Scrollable {
@@ -23,8 +23,7 @@ public class Map extends Scrollable {
 
     @Override
     public void reset(float x, float y) {
-        getPosition().x = x;
-        getPosition().y = y;
+        getPosition().set(x, y);
         setScrolled(false);
     }
 }

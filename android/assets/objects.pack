@@ -10,24 +10,24 @@ background
   orig: 512, 1024
   offset: 0, 0
   index: -1
+triangle
+  rotate: false
+  xy: 515, 849
+  size: 200, 176
+  orig: 256, 192
+  offset: 28, 8
+  index: -1
 circle
   rotate: false
-  xy: 515, 769
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
+  xy: 515, 671
+  size: 176, 176
+  orig: 256, 192
+  offset: 40, 8
   index: -1
 square
   rotate: false
-  xy: 515, 511
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-triangle
-  rotate: false
-  xy: 515, 258
-  size: 250, 251
-  orig: 256, 256
-  offset: 3, 0
+  xy: 717, 849
+  size: 176, 176
+  orig: 256, 192
+  offset: 40, 8
   index: -1

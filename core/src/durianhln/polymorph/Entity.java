@@ -6,12 +6,12 @@ import com.badlogic.gdx.math.Vector2;
 import java.awt.Dimension;
 
 /**
- *
+ * Represents a game entity that has a position, can move, and has a texture.
  * @author Darian
  */
 public abstract class Entity implements Updatable {
-    private Vector2 position;
-    private Vector2 velocity;
+    private final Vector2 position;
+    private final Vector2 velocity;
     private Dimension size;
     private TextureRegion texture;
 
@@ -28,10 +28,6 @@ public abstract class Entity implements Updatable {
 
     public Vector2 getPosition() {
         return position;
-    }
-
-    public void setPosition(Vector2 position) {
-        this.position = position;
     }
 
     public Vector2 getVelocity() {

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.Random;
 
 /**
- *
+ * Represents a Shape with a Texture. 
  * @author Darian
  */
 public enum Shape {
@@ -17,11 +17,6 @@ public enum Shape {
     Shape(String name) {
         this.name = name;
         this.texture = null;
-    }
-
-    public static Shape getRandomShape() {
-        Random rng = new Random();
-        return Shape.values()[rng.nextInt(Shape.values().length)];
     }
 
     public TextureRegion getTexture() {
