@@ -1,6 +1,7 @@
-package durianhln.polymorph;
+package durianhln.polymorph.util;
 
 import com.badlogic.gdx.graphics.Color;
+import durianhln.polymorph.game.Shape;
 import java.util.Random;
 
 /**

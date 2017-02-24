@@ -1,4 +1,4 @@
-package durianhln.polymorph;
+package durianhln.polymorph.game;
 
 /**
  * Represents a game's state.

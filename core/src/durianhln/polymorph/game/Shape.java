@@ -1,4 +1,4 @@
-package durianhln.polymorph;
+package durianhln.polymorph.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.Random;

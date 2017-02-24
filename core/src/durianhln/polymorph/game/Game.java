@@ -1,5 +1,10 @@
-package durianhln.polymorph;
+package durianhln.polymorph.game;
 
+import durianhln.polymorph.gameobject.Updatable;
+import durianhln.polymorph.gameobject.Slot;
+import durianhln.polymorph.gameobject.Polymorph;
+import durianhln.polymorph.gameobject.Map;
+import durianhln.polymorph.gameobject.Player;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

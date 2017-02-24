@@ -1,9 +1,9 @@
-package durianhln.polymorph;
+package durianhln.polymorph.gameobject;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import durianhln.polymorph.screen.GameScreen;
 
 public class Polymorph extends Game {
     public final static String OBJECTS_PATH = "objects.pack";

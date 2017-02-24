@@ -1,8 +1,9 @@
-package durianhln.polymorph;
+package durianhln.polymorph.gameobject;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import durianhln.polymorph.game.Match;
 import java.awt.Dimension;
 
 /**

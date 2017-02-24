@@ -1,7 +1,8 @@
-package durianhln.polymorph;
+package durianhln.polymorph.gameobject;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool.Poolable;
+import durianhln.polymorph.util.RandomGenerator;
 import java.awt.Dimension;
 
 /**

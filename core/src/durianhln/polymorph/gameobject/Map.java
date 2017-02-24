@@ -1,4 +1,4 @@
-package durianhln.polymorph;
+package durianhln.polymorph.gameobject;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;

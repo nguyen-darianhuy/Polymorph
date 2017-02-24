@@ -1,8 +1,10 @@
-package durianhln.polymorph;
+package durianhln.polymorph.gameobject;
 
+import durianhln.polymorph.game.Shape;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import durianhln.polymorph.util.RandomGenerator;
 import java.awt.Dimension;
 
 /**

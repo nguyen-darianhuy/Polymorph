@@ -1,5 +1,8 @@
-package durianhln.polymorph;
+package durianhln.polymorph.screen;
 
+import durianhln.polymorph.gameobject.Slot;
+import durianhln.polymorph.gameobject.Map;
+import durianhln.polymorph.gameobject.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -9,6 +12,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import durianhln.polymorph.game.Game;
+import durianhln.polymorph.game.State;
 import java.awt.Dimension;
 
 /**

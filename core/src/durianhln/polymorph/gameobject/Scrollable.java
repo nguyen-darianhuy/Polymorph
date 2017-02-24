@@ -1,5 +1,6 @@
-package durianhln.polymorph;
+package durianhln.polymorph.gameobject;
 
+import durianhln.polymorph.gameobject.Entity;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import java.awt.Dimension;

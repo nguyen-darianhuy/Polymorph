@@ -1,4 +1,4 @@
-package durianhln.polymorph;
+package durianhln.polymorph.game;
 
 /**
  * Represents the type of match a slot and a player can make, and its "quality".
