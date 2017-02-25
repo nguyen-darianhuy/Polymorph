@@ -41,6 +41,8 @@ public class Game implements Updatable {
     public Game(final Dimension screenSize, AssetManager assetManager) {
         TextureAtlas textureAtlas = assetManager.get(Polymorph.OBJECTS_PATH, TextureAtlas.class);
         initTextures(textureAtlas);
+        MIN_SLOT_SPAWN_TIME = 0.8f;
+        MAX_SLOT_VELOCITY = 350;
 
         final int mobWidth = screenSize.width/4;
         player = new Player(new Vector2(screenSize.width/2 - mobWidth/2, 2*screenSize.height/3),
@@ -60,13 +62,12 @@ public class Game implements Updatable {
             }
         };
 
+        Dimension mapSize = new Dimension(screenSize.width, (int)(screenSize.height*1.1f));
+        TextureRegion mapTexture = textureAtlas.findRegion("background");
         mapVelocity = new Vector2(0, 200);
-        mapFront = new Map(new Vector2(0, 0), mapVelocity, screenSize, textureAtlas.findRegion("background"));
-        mapBack = new Map(new Vector2(0, -screenSize.height + 5), mapVelocity, screenSize, textureAtlas.findRegion("background"));
+        mapFront = new Map(new Vector2(0, 0), mapVelocity, mapSize, mapTexture);
+        mapBack = new Map(new Vector2(0, -mapSize.height + 5), mapVelocity, mapSize, mapTexture);
         maps = new Map[]{mapFront, mapBack};
-
-        MIN_SLOT_SPAWN_TIME = 0.8f;
-        MAX_SLOT_VELOCITY = 300;
 
 
         runtime = 0;
@@ -124,13 +125,6 @@ public class Game implements Updatable {
 
                 slots.removeIndex(i);
                 slotPool.free(slot);
-            }
-        }
-
-        //map disappearing detection
-        for (Map map : maps) {
-            if (map.isScrolled()) {
-                map.reset(0, -map.getSize().height + 5);
             }
         }
     }

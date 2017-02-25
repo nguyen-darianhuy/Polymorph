@@ -1,5 +1,7 @@
 package durianhln.polymorph.gameobject;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import durianhln.polymorph.util.RandomGenerator;
@@ -20,8 +22,7 @@ public class Slot extends Mob implements Poolable {
 
         shape = RandomGenerator.getRandomShape();
         setTexture(shape.getTexture());
-        color = RandomGenerator.getRandomColor();
-
+        color = RandomGenerator.getRandomTransparentColor();
     }
 
     @Override

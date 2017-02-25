@@ -11,9 +11,12 @@ import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import durianhln.polymorph.game.Game;
 import durianhln.polymorph.game.State;
+import durianhln.polymorph.gameobject.Polymorph;
 import java.awt.Dimension;
 
 /**
@@ -23,7 +26,7 @@ import java.awt.Dimension;
 public class GameScreen implements Screen {
     private Game game;
 
-
+    private Stage hud;
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private AssetManager assetManager;
@@ -34,6 +37,8 @@ public class GameScreen implements Screen {
         Dimension screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         game = new Game(screenSize, assetManager);
 
+        //Skin skin = assetManager.get(Polymorph.SKIN_PATH, Skin.class);
+        hud = new Stage();
         camera = new OrthographicCamera();
         camera.setToOrtho(true, screenSize.width, screenSize.height);
 

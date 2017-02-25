@@ -4,7 +4,20 @@
   <auxiliary>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-      <group/>
+      <group>
+        <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/gameobject/Player.java</file>
+        <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/gameobject/Polymorph.java</file>
+        <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/game/Shape.java</file>
+        <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/util/RandomGenerator.java</file>
+        <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/game/Match.java</file>
+        <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/gameobject/Slot.java</file>
+        <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/gameobject/Map.java</file>
+        <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/game/Game.java</file>
+        <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/gameobject/Scrollable.java</file>
+        <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/gameobject/Mob.java</file>
+        <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/screen/GameScreen.java</file>
+        <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/gameobject/Entity.java</file>
+      </group>
     </open-files>
     <editor-bookmarks lastBookmarkId="0" xmlns="http://www.netbeans.org/ns/editor-bookmarks/2"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">

@@ -1,10 +1,9 @@
 package durianhln.polymorph.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import java.util.Random;
 
 /**
- * Represents a Shape with a Texture. 
+ * Represents a Shape with a Texture.
  * @author Darian
  */
 public enum Shape {

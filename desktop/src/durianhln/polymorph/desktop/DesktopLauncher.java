@@ -10,7 +10,6 @@ public class DesktopLauncher {
         config.title = "Polymorph";
         config.width = 360;
         config.height = 640;
-        config.resizable = false;
         new LwjglApplication(new Polymorph(), config);
     }
 }

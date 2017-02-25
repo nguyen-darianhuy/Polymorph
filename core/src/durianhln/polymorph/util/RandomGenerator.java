@@ -9,27 +9,23 @@ import java.util.Random;
  * @author Darian
  */
 public abstract class RandomGenerator {
-    public static Random rng = new Random();
+    public static final Random rng = new Random();
+    public static final Color[] colors = {new Color(1, 0.3f, 0, 1), //RED
+                                          new Color(0, 1, 0.5f, 1), //GREEN
+                                          new Color(0, 0.5f, 1, 1)};//BLUE
+    public static final Color[] transparentColors = {colors[0].cpy().sub(0, 0, 0, 0.2f), //RED
+                                                     colors[1].cpy().sub(0, 0, 0, 0.2f), //GREEN
+                                                     colors[2].cpy().sub(0, 0, 0, 0.2f)};//BLUE
+
     public static Shape getRandomShape() {
         return Shape.values()[rng.nextInt(Shape.values().length)];
     }
 
     public static Color getRandomColor() {
-        int randomNum = rng.nextInt(3);
-        Color color;
-        switch (randomNum) {
-            case 0:
-                color = Color.RED;
-                break;
-            case 1:
-                color = Color.BLUE;
-                break;
-            case 2:
-                color = Color.GREEN;
-                break;
-            default:
-                throw new IllegalStateException("Nonexisting Color generated");
-        }
-        return color;
+        return colors[rng.nextInt(colors.length)];
+    }
+
+    public static Color getRandomTransparentColor() {
+        return transparentColors[rng.nextInt(transparentColors.length)];
     }
 }

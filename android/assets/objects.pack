@@ -5,29 +5,29 @@ filter: Nearest,Nearest
 repeat: none
 background
   rotate: false
-  xy: 1, 1
-  size: 512, 1024
-  orig: 512, 1024
+  xy: 1, 55
+  size: 1024, 2048
+  orig: 1024, 2048
   offset: 0, 0
   index: -1
 triangle
   rotate: false
-  xy: 515, 849
-  size: 200, 176
-  orig: 256, 192
-  offset: 28, 8
+  xy: 1027, 1405
+  size: 800, 698
+  orig: 1024, 768
+  offset: 112, 35
   index: -1
 circle
   rotate: false
-  xy: 515, 671
-  size: 176, 176
-  orig: 256, 192
-  offset: 40, 8
+  xy: 1027, 703
+  size: 700, 700
+  orig: 1024, 768
+  offset: 162, 34
   index: -1
 square
   rotate: false
-  xy: 717, 849
-  size: 176, 176
-  orig: 256, 192
-  offset: 40, 8
+  xy: 1027, 1
+  size: 700, 700
+  orig: 1024, 768
+  offset: 162, 34
   index: -1

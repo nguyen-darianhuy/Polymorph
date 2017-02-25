@@ -5,10 +5,10 @@ import com.badlogic.gdx.math.Vector2;
 import java.awt.Dimension;
 
 /**
- * Represents a moving Scrollable backdrop that moves vertically.
+ * Represents a moving Entity backdrop that moves vertically.
  * @author Darian
  */
-public class Map extends Scrollable {
+public class Map extends Entity {
     public Map(Vector2 position, Vector2 velocity, Dimension size, TextureRegion texture) {
         super(position, velocity, size, texture);
     }
@@ -16,14 +16,9 @@ public class Map extends Scrollable {
     @Override
     public void update(float delta) {
         getPosition().add(getVelocity().cpy().scl(delta));
-        if (getPosition().y >= getSize().height) {
-            setScrolled(true);
+        int height = getSize().height;
+        if (getPosition().y >= height) {
+            getPosition().y = -height + 10;
         }
-    }
-
-    @Override
-    public void reset(float x, float y) {
-        getPosition().set(x, y);
-        setScrolled(false);
     }
 }
