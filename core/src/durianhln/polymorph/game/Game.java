@@ -127,7 +127,6 @@ public class Game implements Updatable {
             if (slot.getPosition().y >= player.getPosition().y) {
                 Match match = player.match(slot);
 
-                player.setHitpoints(player.getHitpoints() + match.value);
                 int scoreDelta = (int)(player.getMultiplier()*(slot.getVelocity().y*match.multiplier));
                 player.setScore(player.getScore() + scoreDelta);
 

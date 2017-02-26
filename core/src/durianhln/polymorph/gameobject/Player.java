@@ -38,12 +38,6 @@ public class Player extends Mob {
         Match match;
         if (slot.getShape() == this.getShape() && slot.getColor() == this.getColor()) {
             match = Match.GOOD;
-            if (multiplier <= 2.0f) {
-                multiplier += 0.05f;
-            }
-
-
-
         } else if (slot.getShape() == this.getShape()) {
             match = Match.HALF;
             multiplier = 1;
@@ -51,12 +45,21 @@ public class Player extends Mob {
             match = Match.BAD;
             multiplier = 1;
         }
+
+        if (hitpoints + match.value > 100) {
+            if (multiplier <= 2.0f) {
+                multiplier += 0.05f;
+            }
+        } else {
+            hitpoints += match.value;
+        }
         return match;
     }
 
     public boolean isDead() {
         return hitpoints <= 0;
     }
+
     public int getHitpoints() {
         return hitpoints;
     }

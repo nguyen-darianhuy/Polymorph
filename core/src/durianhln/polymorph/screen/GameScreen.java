@@ -13,6 +13,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import durianhln.polymorph.game.Game;
@@ -26,6 +28,7 @@ import java.awt.Dimension;
  */
 public class GameScreen implements Screen {
     private Game game;
+    private Dimension screenSize;
 
     private Stage hud;
     private OrthographicCamera camera;
@@ -34,12 +37,12 @@ public class GameScreen implements Screen {
 
     private SpriteBatch batch;
     private BitmapFont font;
+    private ShapeRenderer shapeRenderer;
 
     private FPSLogger fps;
 
-
     public GameScreen(AssetManager assetManager) {
-        Dimension screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         game = new Game(screenSize, assetManager);
 
         this.assetManager = assetManager;
@@ -53,6 +56,8 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
 
         font = new BitmapFont(true);
+        shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(camera.combined);
 
         Gdx.input.setInputProcessor(new InputHandler());
         fps = new FPSLogger();
@@ -96,11 +101,28 @@ public class GameScreen implements Screen {
         for (Slot slot : slots) {
             slot.render(batch);
         }
+        //>>>DEMO START
+        for (int i = 0; i < Shape.values().length; i++) {
+            Shape shape = Shape.values()[i];
+            int x = i*screenSize.width/3 + 25;
+            batch.draw(shape.getTexture(), x, screenSize.height - 80, screenSize.width/5, screenSize.width/5);
+        }
         //draw text
-        font.draw(batch, String.format("HP: %d%%\nScore: %d\n%s",
-                player.getHitpoints(), player.getScore(), player.isDead() ? "Oh dear, you are dead!" : ""),
+        font.draw(batch, String.format("HP: %d%%\nScore: %d\nMultiplier: %.2f\n%s",
+                player.getHitpoints(), player.getScore(), player.getMultiplier(),
+                player.isDead() ? "Oh dear, you are dead!" : ""),
                 10, 10);
+
+        //>>>DEMO END
         batch.end();
+        //>>>DEMO START
+        shapeRenderer.begin(ShapeType.Filled);
+        for (int i = 0; i < Game.colors.length; i++) {
+            shapeRenderer.setColor(Game.colors[i]);
+            shapeRenderer.rect(i*screenSize.width/3 + 25, screenSize.height - 110, screenSize.width/5, 20);
+        }
+        shapeRenderer.end();
+        //>>>DEMO END
     }
 
     @Override

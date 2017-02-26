@@ -64,7 +64,10 @@ com_crashlytics_export_strings.xml
 /build/
 /android/build/
 /core/build/
-/desktop/build/
+##/desktop/build/
+/desktop/build/classes
+/desktop/build/dependency-cache
+/desktop/build/temp
 /html/build/
 /ios/build/
 /ios-moe/build/

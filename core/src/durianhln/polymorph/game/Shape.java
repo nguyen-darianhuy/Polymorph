@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  * @author Darian
  */
 public enum Shape {
-    SQUARE("square"),
     TRIANGLE("triangle"),
-    CIRCLE("circle");
+    CIRCLE("circle"),
+    SQUARE("square");
 
     public final String name;
     private TextureRegion texture;
