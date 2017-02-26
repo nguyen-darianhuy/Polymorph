@@ -6,6 +6,7 @@ import durianhln.polymorph.gameobject.Polymorph;
 import durianhln.polymorph.gameobject.Map;
 import durianhln.polymorph.gameobject.Player;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -18,6 +19,13 @@ import java.awt.Dimension;
  * @author Darian
  */
 public class Game implements Updatable {
+    public static final Color[] colors = {new Color(1, 0.3f, 0, 1), //RED
+                                          new Color(0, 1, 0.5f, 1), //GREEN
+                                          new Color(0, 0.5f, 1, 1)};//BLUE
+    public static final Color[] transparentColors = {colors[0].cpy().sub(0, 0, 0, 0.2f), //RED
+                                                     colors[1].cpy().sub(0, 0, 0, 0.2f), //GREEN
+                                                     colors[2].cpy().sub(0, 0, 0, 0.2f)};//BLUE
+
     private Player player;
     private Array<Slot> slots;
     private Pool<Slot> slotPool;
@@ -88,7 +96,7 @@ public class Game implements Updatable {
         runtime += delta;
 
         if (player.isDead()) {
-            System.out.println("Oh dear, you are dead!");//TODO: change this shit
+            //TODO: change this shit
         }
         //update all entities
         player.update(delta);

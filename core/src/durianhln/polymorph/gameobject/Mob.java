@@ -8,7 +8,7 @@ import durianhln.polymorph.util.RandomGenerator;
 import java.awt.Dimension;
 
 /**
- * Represents an Entity that has a Shape and Color, and thus is related to gameplay.
+ * Represents an Entity that has a Shape and Color.
  * @author Darian
  */
 public abstract class Mob extends Entity {
@@ -19,6 +19,12 @@ public abstract class Mob extends Entity {
         shape = RandomGenerator.getRandomShape();
         setTexture(shape.getTexture());
         color = RandomGenerator.getRandomColor();
+    }
+
+    public void morph(Shape shape, Color color) {
+        this.shape = shape;
+        setTexture(shape.getTexture());
+        this.color = color;
     }
 
     @Override

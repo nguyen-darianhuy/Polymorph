@@ -4,19 +4,20 @@ import durianhln.polymorph.gameobject.Slot;
 import durianhln.polymorph.gameobject.Map;
 import durianhln.polymorph.gameobject.Player;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import durianhln.polymorph.game.Game;
+import durianhln.polymorph.game.Shape;
 import durianhln.polymorph.game.State;
-import durianhln.polymorph.gameobject.Polymorph;
 import java.awt.Dimension;
 
 /**
@@ -28,14 +29,20 @@ public class GameScreen implements Screen {
 
     private Stage hud;
     private OrthographicCamera camera;
-    private SpriteBatch batch;
+
     private AssetManager assetManager;
+
+    private SpriteBatch batch;
+    private BitmapFont font;
+
     private FPSLogger fps;
 
 
     public GameScreen(AssetManager assetManager) {
         Dimension screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         game = new Game(screenSize, assetManager);
+
+        this.assetManager = assetManager;
 
         //Skin skin = assetManager.get(Polymorph.SKIN_PATH, Skin.class);
         hud = new Stage();
@@ -45,7 +52,7 @@ public class GameScreen implements Screen {
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
 
-        this.assetManager = assetManager;
+        font = new BitmapFont(true);
 
         Gdx.input.setInputProcessor(new InputHandler());
         fps = new FPSLogger();
@@ -64,7 +71,7 @@ public class GameScreen implements Screen {
             case READY: //TODO: Change this shit
                 System.out.println("HERE WE GO");
                 game.setState(State.RUNNING);
-                break;
+                return;
             case RUNNING:
                 game.update(delta);
                 break;
@@ -89,11 +96,16 @@ public class GameScreen implements Screen {
         for (Slot slot : slots) {
             slot.render(batch);
         }
+        //draw text
+        font.draw(batch, String.format("HP: %d%%\nScore: %d\n%s",
+                player.getHitpoints(), player.getScore(), player.isDead() ? "Oh dear, you are dead!" : ""),
+                10, 10);
         batch.end();
     }
 
     @Override
     public void show() {
+
     }
 
     @Override
@@ -117,14 +129,42 @@ public class GameScreen implements Screen {
     }
 
     private class InputHandler implements InputProcessor { //touch coordinates are y-down!!!
+        private Shape shapeHeld;
+
         @Override
         public boolean keyDown(int keycode) {
-            return false;
+            switch (keycode) {
+                case Input.Keys.NUMPAD_4:
+                    shapeHeld = Shape.TRIANGLE;
+                    break;
+                case Input.Keys.NUMPAD_5:
+                    shapeHeld = Shape.CIRCLE;
+                    break;
+                case Input.Keys.NUMPAD_6:
+                    shapeHeld = Shape.SQUARE;
+                    break;
+            }
+            return true;
         }
 
         @Override
         public boolean keyUp(int keycode) {
-            return false;
+            if (shapeHeld == null) {
+                return false;
+            }
+
+            switch (keycode) {
+                case Input.Keys.NUMPAD_7:
+                    game.getPlayer().morph(shapeHeld, Game.colors[0]);
+                    break;
+                case Input.Keys.NUMPAD_8:
+                    game.getPlayer().morph(shapeHeld, Game.colors[1]);
+                    break;
+                case Input.Keys.NUMPAD_9:
+                    game.getPlayer().morph(shapeHeld, Game.colors[2]);
+                    break;
+            }
+            return true;
         }
 
         @Override

@@ -20,9 +20,7 @@ public class Slot extends Mob implements Poolable {
         getPosition().set(position);
         getVelocity().set(velocity);
 
-        shape = RandomGenerator.getRandomShape();
-        setTexture(shape.getTexture());
-        color = RandomGenerator.getRandomTransparentColor();
+        morph(RandomGenerator.getRandomShape(), RandomGenerator.getRandomColor());
     }
 
     @Override
