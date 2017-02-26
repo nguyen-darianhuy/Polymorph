@@ -1,0 +1,45 @@
+
+objects.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+background
+  rotate: false
+  xy: 1, 74
+  size: 1024, 2048
+  orig: 1024, 2048
+  offset: 0, 0
+  index: -1
+triangle
+  rotate: false
+  xy: 1027, 1417
+  size: 808, 705
+  orig: 1024, 768
+  offset: 108, 32
+  index: -1
+circle
+  rotate: false
+  xy: 1027, 707
+  size: 705, 708
+  orig: 1024, 768
+  offset: 159, 30
+  index: -1
+square
+  rotate: false
+  xy: 1027, 1
+  size: 704, 704
+  orig: 1024, 768
+  offset: 160, 32
+  index: -1
+
+objects2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+skin/neon-ui
+  rotate: false
+  xy: 1, 1
+  size: 506, 510
+  orig: 512, 512
+  offset: 0, 2
+  index: -1
