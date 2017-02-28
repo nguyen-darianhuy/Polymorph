@@ -3,6 +3,7 @@ package durianhln.polymorph.screen;
 import durianhln.polymorph.gameobject.Slot;
 import durianhln.polymorph.gameobject.Map;
 import durianhln.polymorph.gameobject.Player;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -19,9 +20,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import durianhln.polymorph.game.Game;
 import durianhln.polymorph.game.Shape;
+import durianhln.polymorph.game.ShapeColor;
 import durianhln.polymorph.game.State;
 import java.awt.Dimension;
-
 /**
  *
  * @author Darian
@@ -117,8 +118,8 @@ public class GameScreen implements Screen {
         batch.end();
         //>>>DEMO START
         shapeRenderer.begin(ShapeType.Filled);
-        for (int i = 0; i < Game.colors.length; i++) {
-            shapeRenderer.setColor(Game.colors[i]);
+        for (int i = 0; i < ShapeColor.values().length; i++) {
+            shapeRenderer.setColor(ShapeColor.values()[i].color);
             shapeRenderer.rect(i*screenSize.width/3 + 25, screenSize.height - 110, screenSize.width/5, 20);
         }
         shapeRenderer.end();
@@ -177,13 +178,13 @@ public class GameScreen implements Screen {
 
             switch (keycode) {
                 case Input.Keys.NUMPAD_7:
-                    game.getPlayer().morph(shapeHeld, Game.colors[0]);
+                    game.getPlayer().morph(shapeHeld, ShapeColor.values()[0].color);
                     break;
                 case Input.Keys.NUMPAD_8:
-                    game.getPlayer().morph(shapeHeld, Game.colors[1]);
+                    game.getPlayer().morph(shapeHeld, ShapeColor.values()[1].color);
                     break;
                 case Input.Keys.NUMPAD_9:
-                    game.getPlayer().morph(shapeHeld, Game.colors[2]);
+                    game.getPlayer().morph(shapeHeld, ShapeColor.values()[2].color);
                     break;
             }
             return true;
