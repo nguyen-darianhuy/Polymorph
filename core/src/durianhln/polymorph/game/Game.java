@@ -5,7 +5,10 @@ import durianhln.polymorph.gameobject.Slot;
 import durianhln.polymorph.gameobject.Polymorph;
 import durianhln.polymorph.gameobject.Map;
 import durianhln.polymorph.gameobject.Player;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -41,6 +44,7 @@ public class Game implements Updatable {
     public Game(final Dimension screenSize, AssetManager assetManager) {
         TextureAtlas textureAtlas = assetManager.get(Polymorph.OBJECTS_PATH, TextureAtlas.class);
         initTextures(textureAtlas);
+        initSounds(assetManager);
         MIN_SLOT_SPAWN_TIME = 0.8f;
         MAX_SLOT_VELOCITY = 350;
 
@@ -82,6 +86,12 @@ public class Game implements Updatable {
             shape.setTexture(textureAtlas.findRegion(shape.name));
         }
     }
+    
+    private void initSounds(AssetManager assetManager) {
+    	Match.values()[0].setSound(assetManager.get(Polymorph.GOOD_PATH, Sound.class));
+    	Match.values()[1].setSound(assetManager.get(Polymorph.HALF_PATH, Sound.class));
+    	Match.values()[2].setSound(assetManager.get(Polymorph.BAD_PATH, Sound.class));
+    }
 
     @Override
     public void update(float delta) {
@@ -118,10 +128,22 @@ public class Game implements Updatable {
             Slot slot = slots.get(i);
             if (slot.getPosition().y >= player.getPosition().y) {
                 Match match = player.match(slot);
-
+                
+                switch(match) {
+                	case GOOD:
+                		match.getSound().play();
+                		break;
+                	case HALF:
+                		match.getSound().play();
+                		break;
+                	case BAD:
+                		match.getSound().play();
+                		break;
+                }
+                
                 int scoreDelta = (int)(player.getMultiplier()*(slot.getVelocity().y*match.multiplier));
                 player.setScore(player.getScore() + scoreDelta);
-
+                
                 slots.removeIndex(i);
                 slotPool.free(slot);
             }
