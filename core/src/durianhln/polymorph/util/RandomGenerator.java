@@ -17,7 +17,7 @@ public abstract class RandomGenerator {
     public static Shape getRandomShape() {
         return Shape.values()[rng.nextInt(Shape.values().length)];
     }
-    
+
     public static Color getRandomColor() {
         return ShapeColor.values()[rng.nextInt(ShapeColor.values().length)].color;
     }

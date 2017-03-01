@@ -166,6 +166,8 @@ public class GameScreen implements Screen {
                 case Input.Keys.NUMPAD_6:
                     shapeHeld = Shape.SQUARE;
                     break;
+                default:
+                    return false;
             }
             return true;
         }

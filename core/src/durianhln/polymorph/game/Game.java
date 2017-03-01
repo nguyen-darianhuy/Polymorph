@@ -18,7 +18,6 @@ import java.awt.Dimension;
  * @author Darian
  */
 public class Game implements Updatable {
-
     private Player player;
     private Array<Slot> slots;
     private Pool<Slot> slotPool;
@@ -89,7 +88,7 @@ public class Game implements Updatable {
         runtime += delta;
 
         if (player.isDead()) {
-            //TODO: change this shit
+            setState(State.STOPPED);//TODO: change this shit
         }
         //update all entities
         player.update(delta);
