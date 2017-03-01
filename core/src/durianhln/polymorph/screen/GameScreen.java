@@ -7,14 +7,16 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import durianhln.polymorph.game.Game;
 import durianhln.polymorph.game.Shape;
 import durianhln.polymorph.gameobject.ShapeColor;
@@ -29,14 +31,13 @@ public class GameScreen implements Screen {
     private Game game;
     private Dimension screenSize;
 
-    private Stage hud;
+    private Stage stage;
     private OrthographicCamera camera;
 
     private AssetManager assetManager;
 
     private SpriteBatch batch;
     private BitmapFont font;
-    private ShapeRenderer shapeRenderer;
 
     private FPSLogger fps;
 
@@ -45,8 +46,11 @@ public class GameScreen implements Screen {
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         game = new Game(screenSize, assetManager);
 
+        /*
         Skin skin = assetManager.get(Polymorph.SKIN_PATH, Skin.class);
-        hud = new Stage();
+        stage = new Stage();
+        Button btn = new TextButton("Button", skin);
+        stage.addActor(btn);*/
         camera = new OrthographicCamera();
         camera.setToOrtho(true, screenSize.width, screenSize.height);
 
@@ -54,10 +58,9 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
 
         font = new BitmapFont(true);
-        shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(camera.combined);
 
         Gdx.input.setInputProcessor(new InputHandler());
+        //Gdx.input.setInputProcessor(stage);
         fps = new FPSLogger();
     }
 
@@ -89,7 +92,14 @@ public class GameScreen implements Screen {
         for (int i = 0; i < Shape.values().length; i++) {
             Shape shape = Shape.values()[i];
             int x = i*screenSize.width/3 + 25;
-            batch.draw(shape.getTexture(), x, screenSize.height - 80, screenSize.width/5, screenSize.width/5);
+            int y = screenSize.height - 80;
+            int width = screenSize.width/5;
+            batch.draw(shape.getTexture(), x, y, width, width);
+
+            Color originalColor = batch.getColor();
+            batch.setColor(ShapeColor.values()[i].color);
+            batch.draw(ShapeColor.values()[i].getTexture(), x, y - 30, width, 20);
+            batch.setColor(originalColor);
         }
         //draw text
         font.draw(batch, String.format("HP: %d%%\nScore: %d\nMultiplier: %.2f\n%s",
@@ -99,15 +109,10 @@ public class GameScreen implements Screen {
 
         //>>>DEMO END
         batch.end();
-        //>>>DEMO START
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        for (int i = 0; i < ShapeColor.values().length; i++) {
-            shapeRenderer.setColor(ShapeColor.values()[i].color);
-            shapeRenderer.rect(i*screenSize.width/3 + 25, screenSize.height - 110, screenSize.width/5, 20);
-        }
-        shapeRenderer.end();
-        //>>>DEMO END
+
         fps.log();
+        stage.draw();
+        stage.act(delta);
     }
 
     @Override
@@ -184,7 +189,7 @@ public class GameScreen implements Screen {
         @Override
         public boolean touchDown(int x, int y, int pointer, int button) {
             if (game.getState() == State.STOPPED) {
-                //game = new Game(screenSize, assetManager);
+                //game = new Game(screenSize, assetManager); //TODO: Fix this shiz
             } else {
                 System.out.printf("X: %d, Y: %d\n", x, y);
             }

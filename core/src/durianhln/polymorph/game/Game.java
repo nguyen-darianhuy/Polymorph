@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import durianhln.polymorph.gameobject.Polymorph;
+import durianhln.polymorph.gameobject.ShapeColor;
 import java.awt.Dimension;
 
 /**
@@ -89,7 +90,10 @@ public class Game implements Updatable {
         for (Shape shape : Shape.values()) {
             shape.setTexture(textureAtlas.findRegion(shape.name));
         }
-
+        for (ShapeColor shapeColor : ShapeColor.values()) {
+            shapeColor.setTexture(textureAtlas.findRegion("capsule"));
+        }
+        
         //init sounds
         backgroundMusic = assetManager.get(Polymorph.MUSIC_PATH, Music.class);
         backgroundMusic.setLooping(true);
@@ -165,7 +169,7 @@ public class Game implements Updatable {
     public Music getBackgroundMusic() {
         return backgroundMusic;
     }
-    
+
     public State getState() {
         return state;
     }
