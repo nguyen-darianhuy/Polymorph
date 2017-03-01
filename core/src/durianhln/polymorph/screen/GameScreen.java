@@ -111,8 +111,8 @@ public class GameScreen implements Screen {
         batch.end();
 
         fps.log();
-        stage.draw();
-        stage.act(delta);
+        /*stage.draw();
+        stage.act(delta);*/
     }
 
     @Override
