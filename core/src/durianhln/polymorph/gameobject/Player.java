@@ -40,7 +40,6 @@ public class Player extends Mob {
             match = Match.GOOD;
         } else if (slot.getShape() == this.getShape()) {
             match = Match.HALF;
-            multiplier = 1;
         } else {
             match = Match.BAD;
             multiplier = 1;
@@ -78,5 +77,9 @@ public class Player extends Mob {
 
     public float getMultiplier() {
         return multiplier;
+    }
+
+    public void setMultiplier(float multiplier) {
+        this.multiplier = multiplier;
     }
 }

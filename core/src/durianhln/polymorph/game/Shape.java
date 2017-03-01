@@ -26,9 +26,6 @@ public enum Shape {
     }
 
     public void setTexture(TextureRegion texture) {
-        if (this.texture != null) {
-            throw new IllegalStateException("Texture already loaded!");
-        }
         this.texture = texture;
     }
 }

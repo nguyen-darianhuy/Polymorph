@@ -2,7 +2,7 @@ package durianhln.polymorph.util;
 
 import com.badlogic.gdx.graphics.Color;
 import durianhln.polymorph.game.Shape;
-import durianhln.polymorph.game.ShapeColor;
+import durianhln.polymorph.gameobject.ShapeColor;
 
 import java.util.Random;
 
@@ -12,7 +12,6 @@ import java.util.Random;
  */
 public abstract class RandomGenerator {
     public static final Random rng = new Random();
-
 
     public static Shape getRandomShape() {
         return Shape.values()[rng.nextInt(Shape.values().length)];

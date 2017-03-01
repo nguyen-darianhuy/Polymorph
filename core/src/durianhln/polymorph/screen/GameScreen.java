@@ -1,7 +1,5 @@
 package durianhln.polymorph.screen;
 
-import durianhln.polymorph.gameobject.Slot;
-import durianhln.polymorph.gameobject.Map;
 import durianhln.polymorph.gameobject.Player;
 
 import com.badlogic.gdx.Gdx;
@@ -15,13 +13,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import durianhln.polymorph.game.Game;
 import durianhln.polymorph.game.Shape;
-import durianhln.polymorph.game.ShapeColor;
+import durianhln.polymorph.gameobject.ShapeColor;
 import durianhln.polymorph.game.State;
+import durianhln.polymorph.gameobject.Polymorph;
 import java.awt.Dimension;
 /**
  *
@@ -43,12 +41,11 @@ public class GameScreen implements Screen {
     private FPSLogger fps;
 
     public GameScreen(AssetManager assetManager) {
+        this.assetManager = assetManager;
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         game = new Game(screenSize, assetManager);
 
-        this.assetManager = assetManager;
-
-        //Skin skin = assetManager.get(Polymorph.SKIN_PATH, Skin.class);
+        Skin skin = assetManager.get(Polymorph.SKIN_PATH, Skin.class);
         hud = new Stage();
         camera = new OrthographicCamera();
         camera.setToOrtho(true, screenSize.width, screenSize.height);
@@ -68,40 +65,26 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         delta = Math.min(delta, 0.03f);
 
-        Player player = game.getPlayer();
-        Array<Slot> slots = game.getSlots();
-        Map mapFront = game.getMapFront();
-        Map mapBack = game.getMapBack();
+        Player player = game.getPlayer(); //temporary
 
         switch (game.getState()) {
             case READY: //TODO: Change this shit
                 System.out.println("HERE WE GO");
                 game.setState(State.RUNNING);
-                return;
+                game.getBackgroundMusic().play();
+                break;
             case RUNNING:
                 game.update(delta);
                 break;
             case STOPPED:
-                dispose(); //TODO: gracefully end the game
-                return;
+                game.getBackgroundMusic().stop(); //TODO: gracefully end the game
+                break;
         }
-
+        batch.begin();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        fps.log();
-        batch.begin();
-        batch.disableBlending();
-        //draw opaques
-        mapFront.render(batch);
-        mapBack.render(batch);
-
-        batch.enableBlending();
-        //draw transparents
-        player.render(batch);
-        for (Slot slot : slots) {
-            slot.render(batch);
-        }
+        game.render(batch);
         //>>>DEMO START
         for (int i = 0; i < Shape.values().length; i++) {
             Shape shape = Shape.values()[i];
@@ -117,13 +100,14 @@ public class GameScreen implements Screen {
         //>>>DEMO END
         batch.end();
         //>>>DEMO START
-        shapeRenderer.begin(ShapeType.Filled);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         for (int i = 0; i < ShapeColor.values().length; i++) {
             shapeRenderer.setColor(ShapeColor.values()[i].color);
             shapeRenderer.rect(i*screenSize.width/3 + 25, screenSize.height - 110, screenSize.width/5, 20);
         }
         shapeRenderer.end();
         //>>>DEMO END
+        fps.log();
     }
 
     @Override
@@ -199,8 +183,12 @@ public class GameScreen implements Screen {
 
         @Override
         public boolean touchDown(int x, int y, int pointer, int button) {
-            System.out.printf("X: %d, Y: %d\n", x, y);
-            return false;
+            if (game.getState() == State.STOPPED) {
+                //game = new Game(screenSize, assetManager);
+            } else {
+                System.out.printf("X: %d, Y: %d\n", x, y);
+            }
+            return true;
         }
 
         @Override

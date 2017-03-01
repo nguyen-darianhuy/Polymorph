@@ -2,18 +2,19 @@ package durianhln.polymorph.game;
 
 import durianhln.polymorph.gameobject.Updatable;
 import durianhln.polymorph.gameobject.Slot;
-import durianhln.polymorph.gameobject.Polymorph;
 import durianhln.polymorph.gameobject.Map;
 import durianhln.polymorph.gameobject.Player;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
+import durianhln.polymorph.gameobject.Polymorph;
 import java.awt.Dimension;
 
 /**
@@ -29,6 +30,9 @@ public class Game implements Updatable {
     private Map mapFront;
     private Map mapBack;
 
+    private TextureAtlas textureAtlas;
+    private Music backgroundMusic;
+
     private float runtime;
     private State state;
 
@@ -42,9 +46,7 @@ public class Game implements Updatable {
     private final float MAX_SLOT_VELOCITY;
 
     public Game(final Dimension screenSize, AssetManager assetManager) {
-        TextureAtlas textureAtlas = assetManager.get(Polymorph.OBJECTS_PATH, TextureAtlas.class);
-        initTextures(textureAtlas);
-        initSounds(assetManager);
+        initAssets(assetManager);
         MIN_SLOT_SPAWN_TIME = 0.8f;
         MAX_SLOT_VELOCITY = 350;
 
@@ -78,17 +80,20 @@ public class Game implements Updatable {
         state = State.READY;
     }
 
-    private void initTextures(TextureAtlas textureAtlas) {
+    private void initAssets(AssetManager assetManager) {
+        //init textures
+        textureAtlas = assetManager.get(Polymorph.OBJECTS_PATH, TextureAtlas.class);
         for (TextureRegion texture : textureAtlas.getRegions()) {
             texture.flip(false, true); //flip y axis
         }
         for (Shape shape : Shape.values()) {
             shape.setTexture(textureAtlas.findRegion(shape.name));
         }
-    }
-    
-    private void initSounds(AssetManager assetManager) {
-    	Match.values()[0].setSound(assetManager.get(Polymorph.GOOD_PATH, Sound.class));
+
+        //init sounds
+        backgroundMusic = assetManager.get(Polymorph.MUSIC_PATH, Music.class);
+        backgroundMusic.setLooping(true);
+        Match.values()[0].setSound(assetManager.get(Polymorph.GOOD_PATH, Sound.class));
     	Match.values()[1].setSound(assetManager.get(Polymorph.HALF_PATH, Sound.class));
     	Match.values()[2].setSound(assetManager.get(Polymorph.BAD_PATH, Sound.class));
     }
@@ -128,44 +133,39 @@ public class Game implements Updatable {
             Slot slot = slots.get(i);
             if (slot.getPosition().y >= player.getPosition().y) {
                 Match match = player.match(slot);
-                
-                switch(match) {
-                	case GOOD:
-                		match.getSound().play();
-                		break;
-                	case HALF:
-                		match.getSound().play();
-                		break;
-                	case BAD:
-                		match.getSound().play();
-                		break;
-                }
-                
                 int scoreDelta = (int)(player.getMultiplier()*(slot.getVelocity().y*match.multiplier));
+
+                match.getSound().play();
                 player.setScore(player.getScore() + scoreDelta);
-                
+
                 slots.removeIndex(i);
                 slotPool.free(slot);
             }
         }
     }
 
-    public Player getPlayer() {
+    public void render(SpriteBatch batch) {
+        batch.disableBlending();
+        //draw opaques
+        mapFront.render(batch);
+        mapBack.render(batch);
+
+        batch.enableBlending();
+        //draw transparents
+        player.render(batch);
+        for (Slot slot : slots) {
+            slot.render(batch);
+        }
+    }
+
+    public Player getPlayer() { //temporary
         return player;
     }
 
-    public Array<Slot> getSlots() {
-        return slots;
+    public Music getBackgroundMusic() {
+        return backgroundMusic;
     }
-
-    public Map getMapFront() {
-        return mapFront;
-    }
-
-    public Map getMapBack() {
-        return mapBack;
-    }
-
+    
     public State getState() {
         return state;
     }

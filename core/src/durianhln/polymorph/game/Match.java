@@ -4,7 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
- * Represents the type of match a slot and a player can make, and its "quality".
+ * Represents the type of match a slot and a player can make, and its "quality."
  * @author Darian
  */
 public enum Match {
@@ -18,8 +18,9 @@ public enum Match {
     Match(int value, float multiplier) {
         this.value = value;
         this.multiplier = multiplier;
+        this.sound = null;
     }
-    
+
     public Sound getSound() {
         if (sound == null) {
             throw new NullPointerException("Sound not loaded.");

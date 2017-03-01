@@ -24,13 +24,11 @@ public class Polymorph extends Game {
         assetManager = new AssetManager();
         loadAssets();
         setScreen(new GameScreen(assetManager));
-        assetManager.get(MUSIC_PATH, Music.class).setLooping(true);
-        assetManager.get(MUSIC_PATH, Music.class).play();
     }
 
     private void loadAssets() {
         assetManager.load(OBJECTS_PATH, TextureAtlas.class);
-        //assetManager.load(SKIN_PATH, Skin.class);
+        assetManager.load(SKIN_PATH, Skin.class);
         assetManager.load(MUSIC_PATH, Music.class);
         assetManager.load(GOOD_PATH, Sound.class);
         assetManager.load(HALF_PATH, Sound.class);

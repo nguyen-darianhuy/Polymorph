@@ -1,4 +1,4 @@
-package durianhln.polymorph.game;
+package durianhln.polymorph.gameobject;
 
 import com.badlogic.gdx.graphics.Color;
 
