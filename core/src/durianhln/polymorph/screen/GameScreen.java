@@ -46,11 +46,11 @@ public class GameScreen implements Screen {
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         game = new Game(assetManager);
 
-        /*
+
         Skin skin = assetManager.get(Polymorph.SKIN_PATH, Skin.class);
         stage = new Stage();
         Button btn = new TextButton("Button", skin);
-        stage.addActor(btn);*/
+        stage.addActor(btn);
         camera = new OrthographicCamera();
         camera.setToOrtho(true, screenSize.width, screenSize.height);
 
@@ -59,8 +59,8 @@ public class GameScreen implements Screen {
 
         font = new BitmapFont(true);
 
-        Gdx.input.setInputProcessor(new InputHandler());
-        //Gdx.input.setInputProcessor(stage);
+        //Gdx.input.setInputProcessor(new InputHandler());
+        Gdx.input.setInputProcessor(stage);
         fps = new FPSLogger();
     }
 
@@ -73,14 +73,13 @@ public class GameScreen implements Screen {
         switch (game.getState()) {
             case READY: //TODO: Change this shit
                 System.out.println("HERE WE GO");
-                game.setState(State.RUNNING);
-                game.getBackgroundMusic().play();
+                game.start();
                 break;
             case RUNNING:
                 game.update(delta);
                 break;
             case STOPPED:
-                game.getBackgroundMusic().stop(); //TODO: gracefully end the game
+                //TODO: gracefully end the game
                 break;
         }
         batch.begin();
@@ -111,8 +110,8 @@ public class GameScreen implements Screen {
         batch.end();
 
         fps.log();
-        /*stage.draw();
-        stage.act(delta);*/
+        stage.draw();
+        stage.act(delta);
     }
 
     @Override

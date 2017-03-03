@@ -52,18 +52,16 @@ public class Game implements Updatable {
 
     public Game(AssetManager assetManager) {
         initAssets(assetManager);
-
-        //init entity variables & constants
-        slotSpawnTime = 3.0f;
-        slotVelocity = new Vector2(0, 100);
-        mapVelocity = new Vector2(0, 200);
-
-        SLOT_SPAWN_POINT = new Vector2(Gdx.graphics.getWidth()/2 - player.getSize().width/2, -player.getSize().height);
-        MIN_SLOT_SPAWN_TIME = 0.8f;
-        MAX_SLOT_VELOCITY = 350;
-
+        initGameVariables();
         initEntities();
 
+        //init entity constants
+        Dimension screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        SLOT_SPAWN_POINT = new Vector2(screenSize.width/2 - player.getSize().width/2, -player.getSize().height);
+        MIN_SLOT_SPAWN_TIME = 0.8f;
+        MAX_SLOT_VELOCITY = 0.55f*screenSize.height;
+
+        //init game fields
         runtime = 0;
         state = State.READY;
     }
@@ -87,6 +85,12 @@ public class Game implements Updatable {
         Match.values()[0].setSound(assetManager.get(Polymorph.GOOD_PATH, Sound.class));
     	Match.values()[1].setSound(assetManager.get(Polymorph.HALF_PATH, Sound.class));
     	Match.values()[2].setSound(assetManager.get(Polymorph.BAD_PATH, Sound.class));
+    }
+
+    private void initGameVariables() {
+        slotSpawnTime = 3.0f;
+        slotVelocity = new Vector2(0, 100);
+        mapVelocity = new Vector2(0, 200);
     }
 
     private void initEntities() {
@@ -117,7 +121,7 @@ public class Game implements Updatable {
         runtime += delta;
 
         if (player.isDead()) {
-            setState(State.STOPPED);//TODO: change this shit
+            stop();//TODO: change this shit
         }
 
         //update all entities
@@ -174,19 +178,21 @@ public class Game implements Updatable {
         }
     }
 
+    public void start() {
+        state = State.RUNNING;
+        backgroundMusic.play();
+    }
+
+    public void stop() {
+        state = State.STOPPED;
+        backgroundMusic.stop();
+    }
+
     public Player getPlayer() { //TODO: temporary
         return player;
     }
 
-    public Music getBackgroundMusic() {
-        return backgroundMusic;
-    }
-
     public State getState() {
         return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
     }
 }
