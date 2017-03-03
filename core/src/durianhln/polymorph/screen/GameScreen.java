@@ -44,7 +44,7 @@ public class GameScreen implements Screen {
     public GameScreen(AssetManager assetManager) {
         this.assetManager = assetManager;
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        game = new Game(screenSize, assetManager);
+        game = new Game(assetManager);
 
         /*
         Skin skin = assetManager.get(Polymorph.SKIN_PATH, Skin.class);
