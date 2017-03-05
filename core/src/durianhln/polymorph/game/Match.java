@@ -1,7 +1,6 @@
 package durianhln.polymorph.game;
 
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
  * Represents the type of match a slot and a player can make, and its "quality."

@@ -25,7 +25,6 @@ import java.awt.Dimension;
  */
 public class Game implements Updatable {
     //game variables
-    private float runtime;
     private State state;
 
     //assets
@@ -37,10 +36,9 @@ public class Game implements Updatable {
     private Array<Slot> slots;
     private Pool<Slot> slotPool;
     private Map[] maps;
-    private Map mapFront;
-    private Map mapBack;
 
     //entity variables
+    private float timeSinceLastSlotSpawn;
     private float slotSpawnTime;
     private Vector2 slotVelocity;
     private Vector2 mapVelocity;
@@ -62,7 +60,6 @@ public class Game implements Updatable {
         MAX_SLOT_VELOCITY = 0.55f*screenSize.height;
 
         //init game fields
-        runtime = 0;
         state = State.READY;
     }
 
@@ -88,6 +85,7 @@ public class Game implements Updatable {
     }
 
     private void initGameVariables() {
+        timeSinceLastSlotSpawn = 0;
         slotSpawnTime = 3.0f;
         slotVelocity = new Vector2(0, 100);
         mapVelocity = new Vector2(0, 200);
@@ -111,15 +109,13 @@ public class Game implements Updatable {
 
         Dimension mapSize = new Dimension(screenSize.width, (int)(screenSize.height*1.1f));
         TextureRegion mapTexture = textureAtlas.findRegion("background");
-        mapFront = new Map(new Vector2(0, 0), mapVelocity, mapSize, mapTexture);
-        mapBack = new Map(new Vector2(0, -mapSize.height + 5), mapVelocity, mapSize, mapTexture);
+        Map mapFront = new Map(new Vector2(0, 0), mapVelocity, mapSize, mapTexture);
+        Map mapBack = new Map(new Vector2(0, -mapSize.height + 5), mapVelocity, mapSize, mapTexture);
         maps = new Map[]{mapFront, mapBack};
     }
 
     @Override
     public void update(float delta) {
-        runtime += delta;
-
         if (player.isDead()) {
             stop();//TODO: change this shit
         }
@@ -134,7 +130,8 @@ public class Game implements Updatable {
         }
 
         //spawn slot
-        if (runtime > slotSpawnTime) {
+        timeSinceLastSlotSpawn += delta;
+        if (timeSinceLastSlotSpawn > slotSpawnTime) {
             Slot slot = slotPool.obtain();
             slot.init(SLOT_SPAWN_POINT, slotVelocity);
             slots.add(slot);
@@ -145,7 +142,7 @@ public class Game implements Updatable {
             if (slotVelocity.y < MAX_SLOT_VELOCITY) {
                 slotVelocity.y += 20;
             }
-            runtime = 0;
+            timeSinceLastSlotSpawn = 0;
         }
 
         //collision detection
@@ -168,8 +165,9 @@ public class Game implements Updatable {
     public void render(SpriteBatch batch) {
         batch.disableBlending();
         //draw opaques
-        mapFront.render(batch);
-        mapBack.render(batch);
+        for (Map map : maps) {
+            map.render(batch);
+        }
 
         batch.enableBlending();
         //draw transparents
