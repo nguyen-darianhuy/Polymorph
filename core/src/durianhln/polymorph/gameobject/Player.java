@@ -1,7 +1,5 @@
 package durianhln.polymorph.gameobject;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import durianhln.polymorph.game.Match;
 import java.awt.Dimension;
@@ -59,14 +57,6 @@ public class Player extends Mob {
         return hitpoints <= 0;
     }
 
-    public int getHitpoints() {
-        return hitpoints;
-    }
-
-    public void setHitpoints(int hitpoints) {
-        this.hitpoints = hitpoints;
-    }
-
     public int getScore() {
         return score;
     }
@@ -75,11 +65,11 @@ public class Player extends Mob {
         this.score = score;
     }
 
-    public float getMultiplier() {
-        return multiplier;
+    public int getHitpoints() {
+        return hitpoints;
     }
 
-    public void setMultiplier(float multiplier) {
-        this.multiplier = multiplier;
+    public float getMultiplier() {
+        return multiplier;
     }
 }

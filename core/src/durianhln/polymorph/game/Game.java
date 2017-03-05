@@ -153,9 +153,10 @@ public class Game implements Updatable {
             Slot slot = slots.get(i);
             if (slot.getPosition().y >= player.getPosition().y) {
                 Match match = player.match(slot);
-                int scoreDelta = (int)(player.getMultiplier()*(slot.getVelocity().y*match.multiplier));
-
                 match.getSound().play();
+
+                //TODO: rework this calculation
+                int scoreDelta = (int)(player.getMultiplier()*(slot.getVelocity().y*match.multiplier));
                 player.setScore(player.getScore() + scoreDelta);
 
                 slots.removeIndex(i);

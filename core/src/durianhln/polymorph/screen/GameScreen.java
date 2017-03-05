@@ -4,6 +4,7 @@ import durianhln.polymorph.gameobject.Player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -31,7 +32,7 @@ public class GameScreen implements Screen {
     private Game game;
     private Dimension screenSize;
 
-    private Stage stage;
+    private Stage hud;
     private OrthographicCamera camera;
 
     private AssetManager assetManager;
@@ -48,9 +49,9 @@ public class GameScreen implements Screen {
 
 
         Skin skin = assetManager.get(Polymorph.SKIN_PATH, Skin.class);
-        stage = new Stage();
+        hud = new Stage();
         Button btn = new TextButton("Button", skin);
-        stage.addActor(btn);
+        hud.addActor(btn);
         camera = new OrthographicCamera();
         camera.setToOrtho(true, screenSize.width, screenSize.height);
 
@@ -59,8 +60,7 @@ public class GameScreen implements Screen {
 
         font = new BitmapFont(true);
 
-        //Gdx.input.setInputProcessor(new InputHandler());
-        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(new InputMultiplexer(new InputHandler(), hud));
         fps = new FPSLogger();
     }
 
@@ -110,8 +110,8 @@ public class GameScreen implements Screen {
         batch.end();
 
         fps.log();
-        stage.draw();
-        stage.act(delta);
+        /*hud.draw();
+        hud.act(delta);*/
     }
 
     @Override
