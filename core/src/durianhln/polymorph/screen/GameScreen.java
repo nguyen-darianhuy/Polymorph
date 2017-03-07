@@ -15,9 +15,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import durianhln.polymorph.game.PolyGame;
 import durianhln.polymorph.game.Shape;
 import durianhln.polymorph.gameobject.ShapeColor;
@@ -30,8 +29,7 @@ import java.awt.Dimension;
  * @author Darian
  */
 public class GameScreen implements Screen {
-    private Polymorph game;
-    private PolyGame polyGame;
+    private PolyGame game;
     private Dimension screenSize;
 
     private Stage hud;
@@ -44,17 +42,12 @@ public class GameScreen implements Screen {
 
     private FPSLogger fps;
 
-    public GameScreen(Polymorph game, AssetManager assetManager) {
-        this.assetManager = assetManager;
+    public GameScreen(Polymorph polymorph) {
+        assetManager = polymorph.getAssetManager();
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        this.game = game;
+        this.game = new PolyGame(assetManager);
 
-        polyGame = new PolyGame(assetManager);
-
-        Skin skin = assetManager.get(Polymorph.SKIN_PATH, Skin.class);
-        hud = new Stage();
-        Button btn = new TextButton("Button", skin);
-        hud.addActor(btn);
+        initHud();
         camera = new OrthographicCamera();
         camera.setToOrtho(true, screenSize.width, screenSize.height);
 
@@ -67,19 +60,28 @@ public class GameScreen implements Screen {
         fps = new FPSLogger();
     }
 
+    private void initHud() {
+        Skin skin = assetManager.get(Polymorph.SKIN_PATH, Skin.class);
+        hud = new Stage();
+        ProgressBar playerHealthBar = new ProgressBar(0, 100, 5, true, skin, "big");
+        playerHealthBar.setSize(50, 400);
+        playerHealthBar.setValue(50);
+        hud.addActor(playerHealthBar);
+    }
+
     @Override
     public void render(float delta) {
         delta = Math.min(delta, 0.03f);
 
-        Player player = polyGame.getPlayer(); // temporary
+        Player player = game.getPlayer(); // temporary
 
-        switch (polyGame.getState()) {
+        switch (game.getState()) {
         case READY: // TODO: Change this shit
             System.out.println("HERE WE GO");
-            polyGame.start();
+            game.start();
             break;
         case RUNNING:
-            polyGame.update(delta);
+            game.update(delta);
             break;
         case STOPPED:
             // TODO: gracefully end the game
@@ -89,7 +91,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        polyGame.render(batch);
+        game.render(batch);
         // >>>DEMO START
         for (int i = 0; i < Shape.values().length; i++) {
             Shape shape = Shape.values()[i];
@@ -113,9 +115,8 @@ public class GameScreen implements Screen {
         batch.end();
 
         fps.log();
-        /*
-         * hud.draw(); hud.act(delta);
-         */
+        /*hud.draw();
+        hud.act(delta);*/
     }
 
     @Override
@@ -173,13 +174,13 @@ public class GameScreen implements Screen {
 
             switch (keycode) {
             case Input.Keys.NUMPAD_7:
-                polyGame.getPlayer().morph(shapeHeld, ShapeColor.values()[0].color);
+                game.getPlayer().morph(shapeHeld, ShapeColor.values()[0].color);
                 break;
             case Input.Keys.NUMPAD_8:
-                polyGame.getPlayer().morph(shapeHeld, ShapeColor.values()[1].color);
+                game.getPlayer().morph(shapeHeld, ShapeColor.values()[1].color);
                 break;
             case Input.Keys.NUMPAD_9:
-                polyGame.getPlayer().morph(shapeHeld, ShapeColor.values()[2].color);
+                game.getPlayer().morph(shapeHeld, ShapeColor.values()[2].color);
                 break;
             }
             return true;
@@ -192,7 +193,7 @@ public class GameScreen implements Screen {
 
         @Override
         public boolean touchDown(int x, int y, int pointer, int button) {
-            if (polyGame.getState() == State.STOPPED) {
+            if (game.getState() == State.STOPPED) {
                 // game = new Game(screenSize, assetManager); //TODO: Fix this
                 // shiz
             } else {

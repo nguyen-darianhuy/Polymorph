@@ -12,22 +12,20 @@ import com.badlogic.gdx.utils.TimeUtils;
 import durianhln.polymorph.gameobject.Polymorph;
 
 /**
- * 
+ *
  * @author Evan
  */
 public class Splash implements Screen {
 
     private Polymorph game;
-    private AssetManager assetManager;
     private SpriteBatch batch;
     private Texture splash;
     private long startTime;
     private BitmapFont font;
     private Dimension screenSize;
 
-    public Splash(Polymorph game, AssetManager assetManager) {
+    public Splash(Polymorph game) {
         this.game = game;
-        this.assetManager = assetManager;
         // delete later
         font = new BitmapFont(false);
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -53,9 +51,9 @@ public class Splash implements Screen {
 
         // change to set screen to main menu
         if (Gdx.input.justTouched())
-            game.setScreen(new GameScreen(game, assetManager));
+            game.setScreen(new GameScreen(game));
         if (TimeUtils.millis() > (startTime + 3000))
-            game.setScreen(new GameScreen(game, assetManager));
+            game.setScreen(new GameScreen(game));
 
     }
 

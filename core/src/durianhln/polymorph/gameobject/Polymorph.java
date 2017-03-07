@@ -1,7 +1,6 @@
 package durianhln.polymorph.gameobject;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -19,7 +18,7 @@ public class Polymorph extends Game {
     public final static String GOOD_PATH = "music/match.mp3";
     public final static String HALF_PATH = "music/halfmatch.mp3";
     public final static String BAD_PATH = "music/fail.mp3";
-	public static final String SPLASH_PATH = "splash.png";
+    public static final String SPLASH_PATH = "splash.png";
 
     private AssetManager assetManager;
 
@@ -27,7 +26,7 @@ public class Polymorph extends Game {
     public void create() {
         assetManager = new AssetManager();
         loadAssets();
-        setScreen(new Splash(this, assetManager));
+        setScreen(new Splash(this));
     }
 
     private void loadAssets() {
@@ -44,5 +43,9 @@ public class Polymorph extends Game {
     public void dispose() {
         super.dispose();
         assetManager.dispose();
+    }
+
+    public AssetManager getAssetManager() {
+        return assetManager;
     }
 }

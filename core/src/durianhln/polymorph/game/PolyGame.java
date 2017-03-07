@@ -1,12 +1,10 @@
 package durianhln.polymorph.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import durianhln.polymorph.gameobject.Updatable;
 import durianhln.polymorph.gameobject.Slot;
 import durianhln.polymorph.gameobject.Map;
 import durianhln.polymorph.gameobject.Player;
-
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -195,10 +193,4 @@ public class PolyGame implements Updatable {
     public State getState() {
         return state;
     }
-
-	@Override
-	public void create() {
-		// TODO Auto-generated method stub
-		
-	}
 }
