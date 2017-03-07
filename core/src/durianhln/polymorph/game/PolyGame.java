@@ -1,5 +1,6 @@
 package durianhln.polymorph.game;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import durianhln.polymorph.gameobject.Updatable;
 import durianhln.polymorph.gameobject.Slot;
@@ -23,7 +24,7 @@ import java.awt.Dimension;
  * Represents the core Polymorph game logic.
  * @author Darian
  */
-public class Game implements Updatable {
+public class PolyGame implements Updatable {
     //game variables
     private State state;
 
@@ -48,7 +49,7 @@ public class Game implements Updatable {
     private final float MIN_SLOT_SPAWN_TIME;
     private final float MAX_SLOT_VELOCITY;
 
-    public Game(AssetManager assetManager) {
+    public PolyGame(AssetManager assetManager) {
         initAssets(assetManager);
         initGameVariables();
         initEntities();
@@ -194,4 +195,10 @@ public class Game implements Updatable {
     public State getState() {
         return state;
     }
+
+	@Override
+	public void create() {
+		// TODO Auto-generated method stub
+		
+	}
 }
