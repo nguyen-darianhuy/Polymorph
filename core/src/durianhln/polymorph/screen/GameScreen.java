@@ -24,6 +24,7 @@ import durianhln.polymorph.gameobject.ShapeColor;
 import durianhln.polymorph.game.State;
 import durianhln.polymorph.gameobject.Polymorph;
 import java.awt.Dimension;
+
 /**
  *
  * @author Darian
@@ -70,31 +71,31 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         delta = Math.min(delta, 0.03f);
 
-        Player player = polyGame.getPlayer(); //temporary
+        Player player = polyGame.getPlayer(); // temporary
 
         switch (polyGame.getState()) {
-            case READY: //TODO: Change this shit
-                System.out.println("HERE WE GO");
-                polyGame.start();
-                break;
-            case RUNNING:
-            	polyGame.update(delta);
-                break;
-            case STOPPED:
-                //TODO: gracefully end the game
-                break;
+        case READY: // TODO: Change this shit
+            System.out.println("HERE WE GO");
+            polyGame.start();
+            break;
+        case RUNNING:
+            polyGame.update(delta);
+            break;
+        case STOPPED:
+            // TODO: gracefully end the game
+            break;
         }
         batch.begin();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         polyGame.render(batch);
-        //>>>DEMO START
+        // >>>DEMO START
         for (int i = 0; i < Shape.values().length; i++) {
             Shape shape = Shape.values()[i];
-            int x = i*screenSize.width/3 + 25;
+            int x = i * screenSize.width / 3 + 25;
             int y = screenSize.height - 80;
-            int width = screenSize.width/5;
+            int width = screenSize.width / 5;
             batch.draw(shape.getTexture(), x, y, width, width);
 
             Color originalColor = batch.getColor();
@@ -102,23 +103,24 @@ public class GameScreen implements Screen {
             batch.draw(ShapeColor.values()[i].getTexture(), x, y - 30, width, 20);
             batch.setColor(originalColor);
         }
-        //draw text
-        font.draw(batch, String.format("HP: %d%%\nScore: %d\nMultiplier: %.2f\n%s",
-                player.getHitpoints(), player.getScore(), player.getMultiplier(),
-                player.isDead() ? "Oh dear, you are dead!" : ""),
+        // draw text
+        font.draw(
+                batch, String.format("HP: %d%%\nScore: %d\nMultiplier: %.2f\n%s", player.getHitpoints(),
+                        player.getScore(), player.getMultiplier(), player.isDead() ? "Oh dear, you are dead!" : ""),
                 10, 10);
 
-        //>>>DEMO END
+        // >>>DEMO END
         batch.end();
 
         fps.log();
-        /*hud.draw();
-        hud.act(delta);*/
+        /*
+         * hud.draw(); hud.act(delta);
+         */
     }
 
     @Override
     public void show() {
-    	
+
     }
 
     @Override
@@ -141,23 +143,24 @@ public class GameScreen implements Screen {
     public void dispose() {
     }
 
-    private class InputHandler implements InputProcessor { //touch coordinates are y-down!!!
-    	private Shape shapeHeld;
+    private class InputHandler implements InputProcessor { // touch coordinates
+                                                           // are y-down!!!
+        private Shape shapeHeld;
 
         @Override
         public boolean keyDown(int keycode) {
             switch (keycode) {
-                case Input.Keys.NUMPAD_4:
-                    shapeHeld = Shape.TRIANGLE;
-                    break;
-                case Input.Keys.NUMPAD_5:
-                    shapeHeld = Shape.CIRCLE;
-                    break;
-                case Input.Keys.NUMPAD_6:
-                    shapeHeld = Shape.SQUARE;
-                    break;
-                default:
-                    return false;
+            case Input.Keys.NUMPAD_4:
+                shapeHeld = Shape.TRIANGLE;
+                break;
+            case Input.Keys.NUMPAD_5:
+                shapeHeld = Shape.CIRCLE;
+                break;
+            case Input.Keys.NUMPAD_6:
+                shapeHeld = Shape.SQUARE;
+                break;
+            default:
+                return false;
             }
             return true;
         }
@@ -169,15 +172,15 @@ public class GameScreen implements Screen {
             }
 
             switch (keycode) {
-                case Input.Keys.NUMPAD_7:
-                	polyGame.getPlayer().morph(shapeHeld, ShapeColor.values()[0].color);
-                    break;
-                case Input.Keys.NUMPAD_8:
-                	polyGame.getPlayer().morph(shapeHeld, ShapeColor.values()[1].color);
-                    break;
-                case Input.Keys.NUMPAD_9:
-                	polyGame.getPlayer().morph(shapeHeld, ShapeColor.values()[2].color);
-                    break;
+            case Input.Keys.NUMPAD_7:
+                polyGame.getPlayer().morph(shapeHeld, ShapeColor.values()[0].color);
+                break;
+            case Input.Keys.NUMPAD_8:
+                polyGame.getPlayer().morph(shapeHeld, ShapeColor.values()[1].color);
+                break;
+            case Input.Keys.NUMPAD_9:
+                polyGame.getPlayer().morph(shapeHeld, ShapeColor.values()[2].color);
+                break;
             }
             return true;
         }
@@ -190,7 +193,8 @@ public class GameScreen implements Screen {
         @Override
         public boolean touchDown(int x, int y, int pointer, int button) {
             if (polyGame.getState() == State.STOPPED) {
-                //game = new Game(screenSize, assetManager); //TODO: Fix this shiz
+                // game = new Game(screenSize, assetManager); //TODO: Fix this
+                // shiz
             } else {
                 System.out.printf("X: %d, Y: %d\n", x, y);
             }
