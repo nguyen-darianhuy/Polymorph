@@ -7,8 +7,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-import durianhln.polymorph.game.PolyGame;
-import durianhln.polymorph.screen.GameScreen;
 import durianhln.polymorph.screen.Splash;
 
 public class Polymorph extends Game {
@@ -18,7 +16,6 @@ public class Polymorph extends Game {
     public final static String GOOD_PATH = "music/match.mp3";
     public final static String HALF_PATH = "music/halfmatch.mp3";
     public final static String BAD_PATH = "music/fail.mp3";
-    public static final String SPLASH_PATH = "splash.png";
 
     private AssetManager assetManager;
 

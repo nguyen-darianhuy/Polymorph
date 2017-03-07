@@ -4,7 +4,6 @@ import java.awt.Dimension;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -37,7 +36,7 @@ public class Splash implements Screen {
     public void show() {
         // TODO Auto-generated method stub
         batch = new SpriteBatch();
-        splash = new Texture(Gdx.files.internal(Polymorph.SPLASH_PATH));
+        splash = null;
 
     }
 
