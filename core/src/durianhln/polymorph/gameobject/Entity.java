@@ -13,7 +13,7 @@ public abstract class Entity implements Updatable {
     private final Vector2 position;
     private final Vector2 velocity;
     private Dimension size;
-    private TextureRegion texture;
+    private TextureRegion texture; //TODO probably eliminate this
 
     public Entity(Vector2 position, Vector2 velocity, Dimension size, TextureRegion texture) {
         this.position = position;

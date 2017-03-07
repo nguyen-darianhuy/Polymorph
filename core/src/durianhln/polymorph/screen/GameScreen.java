@@ -14,9 +14,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import durianhln.polymorph.game.PolyGame;
 import durianhln.polymorph.game.Shape;
 import durianhln.polymorph.gameobject.ShapeColor;
@@ -29,20 +29,25 @@ import java.awt.Dimension;
  * @author Darian
  */
 public class GameScreen implements Screen {
-    private PolyGame game;
-    private Dimension screenSize;
+    //screen variables
+    private Polymorph polymorph;
+    private Dimension screenSize; //TODO remove this
+    private AssetManager assetManager; //TODO remove this
+    private FPSLogger fps; //TODO remove this
 
-    private Stage hud;
+    //screen properties
     private OrthographicCamera camera;
 
-    private AssetManager assetManager;
-
+    //utils
     private SpriteBatch batch;
     private BitmapFont font;
 
-    private FPSLogger fps;
+    //game variables
+    private PolyGame game;
+    private Stage hud;
 
     public GameScreen(Polymorph polymorph) {
+        this.polymorph = polymorph;
         assetManager = polymorph.getAssetManager();
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         this.game = new PolyGame(assetManager);
@@ -61,12 +66,12 @@ public class GameScreen implements Screen {
     }
 
     private void initHud() {
-        Skin skin = assetManager.get(Polymorph.SKIN_PATH, Skin.class);
         hud = new Stage();
-        ProgressBar playerHealthBar = new ProgressBar(0, 100, 5, true, skin, "big");
-        playerHealthBar.setSize(50, 400);
-        playerHealthBar.setValue(50);
+        TextureAtlas textureAtlas = assetManager.get(Polymorph.OBJECTS_PATH, TextureAtlas.class);
+        Image playerHealthBar = new Image(textureAtlas.findRegion("hpbar-empty"));
+        Image playerHealth = new Image(textureAtlas.findRegion("hpbar-full"));
         hud.addActor(playerHealthBar);
+        hud.addActor(playerHealth);
     }
 
     @Override
@@ -115,8 +120,8 @@ public class GameScreen implements Screen {
         batch.end();
 
         fps.log();
-        /*hud.draw();
-        hud.act(delta);*/
+        hud.draw();
+        hud.act(delta);
     }
 
     @Override
