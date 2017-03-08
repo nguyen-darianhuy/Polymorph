@@ -17,7 +17,7 @@ public class Player extends Mob {
     public Player(Vector2 position, Dimension size) {
         super(position, new Vector2(0, 0), size);
 
-        hitpoints = 50;
+        hitpoints = 100;
 
         score = 0;
         multiplier = 1;
@@ -47,6 +47,8 @@ public class Player extends Mob {
             if (multiplier <= 2.0f) {
                 multiplier += 0.05f;
             }
+        } else if (hitpoints + match.value < 0) {
+            hitpoints = 0;
         } else {
             hitpoints += match.value;
         }

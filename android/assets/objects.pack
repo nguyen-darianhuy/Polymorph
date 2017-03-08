@@ -50,7 +50,7 @@ hpbar-full
   xy: 1734, 1001
   size: 41, 531
   orig: 103, 600
-  offset: 31, 35
+  offset: 31, 34
   index: -1
 splash
   rotate: false

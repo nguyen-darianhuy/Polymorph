@@ -21,6 +21,7 @@ import durianhln.polymorph.game.PolyGame;
 import durianhln.polymorph.game.Shape;
 import durianhln.polymorph.gameobject.ShapeColor;
 import durianhln.polymorph.game.State;
+import durianhln.polymorph.gameobject.HealthBar;
 import durianhln.polymorph.gameobject.Polymorph;
 import java.awt.Dimension;
 
@@ -45,6 +46,7 @@ public class GameScreen implements Screen {
     //game variables
     private PolyGame game;
     private Stage hud;
+    private HealthBar playerHealthBar;
 
     public GameScreen(Polymorph polymorph) {
         this.polymorph = polymorph;
@@ -68,10 +70,12 @@ public class GameScreen implements Screen {
     private void initHud() {
         hud = new Stage();
         TextureAtlas textureAtlas = assetManager.get(Polymorph.OBJECTS_PATH, TextureAtlas.class);
-        Image playerHealthBar = new Image(textureAtlas.findRegion("hpbar-empty"));
-        Image playerHealth = new Image(textureAtlas.findRegion("hpbar-full"));
+
+        Image barImage = new Image(textureAtlas.findRegion("hpbar-empty"));
+        barImage.setBounds(10, screenSize.height/7, screenSize.width/6, 3*screenSize.height/4);
+        playerHealthBar = new HealthBar(barImage, new Image(textureAtlas.findRegion("hpbar-full")));
+
         hud.addActor(playerHealthBar);
-        hud.addActor(playerHealth);
     }
 
     @Override
@@ -98,6 +102,7 @@ public class GameScreen implements Screen {
 
         game.render(batch);
         // >>>DEMO START
+        playerHealthBar.setValue(player.getHitpoints());
         for (int i = 0; i < Shape.values().length; i++) {
             Shape shape = Shape.values()[i];
             int x = i * screenSize.width / 3 + 25;
