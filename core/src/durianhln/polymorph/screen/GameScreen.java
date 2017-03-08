@@ -22,7 +22,7 @@ import durianhln.polymorph.game.Shape;
 import durianhln.polymorph.gameobject.ShapeColor;
 import durianhln.polymorph.game.State;
 import durianhln.polymorph.gameobject.HealthBar;
-import durianhln.polymorph.gameobject.Polymorph;
+import durianhln.polymorph.Polymorph;
 import java.awt.Dimension;
 
 /**
@@ -72,8 +72,9 @@ public class GameScreen implements Screen {
         TextureAtlas textureAtlas = assetManager.get(Polymorph.OBJECTS_PATH, TextureAtlas.class);
 
         Image barImage = new Image(textureAtlas.findRegion("hpbar-empty"));
-        barImage.setBounds(10, screenSize.height/7, screenSize.width/6, 3*screenSize.height/4);
+        barImage.setBounds(10, screenSize.height/5, screenSize.width/6, 3*screenSize.height/4);
         playerHealthBar = new HealthBar(barImage, new Image(textureAtlas.findRegion("hpbar-full")));
+
 
         hud.addActor(playerHealthBar);
     }
@@ -101,8 +102,8 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.render(batch);
-        // >>>DEMO START
         playerHealthBar.setValue(player.getHitpoints());
+        // >>>DEMO START
         for (int i = 0; i < Shape.values().length; i++) {
             Shape shape = Shape.values()[i];
             int x = i * screenSize.width / 3 + 25;
@@ -116,10 +117,10 @@ public class GameScreen implements Screen {
             batch.setColor(originalColor);
         }
         // draw text
-        font.draw(
-                batch, String.format("HP: %d%%\nScore: %d\nMultiplier: %.2f\n%s", player.getHitpoints(),
-                        player.getScore(), player.getMultiplier(), player.isDead() ? "Oh dear, you are dead!" : ""),
-                10, 10);
+        font.draw(batch, String.format("Score: %d\n", player.getScore()), screenSize.width - 100, 10);
+        font.draw(batch, String.format("Multiplier: %.2f\n%s",
+                  player.getMultiplier(), player.isDead() ? "Oh dear, you are dead!" : ""),
+                  10, 10);
 
         // >>>DEMO END
         batch.end();

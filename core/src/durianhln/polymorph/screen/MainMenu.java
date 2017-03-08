@@ -3,7 +3,7 @@ package durianhln.polymorph.screen;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import durianhln.polymorph.game.PolyGame;
-import durianhln.polymorph.gameobject.Polymorph;
+import durianhln.polymorph.Polymorph;
 
 /**
  * 

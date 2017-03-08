@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 /**
- *
+ * Represents a HUD health bar
  * @author Darian
  */
 public class HealthBar extends Actor {
@@ -33,7 +33,7 @@ public class HealthBar extends Actor {
         healthImage.draw(batch, alpha);
     }
 
-    public void setValue(int hitpoints) {
-        healthImage.setHeight(MAX_HEALTH_HEIGHT*(hitpoints/100.0f));
+    public void setValue(int value) {
+        healthImage.setHeight(MAX_HEALTH_HEIGHT*(value/100.0f));
     }
 }
