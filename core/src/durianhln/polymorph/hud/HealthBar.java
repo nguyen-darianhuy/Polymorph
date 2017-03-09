@@ -1,4 +1,4 @@
-package durianhln.polymorph.gameobject;
+package durianhln.polymorph.hud;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -29,8 +29,8 @@ public class HealthBar extends Actor {
 
     @Override
     public void draw(Batch batch, float alpha) {
-        barImage.draw(batch, alpha);
-        healthImage.draw(batch, alpha);
+        barImage.draw(batch, 0.7f);
+        healthImage.draw(batch, 0.8f);
     }
 
     public void setValue(int value) {
