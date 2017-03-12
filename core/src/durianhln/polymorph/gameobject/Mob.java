@@ -2,7 +2,7 @@ package durianhln.polymorph.gameobject;
 
 import durianhln.polymorph.game.Shape;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import durianhln.polymorph.util.RandomGenerator;
 import java.awt.Dimension;
@@ -15,24 +15,22 @@ public abstract class Mob extends Entity {
     protected Shape shape;
     protected Color color;
     public Mob(Vector2 position, Vector2 velocity, Dimension size) {
-        super(position, velocity, size, null);
+        super(position, velocity, size);
         shape = RandomGenerator.getRandomShape();
-        setTexture(shape.getTexture());
         color = RandomGenerator.getRandomColor();
     }
 
     public void morph(Shape shape, Color color) {
         this.shape = shape;
-        setTexture(shape.getTexture());
         this.color = color;
     }
 
     @Override
-    public void render(SpriteBatch batch) {
+    public void render(Batch batch) {
         Color originalColor = batch.getColor();
         batch.setColor(color);
 
-        super.render(batch);
+        batch.draw(shape.getTexture(), getPosition().x, getPosition().y, getSize().width, getSize().height);
 
         batch.setColor(originalColor);
     }

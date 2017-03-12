@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
-import durianhln.polymorph.gameobject.Polymorph;
+import durianhln.polymorph.Polymorph;
 import durianhln.polymorph.gameobject.ShapeColor;
 import java.awt.Dimension;
 
@@ -25,10 +25,6 @@ import java.awt.Dimension;
 public class PolyGame implements Updatable {
     //game variables
     private State state;
-
-    //assets
-    private TextureAtlas textureAtlas;
-    private Music backgroundMusic;
 
     //entities
     private Player player;
@@ -47,10 +43,9 @@ public class PolyGame implements Updatable {
     private final float MIN_SLOT_SPAWN_TIME;
     private final float MAX_SLOT_VELOCITY;
 
-    public PolyGame(AssetManager assetManager) {
-        initAssets(assetManager);
+    public PolyGame(TextureAtlas textureAtlas) {
         initGameVariables();
-        initEntities();
+        initEntities(textureAtlas);
 
         //init entity constants
         Dimension screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -62,27 +57,6 @@ public class PolyGame implements Updatable {
         state = State.READY;
     }
 
-    private void initAssets(AssetManager assetManager) {
-        //init textures
-        textureAtlas = assetManager.get(Polymorph.OBJECTS_PATH, TextureAtlas.class);
-        for (TextureRegion texture : textureAtlas.getRegions()) {
-            texture.flip(false, true); //flip y axis
-        }
-        for (Shape shape : Shape.values()) {
-            shape.setTexture(textureAtlas.findRegion(shape.name));
-        }
-        for (ShapeColor shapeColor : ShapeColor.values()) {
-            shapeColor.setTexture(textureAtlas.findRegion("capsule"));
-        }
-
-        //init sounds
-        backgroundMusic = assetManager.get(Polymorph.MUSIC_PATH, Music.class);
-        backgroundMusic.setLooping(true);
-        Match.values()[0].setSound(assetManager.get(Polymorph.GOOD_PATH, Sound.class));
-    	Match.values()[1].setSound(assetManager.get(Polymorph.HALF_PATH, Sound.class));
-    	Match.values()[2].setSound(assetManager.get(Polymorph.BAD_PATH, Sound.class));
-    }
-
     private void initGameVariables() {
         timeSinceLastSlotSpawn = 0;
         slotSpawnTime = 3.0f;
@@ -90,7 +64,7 @@ public class PolyGame implements Updatable {
         mapVelocity = new Vector2(0, 200);
     }
 
-    private void initEntities() {
+    private void initEntities(TextureAtlas textureAtlas) {
         Dimension screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         final int mobWidth = screenSize.width/4;
         player = new Player(new Vector2(screenSize.width/2 - mobWidth/2, 2*screenSize.height/3),
@@ -178,12 +152,10 @@ public class PolyGame implements Updatable {
 
     public void start() {
         state = State.RUNNING;
-        backgroundMusic.play();
     }
 
     public void stop() {
         state = State.STOPPED;
-        backgroundMusic.stop();
     }
 
     public Player getPlayer() { //TODO: temporary

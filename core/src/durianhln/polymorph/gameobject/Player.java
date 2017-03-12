@@ -47,6 +47,8 @@ public class Player extends Mob {
             if (multiplier <= 2.0f) {
                 multiplier += 0.05f;
             }
+        } else if (hitpoints + match.value < 0) {
+            hitpoints = 0;
         } else {
             hitpoints += match.value;
         }

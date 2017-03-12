@@ -8,20 +8,27 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import durianhln.polymorph.game.PolyGame;
 import durianhln.polymorph.game.Shape;
 import durianhln.polymorph.gameobject.ShapeColor;
 import durianhln.polymorph.game.State;
-import durianhln.polymorph.gameobject.Polymorph;
+import durianhln.polymorph.hud.HealthBar;
+import durianhln.polymorph.Polymorph;
+import durianhln.polymorph.game.Match;
 import java.awt.Dimension;
 
 /**
@@ -29,43 +36,74 @@ import java.awt.Dimension;
  * @author Darian
  */
 public class GameScreen implements Screen {
-    private PolyGame game;
-    private Dimension screenSize;
+    //screen variables
+    private Polymorph polymorph;
+    private Dimension screenSize; //TODO remove this
+    private FPSLogger fps; //TODO remove this
 
-    private Stage hud;
+    //screen properties
     private OrthographicCamera camera;
 
-    private AssetManager assetManager;
-
+    //utils
     private SpriteBatch batch;
     private BitmapFont font;
+    private TextureAtlas textureAtlas;
 
-    private FPSLogger fps;
+    //game variables
+    private PolyGame game;
+    private Music music;
+    private Stage hud;
+    private HealthBar playerHealthBar;
 
     public GameScreen(Polymorph polymorph) {
-        assetManager = polymorph.getAssetManager();
-        screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        this.game = new PolyGame(assetManager);
+        this.polymorph = polymorph;
+        initAssets(polymorph.getAssetManager());
+        this.game = new PolyGame(textureAtlas);
 
+        screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         initHud();
         camera = new OrthographicCamera();
         camera.setToOrtho(true, screenSize.width, screenSize.height);
 
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
-
         font = new BitmapFont(true);
 
         Gdx.input.setInputProcessor(new InputMultiplexer(new InputHandler(), hud));
         fps = new FPSLogger();
     }
 
+    private void initAssets(AssetManager assetManager) {
+        textureAtlas = assetManager.get(Polymorph.OBJECTS_PATH, TextureAtlas.class);
+        for (TextureRegion texture : textureAtlas.getRegions()) {
+            texture.flip(false, true); //flip y axis
+        }
+        for (Shape shape : Shape.values()) {
+            shape.setTexture(textureAtlas.findRegion(shape.name));
+        }
+        for (ShapeColor shapeColor : ShapeColor.values()) {
+            shapeColor.setTexture(textureAtlas.findRegion("capsule"));
+        }
+
+        //init sounds
+        music = assetManager.get(Polymorph.MUSIC_PATH, Music.class);
+        music.setLooping(true);
+        Match.values()[0].setSound(assetManager.get(Polymorph.GOOD_PATH, Sound.class));
+    	Match.values()[1].setSound(assetManager.get(Polymorph.HALF_PATH, Sound.class));
+    	Match.values()[2].setSound(assetManager.get(Polymorph.BAD_PATH, Sound.class));
+    }
     private void initHud() {
-        Skin skin = assetManager.get(Polymorph.SKIN_PATH, Skin.class);
         hud = new Stage();
-        ProgressBar playerHealthBar = new ProgressBar(0, 100, 5, true, skin, "big");
-        playerHealthBar.setSize(50, 400);
-        playerHealthBar.setValue(50);
+
+        Image barImage = new Image(textureAtlas.findRegion("hpbar-empty"));
+        barImage.setBounds(10, screenSize.height/5, screenSize.width/6, 3*screenSize.height/4);
+        playerHealthBar = new HealthBar(barImage, new Image(textureAtlas.findRegion("hpbar-full")));
+
+        // TODO make this work
+        /*Button triangleButton = new Button(new TextureRegionDrawable(Shape.TRIANGLE.getTexture()));
+        triangleButton.setSize(screenSize.width / 5, screenSize.width/5);
+        triangleButton.setScale(5f);
+        hud.addActor(triangleButton);*/
         hud.addActor(playerHealthBar);
     }
 
@@ -73,25 +111,27 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         delta = Math.min(delta, 0.03f);
 
-        Player player = game.getPlayer(); // temporary
+        Player player = game.getPlayer(); // TODO temporary
 
         switch (game.getState()) {
-        case READY: // TODO: Change this shit
-            System.out.println("HERE WE GO");
-            game.start();
-            break;
-        case RUNNING:
-            game.update(delta);
-            break;
-        case STOPPED:
-            // TODO: gracefully end the game
-            break;
+            case READY: // TODO: Change this shit
+                System.out.println("HERE WE GO");
+                game.start();
+                music.play();
+                break;
+            case RUNNING:
+                game.update(delta);
+                break;
+            case STOPPED: // TODO: gracefully end the game
+                music.stop();
+                break;
         }
         batch.begin();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.render(batch);
+        playerHealthBar.setValue(player.getHitpoints());
         // >>>DEMO START
         for (int i = 0; i < Shape.values().length; i++) {
             Shape shape = Shape.values()[i];
@@ -106,17 +146,17 @@ public class GameScreen implements Screen {
             batch.setColor(originalColor);
         }
         // draw text
-        font.draw(
-                batch, String.format("HP: %d%%\nScore: %d\nMultiplier: %.2f\n%s", player.getHitpoints(),
-                        player.getScore(), player.getMultiplier(), player.isDead() ? "Oh dear, you are dead!" : ""),
-                10, 10);
+        font.draw(batch, String.format("Score: %d\n", player.getScore()), screenSize.width - 100, 10);
+        font.draw(batch, String.format("Multiplier: %.2f\n%s",
+                  player.getMultiplier(), player.isDead() ? "Oh dear, you are dead!" : ""),
+                  10, 10);
 
         // >>>DEMO END
         batch.end();
 
         fps.log();
-        /*hud.draw();
-        hud.act(delta);*/
+        hud.draw();
+        hud.act(delta);
     }
 
     @Override
@@ -194,8 +234,7 @@ public class GameScreen implements Screen {
         @Override
         public boolean touchDown(int x, int y, int pointer, int button) {
             if (game.getState() == State.STOPPED) {
-                // game = new Game(screenSize, assetManager); //TODO: Fix this
-                // shiz
+                game = new PolyGame(textureAtlas);
             } else {
                 System.out.printf("X: %d, Y: %d\n", x, y);
             }

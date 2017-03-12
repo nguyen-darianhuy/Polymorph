@@ -19,12 +19,12 @@ com.badlogic.gdx.graphics.Color: {
 	}
 	selected: {
 		r: 0
-		g: .4
-		b: .4
+		g: 0.4
+		b: 0.4
 		a: 1
 	}
 	text: {
-		r: .580392156
+		r: 0.5803922
 		g: 1
 		b: 1
 		a: 1
@@ -216,9 +216,17 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 	default: {
-		up: button-c
-		down: button-pressed-c
-		over: button-over-c
+		up: button
+		down: button-pressed
+		over: button-over
+	}
+	triangle: {
+		up: smalltriangle
+	}
+	circle: {
+		up: touchpad-knob
+		down: touchpad-knob-c
+		over: touchpad-knob
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
@@ -416,7 +424,6 @@ com.badlogic.gdx.scenes.scene2d.ui.Tree$TreeStyle: {
 com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
 	default: {
 		background: window-c
-		titleFont: font
 		titleFont: font
 	}
 }
