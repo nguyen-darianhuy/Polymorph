@@ -29,7 +29,7 @@ public class Player extends Mob {
     }
 
     public Match match(Slot slot) {
-        if (slot.getPosition().y < this.getPosition().y) {
+        if (slot.getPosition().y > this.getPosition().y) {
             throw new IllegalArgumentException("Slot and Player are not within range!");
         }
 

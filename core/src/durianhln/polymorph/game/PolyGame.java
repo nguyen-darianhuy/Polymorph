@@ -44,9 +44,9 @@ public class PolyGame implements Updatable {
 
         //init entity constants
         Dimension screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        SLOT_SPAWN_POINT = new Vector2(screenSize.width/2 - player.getSize().width/2, -player.getSize().height);
+        SLOT_SPAWN_POINT = new Vector2(screenSize.width/2 - player.getSize().width/2,screenSize.height);
         MIN_SLOT_SPAWN_TIME = 0.8f;
-        MAX_SLOT_VELOCITY = 0.55f*screenSize.height;
+        MAX_SLOT_VELOCITY = -0.55f*screenSize.height;
 
         //init game fields
         state = State.READY;
@@ -55,14 +55,14 @@ public class PolyGame implements Updatable {
     private void initGameVariables() {
         timeSinceLastSlotSpawn = 0;
         slotSpawnTime = 3.0f;
-        slotVelocity = new Vector2(0, 100);
-        mapVelocity = new Vector2(0, 200);
+        slotVelocity = new Vector2(0, -100);
+        mapVelocity = new Vector2(0, -200);
     }
 
     private void initEntities(TextureAtlas textureAtlas) {
         Dimension screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         final int mobWidth = screenSize.width/4;
-        player = new Player(new Vector2(screenSize.width/2 - mobWidth/2, 2*screenSize.height/3),
+        player = new Player(new Vector2(screenSize.width/2 - mobWidth/2, screenSize.height/3-mobWidth),
                             new Dimension(mobWidth, mobWidth));
 
         slots = new Array<Slot>();
@@ -107,8 +107,8 @@ public class PolyGame implements Updatable {
             if (slotSpawnTime > MIN_SLOT_SPAWN_TIME) {
                 slotSpawnTime -= 0.1f;
             }
-            if (slotVelocity.y < MAX_SLOT_VELOCITY) {
-                slotVelocity.y += 20;
+            if (slotVelocity.y > MAX_SLOT_VELOCITY) {
+                slotVelocity.y -= 20;
             }
             timeSinceLastSlotSpawn = 0;
         }
@@ -116,7 +116,7 @@ public class PolyGame implements Updatable {
         //collision detection
         for (int i = slots.size; --i >= 0;) { //safe concurrent modification
             Slot slot = slots.get(i);
-            if (slot.getPosition().y >= player.getPosition().y) {
+            if (slot.getPosition().y <= player.getPosition().y) {
                 Match match = player.match(slot);
                 match.getSound().play();
 

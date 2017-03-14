@@ -25,8 +25,8 @@ public class Map extends Entity {
     public void update(float delta) {
         getPosition().add(getVelocity().cpy().scl(delta));
         int height = getSize().height;
-        if (getPosition().y >= height) {
-            getPosition().y = -height + 10;
+        if (getPosition().y <= -height) {
+            getPosition().y = height;
         }
     }
 }

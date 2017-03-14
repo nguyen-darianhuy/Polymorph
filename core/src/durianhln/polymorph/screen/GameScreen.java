@@ -63,11 +63,11 @@ public class GameScreen implements Screen {
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         initHud();
         camera = new OrthographicCamera();
-        camera.setToOrtho(true, screenSize.width, screenSize.height);//change this
+        camera.setToOrtho(false, screenSize.width, screenSize.height);//change this
 
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
-        font = new BitmapFont(true);
+        font = new BitmapFont(false);
 
         Gdx.input.setInputProcessor(new InputMultiplexer(new InputHandler(), hud));
         fps = new FPSLogger();
@@ -76,7 +76,7 @@ public class GameScreen implements Screen {
     private void initAssets(AssetManager assetManager) {
         textureAtlas = assetManager.get(Polymorph.OBJECTS_PATH, TextureAtlas.class);
         for (TextureRegion texture : textureAtlas.getRegions()) {
-            texture.flip(false, true); //flip y axis
+            texture.flip(true,false); //flip y axis
         }
         for (Shape shape : Shape.values()) {
             shape.setTexture(textureAtlas.findRegion(shape.name));
@@ -136,20 +136,20 @@ public class GameScreen implements Screen {
         for (int i = 0; i < Shape.values().length; i++) {
             Shape shape = Shape.values()[i];
             int x = i * screenSize.width / 3 + 25;
-            int y = screenSize.height - 80;
+            int y =  10;
             int width = screenSize.width / 5;
             batch.draw(shape.getTexture(), x, y, width, width);
 
             Color originalColor = batch.getColor();
             batch.setColor(ShapeColor.values()[i].color);
-            batch.draw(ShapeColor.values()[i].getTexture(), x, y - 30, width, 20);
+            batch.draw(ShapeColor.values()[i].getTexture(), x, y+80, width, 20);
             batch.setColor(originalColor);
         }
         // draw text
-        font.draw(batch, String.format("Score: %d\n", player.getScore()), screenSize.width - 100, 10);
+        font.draw(batch, String.format("Score: %d\n", player.getScore()), screenSize.width - 100, screenSize.height-10);
         font.draw(batch, String.format("Multiplier: %.2f\n%s",
                   player.getMultiplier(), player.isDead() ? "Oh dear, you are dead!" : ""),
-                  10, 10);
+                  10, screenSize.height-10);
 
         // >>>DEMO END
         batch.end();
