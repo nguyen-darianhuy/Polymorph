@@ -18,16 +18,22 @@ import durianhln.polymorph.gameobject.Polymorph;
 public class Splash implements Screen {
 
     private Polymorph game;
+    private Dimension screenSize;
+    
     private SpriteBatch batch;
     private Texture splash;
-    private long startTime;
     private BitmapFont font;
-    private Dimension screenSize;
+    
+    private long startTime;
 
     public Splash(Polymorph game) {
         this.game = game;
+        batch = new SpriteBatch();
+        splash = new Texture(Gdx.files.internal(Polymorph.SPLASH_PATH));
+        
         // delete later
         font = new BitmapFont(false);
+        
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         startTime = TimeUtils.millis();
@@ -36,9 +42,6 @@ public class Splash implements Screen {
     @Override
     public void show() {
         // TODO Auto-generated method stub
-        batch = new SpriteBatch();
-        splash = new Texture(Gdx.files.internal(Polymorph.SPLASH_PATH));
-
     }
 
     @Override
@@ -51,7 +54,7 @@ public class Splash implements Screen {
 
         // change to set screen to main menu
         if (Gdx.input.justTouched())
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new MainMenu(game));
         if (TimeUtils.millis() > (startTime + 3000))
             game.setScreen(new GameScreen(game));
 
@@ -84,6 +87,5 @@ public class Splash implements Screen {
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
-
     }
 }

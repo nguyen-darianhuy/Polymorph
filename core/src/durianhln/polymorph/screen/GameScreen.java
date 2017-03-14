@@ -29,7 +29,7 @@ import java.awt.Dimension;
  * @author Darian
  */
 public class GameScreen implements Screen {
-    private PolyGame game;
+    private PolyGame polyGame;
     private Dimension screenSize;
 
     private Stage hud;
@@ -45,7 +45,7 @@ public class GameScreen implements Screen {
     public GameScreen(Polymorph polymorph) {
         assetManager = polymorph.getAssetManager();
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        this.game = new PolyGame(assetManager);
+        this.polyGame = new PolyGame(assetManager);
 
         initHud();
         camera = new OrthographicCamera();
@@ -73,15 +73,15 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         delta = Math.min(delta, 0.03f);
 
-        Player player = game.getPlayer(); // temporary
+        Player player = polyGame.getPlayer(); // temporary
 
-        switch (game.getState()) {
+        switch (polyGame.getState()) {
         case READY: // TODO: Change this shit
             System.out.println("HERE WE GO");
-            game.start();
+            polyGame.start();
             break;
         case RUNNING:
-            game.update(delta);
+            polyGame.update(delta);
             break;
         case STOPPED:
             // TODO: gracefully end the game
@@ -91,7 +91,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        game.render(batch);
+        polyGame.render(batch);
         // >>>DEMO START
         for (int i = 0; i < Shape.values().length; i++) {
             Shape shape = Shape.values()[i];
@@ -174,13 +174,13 @@ public class GameScreen implements Screen {
 
             switch (keycode) {
             case Input.Keys.NUMPAD_7:
-                game.getPlayer().morph(shapeHeld, ShapeColor.values()[0].color);
+                polyGame.getPlayer().morph(shapeHeld, ShapeColor.values()[0].color);
                 break;
             case Input.Keys.NUMPAD_8:
-                game.getPlayer().morph(shapeHeld, ShapeColor.values()[1].color);
+                polyGame.getPlayer().morph(shapeHeld, ShapeColor.values()[1].color);
                 break;
             case Input.Keys.NUMPAD_9:
-                game.getPlayer().morph(shapeHeld, ShapeColor.values()[2].color);
+                polyGame.getPlayer().morph(shapeHeld, ShapeColor.values()[2].color);
                 break;
             }
             return true;
@@ -193,7 +193,7 @@ public class GameScreen implements Screen {
 
         @Override
         public boolean touchDown(int x, int y, int pointer, int button) {
-            if (game.getState() == State.STOPPED) {
+            if (polyGame.getState() == State.STOPPED) {
                 // game = new Game(screenSize, assetManager); //TODO: Fix this
                 // shiz
             } else {

@@ -19,6 +19,7 @@ public class Polymorph extends Game {
     public final static String HALF_PATH = "music/halfmatch.mp3";
     public final static String BAD_PATH = "music/fail.mp3";
     public static final String SPLASH_PATH = "splash.png";
+    public static final String TESTBUTTON_PATH = "testbutton.png";
 
     private AssetManager assetManager;
 
