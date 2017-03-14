@@ -63,7 +63,7 @@ public class GameScreen implements Screen {
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         initHud();
         camera = new OrthographicCamera();
-        camera.setToOrtho(true, screenSize.width, screenSize.height);
+        camera.setToOrtho(true, screenSize.width, screenSize.height);//change this
 
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
