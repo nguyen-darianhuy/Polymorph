@@ -43,6 +43,7 @@ public class Player extends Mob {
             multiplier = 1;
         }
 
+        //update hp
         if (hitpoints + match.value > 100) {
             if (multiplier <= 2.0f) {
                 multiplier += 0.05f;
@@ -52,6 +53,11 @@ public class Player extends Mob {
         } else {
             hitpoints += match.value;
         }
+
+        //update score
+        //TODO: rework this calculation
+        score += multiplier*(slot.getVelocity().y*match.multiplier);
+
         return match;
     }
 
@@ -61,10 +67,6 @@ public class Player extends Mob {
 
     public int getScore() {
         return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 
     public int getHitpoints() {

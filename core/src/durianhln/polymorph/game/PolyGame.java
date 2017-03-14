@@ -5,17 +5,12 @@ import durianhln.polymorph.gameobject.Updatable;
 import durianhln.polymorph.gameobject.Slot;
 import durianhln.polymorph.gameobject.Map;
 import durianhln.polymorph.gameobject.Player;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
-import durianhln.polymorph.Polymorph;
-import durianhln.polymorph.gameobject.ShapeColor;
 import java.awt.Dimension;
 
 /**
@@ -124,10 +119,6 @@ public class PolyGame implements Updatable {
             if (slot.getPosition().y >= player.getPosition().y) {
                 Match match = player.match(slot);
                 match.getSound().play();
-
-                //TODO: rework this calculation
-                int scoreDelta = (int)(player.getMultiplier()*(slot.getVelocity().y*match.multiplier));
-                player.setScore(player.getScore() + scoreDelta);
 
                 slots.removeIndex(i);
                 slotPool.free(slot);
