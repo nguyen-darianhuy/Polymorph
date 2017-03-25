@@ -1,39 +1,22 @@
 package durianhln.polymorph.screen;
 
 import java.awt.Dimension;
-import java.util.EventListener;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-
-import durianhln.polymorph.game.PolyGame;
 import durianhln.polymorph.gameobject.Polymorph;
 
-/**
- * 
- * @author Evan
- */
-public class MainMenu implements Screen {
-
+public class SettingsScreen implements Screen {
+    
     private Polymorph game;
     private Dimension screenSize;
     
@@ -44,10 +27,11 @@ public class MainMenu implements Screen {
     private Stage stage;
     private Skin buttonSkin;
     private TextButtonStyle buttonStyle;
-    private TextButton playButton;
-    private TextButton settingsButton;
+    private TextButton option1Button;
+    private TextButton option2Button;
+    private TextButton backButton;
 
-    public MainMenu(Polymorph game) {
+    public SettingsScreen(Polymorph game) {
         this.game = game;
         
         background = new Texture("raw/background.png"); //change to different background
@@ -59,7 +43,7 @@ public class MainMenu implements Screen {
         initButtons();
         Gdx.input.setInputProcessor(stage);
     }
-
+    
     public void initButtons() {
         buttonAtlas = new TextureAtlas("buttons/buttons.pack");
         buttonSkin = new Skin();
@@ -70,25 +54,30 @@ public class MainMenu implements Screen {
         buttonStyle.down = buttonSkin.getDrawable("ButtonDown");
         buttonStyle.font = font;
         
-        playButton = new TextButton("PLAY", buttonStyle);
-        playButton.setSize(128, 32);
-        playButton.setPosition(screenSize.width/2-64, screenSize.height/2-16);
-        playButton.addListener(new PlayButtonListener());
+        option1Button = new TextButton("OPTION1", buttonStyle);
+        option1Button.setSize(128, 32);
+        option1Button.setPosition(screenSize.width/2-64, screenSize.height/2-16);
+        option1Button.addListener(new Option1ButtonListener());
         
-        settingsButton = new TextButton("SETTINGS", buttonStyle);
-        settingsButton.setSize(128, 32);
-        settingsButton.setPosition(playButton.getX(), playButton.getY()-settingsButton.getHeight()-16);
-        settingsButton.addListener(new SettingsButtonListener());
+        option2Button = new TextButton("OPTION2", buttonStyle);
+        option2Button.setSize(128, 32);
+        option2Button.setPosition(option1Button.getX(), option1Button.getY()-option2Button.getHeight()-16);
+        option2Button.addListener(new Option2ButtonListener());
         
-        stage.addActor(playButton);
-        stage.addActor(settingsButton);
+        backButton = new TextButton("BACK", buttonStyle);
+        backButton.setSize(128, 32);
+        backButton.setPosition(0, screenSize.height-backButton.getHeight());
+        backButton.addListener(new backButtonListener());
+        
+        stage.addActor(option1Button);
+        stage.addActor(option2Button);
+        stage.addActor(backButton);
     }
-    
     
     @Override
     public void show() {
         // TODO Auto-generated method stub
-
+        
     }
 
     @Override
@@ -106,44 +95,50 @@ public class MainMenu implements Screen {
     @Override
     public void resize(int width, int height) {
         // TODO Auto-generated method stub
-
+        
     }
 
     @Override
     public void pause() {
         // TODO Auto-generated method stub
-
+        
     }
 
     @Override
     public void resume() {
         // TODO Auto-generated method stub
-
+        
     }
 
     @Override
     public void hide() {
         // TODO Auto-generated method stub
-
+        
     }
 
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
+        
+    }
+    
+    private class Option1ButtonListener extends InputListener {
+        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+            return false;
+        }
+    }
+    
+    private class Option2ButtonListener extends InputListener {
+        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+            return false;
+        }
+    }
+    
+    private class backButtonListener extends InputListener {
+        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+            game.setScreen(new MainMenu(game));
+            return false;
+        }
+    }
 
-    }
-    
-    private class PlayButtonListener extends InputListener {
-        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-            game.setScreen(new GameScreen(game));
-            return false;
-        }
-    }
-    
-    private class SettingsButtonListener extends InputListener {
-        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-            game.setScreen(new SettingsScreen(game));
-            return false;
-        }
-    }
 }
