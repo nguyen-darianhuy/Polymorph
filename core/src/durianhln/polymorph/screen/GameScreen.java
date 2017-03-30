@@ -42,8 +42,8 @@ public class GameScreen implements Screen {
 
     private FPSLogger fps;
 
-    public GameScreen(Polymorph polymorph) {
-        assetManager = polymorph.getAssetManager();
+    public GameScreen(Polymorph game) {
+        assetManager = game.getAssetManager();
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         this.polyGame = new PolyGame(assetManager);
 

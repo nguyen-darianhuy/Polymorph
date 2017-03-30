@@ -22,7 +22,6 @@ public class Splash implements Screen {
     
     private SpriteBatch batch;
     private Texture splash;
-    private BitmapFont font;
     
     private long startTime;
 
@@ -30,12 +29,7 @@ public class Splash implements Screen {
         this.game = game;
         batch = new SpriteBatch();
         splash = new Texture(Gdx.files.internal(Polymorph.SPLASH_PATH));
-        
-        // delete later
-        font = new BitmapFont(false);
-        
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
         startTime = TimeUtils.millis();
     }
 
@@ -46,17 +40,14 @@ public class Splash implements Screen {
 
     @Override
     public void render(float delta) {
-        // TODO Auto-generated method stub
         batch.begin();
-        // change to draw splash image
-        font.draw(batch, "twoPointFive Studios Presents", screenSize.width / 5 + 10, screenSize.height / 2 + 20);
+        batch.draw(splash, 0, 0, screenSize.width, screenSize.height);
         batch.end();
 
-        // change to set screen to main menu
         if (Gdx.input.justTouched())
             game.setScreen(new MainMenu(game));
         if (TimeUtils.millis() > (startTime + 3000))
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new MainMenu(game));
 
     }
 

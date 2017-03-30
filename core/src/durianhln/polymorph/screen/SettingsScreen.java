@@ -3,6 +3,8 @@ package durianhln.polymorph.screen;
 import java.awt.Dimension;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -20,7 +22,9 @@ public class SettingsScreen implements Screen {
     private Polymorph game;
     private Dimension screenSize;
     
+    private AssetManager assetManager;
     private TextureAtlas buttonAtlas;
+    private Music mainMenuMusic;
     private BitmapFont font;
     private Texture background;
     
@@ -33,7 +37,9 @@ public class SettingsScreen implements Screen {
 
     public SettingsScreen(Polymorph game) {
         this.game = game;
+        assetManager = game.getAssetManager();
         
+        mainMenuMusic = assetManager.get(Polymorph.MAIN_MENU_MUSIC_PATH, Music.class);
         background = new Texture("raw/background.png"); //change to different background
         font = new BitmapFont(false);
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -76,7 +82,7 @@ public class SettingsScreen implements Screen {
     
     @Override
     public void show() {
-        // TODO Auto-generated method stub
+        mainMenuMusic.play();
         
     }
 
@@ -112,7 +118,7 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void hide() {
-        // TODO Auto-generated method stub
+        mainMenuMusic.stop();
         
     }
 

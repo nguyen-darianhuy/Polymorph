@@ -8,6 +8,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -37,9 +38,12 @@ public class MainMenu implements Screen {
     private Polymorph game;
     private Dimension screenSize;
     
+    private AssetManager assetManager;
     private TextureAtlas buttonAtlas;
+    private Music mainMenuMusic;
     private BitmapFont font;
     private Texture background;
+    private Texture banner;
     
     private Stage stage;
     private Skin buttonSkin;
@@ -49,8 +53,13 @@ public class MainMenu implements Screen {
 
     public MainMenu(Polymorph game) {
         this.game = game;
+        assetManager = game.getAssetManager();
+        
+        mainMenuMusic = assetManager.get(Polymorph.MAIN_MENU_MUSIC_PATH, Music.class);
+        mainMenuMusic.setLooping(true);
         
         background = new Texture("raw/background.png"); //change to different background
+        banner = new Texture("raw/banner.png");
         font = new BitmapFont(false);
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         
@@ -71,13 +80,13 @@ public class MainMenu implements Screen {
         buttonStyle.font = font;
         
         playButton = new TextButton("PLAY", buttonStyle);
-        playButton.setSize(128, 32);
-        playButton.setPosition(screenSize.width/2-64, screenSize.height/2-16);
+        playButton.setSize(256, 48);
+        playButton.setPosition(screenSize.width/2-playButton.getWidth()/2, screenSize.height/2-playButton.getHeight()/2);
         playButton.addListener(new PlayButtonListener());
         
         settingsButton = new TextButton("SETTINGS", buttonStyle);
-        settingsButton.setSize(128, 32);
-        settingsButton.setPosition(playButton.getX(), playButton.getY()-settingsButton.getHeight()-16);
+        settingsButton.setSize(256, 48);
+        settingsButton.setPosition(playButton.getX(), playButton.getY()-settingsButton.getHeight()-playButton.getHeight()/2);
         settingsButton.addListener(new SettingsButtonListener());
         
         stage.addActor(playButton);
@@ -87,18 +96,17 @@ public class MainMenu implements Screen {
     
     @Override
     public void show() {
-        // TODO Auto-generated method stub
-
+        mainMenuMusic.play();
     }
 
     @Override
     public void render(float delta) {
-        // TODO Auto-generated method stub
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, screenSize.width, screenSize.height);
+        stage.getBatch().draw(banner, screenSize.width/2-banner.getWidth()/2+4, 3*screenSize.height/4);
         stage.getBatch().end();
         stage.draw();
     }
@@ -123,8 +131,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void hide() {
-        // TODO Auto-generated method stub
-
+        mainMenuMusic.stop();
     }
 
     @Override
