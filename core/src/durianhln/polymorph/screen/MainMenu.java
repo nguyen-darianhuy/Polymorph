@@ -42,7 +42,6 @@ public class MainMenu implements Screen {
     
     private AssetManager assetManager;
     private Music mainMenuMusic;
-    private BitmapFont font;
     private Texture background;
     
     private Stage stage;
@@ -57,12 +56,11 @@ public class MainMenu implements Screen {
         this.game = game;
         assetManager = game.getAssetManager();
         
-        mainMenuMusic = assetManager.get(Polymorph.MAIN_MENU_MUSIC_PATH, Music.class);
+        mainMenuMusic = assetManager.get(Polymorph.MAIN_MENU_MUSIC_PATH);
         mainMenuMusic.setLooping(true);
         
-        background = new Texture("raw/mainmenu.png");
+        background = assetManager.get(Polymorph.MAIN_MENU_BACKGROUND_PATH);
         background.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-        font = new BitmapFont(false);
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         
         stage = new Stage();
@@ -72,7 +70,7 @@ public class MainMenu implements Screen {
     }
 
     public void initButtons() {
-        buttonAtlas = new TextureAtlas("buttons/buttons.pack");
+        buttonAtlas = assetManager.get(Polymorph.BUTTONS_PATH);
         buttonSkin = new Skin();
         buttonSkin.addRegions(buttonAtlas);
         

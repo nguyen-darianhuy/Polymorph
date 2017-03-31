@@ -6,7 +6,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.TimeUtils;
 import durianhln.polymorph.gameobject.Polymorph;
@@ -20,6 +19,8 @@ public class Splash implements Screen {
     private Polymorph game;
     private Dimension screenSize;
     
+    private AssetManager assetManager;
+    
     private SpriteBatch batch;
     private Texture splash;
     
@@ -27,8 +28,10 @@ public class Splash implements Screen {
 
     public Splash(Polymorph game) {
         this.game = game;
+        assetManager = game.getAssetManager();
+        
         batch = new SpriteBatch();
-        splash = new Texture(Gdx.files.internal(Polymorph.SPLASH_PATH));
+        splash = assetManager.get(Polymorph.SPLASH_PATH);
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         startTime = TimeUtils.millis();
     }

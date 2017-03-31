@@ -13,10 +13,15 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import durianhln.polymorph.gameobject.Polymorph;
 
+/**
+*
+* @author Evan
+*/
 public class SettingsScreen implements Screen {
     
     private Polymorph game;
@@ -29,18 +34,17 @@ public class SettingsScreen implements Screen {
     private Texture background;
     
     private Stage stage;
-    private Skin buttonSkin;
-    private TextButtonStyle buttonStyle;
+    private Skin sliderSkin;
     private TextButton option1Button;
     private TextButton option2Button;
-    private TextButton backButton;
+    private TextButton backButton;    
 
     public SettingsScreen(Polymorph game) {
         this.game = game;
         assetManager = game.getAssetManager();
         
         mainMenuMusic = assetManager.get(Polymorph.MAIN_MENU_MUSIC_PATH, Music.class);
-        background = new Texture("raw/background.png"); //change to different background
+        background = assetManager.get("raw/background.png"); //change to different background
         font = new BitmapFont(false);
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         
@@ -51,13 +55,17 @@ public class SettingsScreen implements Screen {
     }
     
     public void initButtons() {
-        buttonAtlas = new TextureAtlas("buttons/buttons.pack");
-        buttonSkin = new Skin();
-        buttonSkin.addRegions(buttonAtlas);
+        buttonAtlas = assetManager.get(Polymorph.BUTTONS_PATH);
         
-        TextButtonStyle buttonStyle = new TextButtonStyle();
-        buttonStyle.up = buttonSkin.getDrawable("ButtonUp");
-        buttonStyle.down = buttonSkin.getDrawable("ButtonDown");
+        sliderSkin = new Skin();
+        sliderSkin.add("slider", new Texture(Polymorph.SLIDER_PATH));
+        
+        Slider musicVolumeSlider = new Slider(0, 10, 1, false, sliderSkin);
+        musicVolumeSlider.setPosition(100,100);
+        
+        /*TextButtonStyle buttonStyle = new TextButtonStyle();
+        buttonStyle.up = buttonSkin.getDrawable("settingsbutton");
+        buttonStyle.down = buttonSkin.getDrawable("settingsbutton");
         buttonStyle.font = font;
         
         option1Button = new TextButton("OPTION1", buttonStyle);
@@ -77,18 +85,17 @@ public class SettingsScreen implements Screen {
         
         stage.addActor(option1Button);
         stage.addActor(option2Button);
-        stage.addActor(backButton);
+        stage.addActor(backButton);*/
+        stage.addActor(musicVolumeSlider);
     }
     
     @Override
     public void show() {
         mainMenuMusic.play();
-        
     }
 
     @Override
     public void render(float delta) {
-        // TODO Auto-generated method stub
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
