@@ -1,19 +1,19 @@
 
 buttons.png
 format: RGBA8888
-filter: Nearest,Nearest
+filter: MipMapLinearLinear,MipMapLinearLinear
 repeat: none
-ButtonDown
+playbutton
   rotate: false
-  xy: 1, 48
-  size: 195, 49
-  orig: 195, 49
+  xy: 0, 0
+  size: 768, 256
+  orig: 768, 256
   offset: 0, 0
   index: -1
-ButtonUp
+settingsbutton
   rotate: false
-  xy: 1, 1
-  size: 190, 45
-  orig: 190, 45
+  xy: 768, 0
+  size: 768, 256
+  orig: 768, 256
   offset: 0, 0
   index: -1
