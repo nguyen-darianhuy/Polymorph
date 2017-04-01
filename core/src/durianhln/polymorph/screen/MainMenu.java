@@ -48,9 +48,6 @@ public class MainMenu implements Screen {
     
     private TextureAtlas buttonAtlas;
     private Skin buttonSkin;
-    private ImageButton playButton;
-    private ImageButton settingsButton;
-    private ImageButton otherButton;
 
     public MainMenu(Polymorph game) {
         this.game = game;
@@ -76,30 +73,41 @@ public class MainMenu implements Screen {
         
         ImageButtonStyle playButtonStyle = new ImageButtonStyle();
         playButtonStyle.up = buttonSkin.getDrawable("playbutton");
-        playButtonStyle.down = buttonSkin.getDrawable("playbutton");
+        playButtonStyle.down = buttonSkin.getDrawable("playbutton"); //change all down to actual down button images
         
         ImageButtonStyle settingsButtonStyle = new ImageButtonStyle();
         settingsButtonStyle.up = buttonSkin.getDrawable("settingsbutton");
         settingsButtonStyle.down = buttonSkin.getDrawable("settingsbutton");
         
-        playButton = new ImageButton(playButtonStyle);
+        ImageButtonStyle creditsButtonStyle = new ImageButtonStyle();
+        creditsButtonStyle.up = buttonSkin.getDrawable("creditsbutton");
+        creditsButtonStyle.down = buttonSkin.getDrawable("creditsbutton");
+        
+        ImageButton playButton = new ImageButton(playButtonStyle);
         playButton.setSize(198, 64);
         playButton.setPosition(screenSize.width/2-playButton.getWidth()/2, screenSize.height/2-playButton.getHeight()/2+50);
         playButton.addListener(new PlayButtonListener());
         
-        settingsButton = new ImageButton(settingsButtonStyle);
+        ImageButton settingsButton = new ImageButton(settingsButtonStyle);
         settingsButton.setSize(198, 64);
         settingsButton.setPosition(playButton.getX(), playButton.getY()-settingsButton.getHeight()-playButton.getHeight()/2);
         settingsButton.addListener(new SettingsButtonListener());
         
-        otherButton = new ImageButton(settingsButtonStyle);
+        //change to another button
+        ImageButton otherButton = new ImageButton(settingsButtonStyle);
         otherButton.setSize(198, 64);
         otherButton.setPosition(settingsButton.getX(), settingsButton.getY()-settingsButton.getHeight()-settingsButton.getHeight()/2);
         otherButton.addListener(new OtherButtonListener());
         
+        ImageButton creditsButton = new ImageButton(creditsButtonStyle);
+        creditsButton.setSize(112.5f, 37.5f);
+        creditsButton.setPosition(0, 0);
+        creditsButton.addListener(new OtherButtonListener());
+        
         stage.addActor(playButton);
         stage.addActor(settingsButton);
         stage.addActor(otherButton);
+        stage.addActor(creditsButton);
     }
     
     

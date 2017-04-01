@@ -1,19 +1,47 @@
 
 buttons.png
 format: RGBA8888
-filter: MipMapLinearLinear,MipMapLinearLinear
+filter: Nearest,Nearest
 repeat: none
 playbutton
   rotate: false
-  xy: 0, 0
+  xy: 1, 259
   size: 768, 256
   orig: 768, 256
   offset: 0, 0
   index: -1
 settingsbutton
   rotate: false
-  xy: 768, 0
+  xy: 1, 1
   size: 768, 256
   orig: 768, 256
   offset: 0, 0
+  index: -1
+slider
+  rotate: false
+  xy: 771, 495
+  size: 209, 20
+  orig: 209, 20
+  offset: 0, 0
+  index: -1
+creditsbutton
+  rotate: false
+  xy: 771, 462
+  size: 125, 31
+  orig: 150, 50
+  offset: 3, 5
+  index: -1
+backbutton
+  rotate: false
+  xy: 771, 414
+  size: 48, 46
+  orig: 48, 48
+  offset: 0, 1
+  index: -1
+pausebutton
+  rotate: false
+  xy: 898, 463
+  size: 28, 30
+  orig: 48, 48
+  offset: 10, 9
   index: -1

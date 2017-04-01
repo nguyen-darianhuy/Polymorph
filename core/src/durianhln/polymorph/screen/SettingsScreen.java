@@ -9,13 +9,19 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
+
 import durianhln.polymorph.gameobject.Polymorph;
 
 /**
@@ -28,24 +34,16 @@ public class SettingsScreen implements Screen {
     private Dimension screenSize;
     
     private AssetManager assetManager;
-    private TextureAtlas buttonAtlas;
     private Music mainMenuMusic;
-    private BitmapFont font;
     private Texture background;
-    
     private Stage stage;
-    private Skin sliderSkin;
-    private TextButton option1Button;
-    private TextButton option2Button;
-    private TextButton backButton;    
 
     public SettingsScreen(Polymorph game) {
         this.game = game;
         assetManager = game.getAssetManager();
         
         mainMenuMusic = assetManager.get(Polymorph.MAIN_MENU_MUSIC_PATH, Music.class);
-        background = assetManager.get("raw/background.png"); //change to different background
-        font = new BitmapFont(false);
+        background = assetManager.get(Polymorph.SETTINGS_SCREEN_BACKGROUND_PATH);
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         
         stage = new Stage();
@@ -55,37 +53,27 @@ public class SettingsScreen implements Screen {
     }
     
     public void initButtons() {
-        buttonAtlas = assetManager.get(Polymorph.BUTTONS_PATH);
+        TextureAtlas buttonAtlas = assetManager.get(Polymorph.BUTTONS_PATH);
         
-        sliderSkin = new Skin();
-        sliderSkin.add("slider", new Texture(Polymorph.SLIDER_PATH));
+        Skin buttonSkin = new Skin();
+        buttonSkin.addRegions(buttonAtlas);
+        
+        ImageButtonStyle backButtonStyle = new ImageButtonStyle();
+        backButtonStyle.up = buttonSkin.getDrawable("backbutton"); //change to back button texture
+        backButtonStyle.down = buttonSkin.getDrawable("backbutton");
+        ImageButton backButton = new ImageButton(backButtonStyle);
+        backButton.setSize(48, 48);
+        backButton.setPosition(0f, screenSize.height-backButton.getHeight());
+        backButton.addListener(new BackButtonListener());
+        
+        Skin sliderSkin = new Skin(Gdx.files.internal("uiskin.json"));
         
         Slider musicVolumeSlider = new Slider(0, 10, 1, false, sliderSkin);
+        musicVolumeSlider.setAnimateDuration(0.3f);
         musicVolumeSlider.setPosition(100,100);
+        musicVolumeSlider.addListener(new MusicVolumeSliderListener());
         
-        /*TextButtonStyle buttonStyle = new TextButtonStyle();
-        buttonStyle.up = buttonSkin.getDrawable("settingsbutton");
-        buttonStyle.down = buttonSkin.getDrawable("settingsbutton");
-        buttonStyle.font = font;
-        
-        option1Button = new TextButton("OPTION1", buttonStyle);
-        option1Button.setSize(128, 32);
-        option1Button.setPosition(screenSize.width/2-64, screenSize.height/2-16);
-        option1Button.addListener(new Option1ButtonListener());
-        
-        option2Button = new TextButton("OPTION2", buttonStyle);
-        option2Button.setSize(128, 32);
-        option2Button.setPosition(option1Button.getX(), option1Button.getY()-option2Button.getHeight()-16);
-        option2Button.addListener(new Option2ButtonListener());
-        
-        backButton = new TextButton("BACK", buttonStyle);
-        backButton.setSize(128, 32);
-        backButton.setPosition(0, screenSize.height-backButton.getHeight());
-        backButton.addListener(new backButtonListener());
-        
-        stage.addActor(option1Button);
-        stage.addActor(option2Button);
-        stage.addActor(backButton);*/
+        stage.addActor(backButton);
         stage.addActor(musicVolumeSlider);
     }
     
@@ -147,10 +135,16 @@ public class SettingsScreen implements Screen {
         }
     }
     
-    private class backButtonListener extends InputListener {
+    private class BackButtonListener extends InputListener {
         public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
             game.setScreen(new MainMenu(game));
             return false;
+        }
+    }
+    
+    private class MusicVolumeSliderListener extends InputListener {
+        public void changed (ChangeEvent event, Actor actor) {
+            Gdx.app.log("UITest", "slider: ");
         }
     }
 

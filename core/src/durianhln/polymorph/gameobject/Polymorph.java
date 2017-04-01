@@ -23,6 +23,7 @@ public class Polymorph extends Game {
     public final static String BAD_PATH = "music/fail.mp3";
     public final static String SPLASH_PATH = "raw/splashscreen.png";
     public final static String MAIN_MENU_BACKGROUND_PATH = "raw/mainmenu.png";
+    public final static String SETTINGS_SCREEN_BACKGROUND_PATH = "raw/settingsscreen.png";
     public final static String BUTTONS_PATH = "buttons/buttons.pack";
     public final static String SLIDER_PATH = "buttons/slider.png";
 
@@ -50,6 +51,7 @@ public class Polymorph extends Game {
         assetManager.load(BAD_PATH, Sound.class);
         assetManager.load(SPLASH_PATH, Texture.class);
         assetManager.load(MAIN_MENU_BACKGROUND_PATH, Texture.class);
+        assetManager.load(SETTINGS_SCREEN_BACKGROUND_PATH, Texture.class);
         assetManager.load(BUTTONS_PATH, TextureAtlas.class);
         assetManager.load(SLIDER_PATH, Texture.class);
         assetManager.finishLoading();
