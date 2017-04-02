@@ -8,6 +8,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
@@ -121,7 +122,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
+        assetManager.get(Polymorph.MAIN_MENU_MUSIC_PATH, Music.class).stop();
     }
 
     @Override

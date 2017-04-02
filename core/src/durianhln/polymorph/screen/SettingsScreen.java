@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -20,8 +21,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 
+import durianhln.polymorph.game.Match;
 import durianhln.polymorph.gameobject.Polymorph;
 
 /**
@@ -30,7 +33,7 @@ import durianhln.polymorph.gameobject.Polymorph;
 */
 public class SettingsScreen implements Screen {
     
-    private Polymorph game;
+    private Polymorph polymorph;
     private Dimension screenSize;
     
     private AssetManager assetManager;
@@ -38,9 +41,12 @@ public class SettingsScreen implements Screen {
     private Texture background;
     private Stage stage;
 
-    public SettingsScreen(Polymorph game) {
-        this.game = game;
-        assetManager = game.getAssetManager();
+    private Slider musicVolumeSlider;
+    private Slider soundVolumeSlider;
+    
+    public SettingsScreen(Polymorph polymorph) {
+        this.polymorph = polymorph;
+        assetManager = polymorph.getAssetManager();
         
         mainMenuMusic = assetManager.get(Polymorph.MAIN_MENU_MUSIC_PATH, Music.class);
         background = assetManager.get(Polymorph.SETTINGS_SCREEN_BACKGROUND_PATH);
@@ -68,18 +74,28 @@ public class SettingsScreen implements Screen {
         
         Skin sliderSkin = new Skin(Gdx.files.internal("uiskin.json"));
         
-        Slider musicVolumeSlider = new Slider(0, 10, 1, false, sliderSkin);
-        musicVolumeSlider.setAnimateDuration(0.3f);
+        musicVolumeSlider = new Slider(0f, 1f, 0.1f, false, sliderSkin);
+        musicVolumeSlider.setValue(polymorph.getMusicVolume());
+        System.out.println("INIT: " + musicVolumeSlider.getValue());
+        musicVolumeSlider.setAnimateDuration(0.05f);
         musicVolumeSlider.setPosition(100,100);
         musicVolumeSlider.addListener(new MusicVolumeSliderListener());
         
+        soundVolumeSlider = new Slider(0f, 1f, 0.1f, false, sliderSkin);
+        soundVolumeSlider.setValue(polymorph.getMusicVolume());
+        System.out.println("INIT: " + soundVolumeSlider.getValue());
+        soundVolumeSlider.setAnimateDuration(0.05f);
+        soundVolumeSlider.setPosition(100,300);
+        soundVolumeSlider.addListener(new SoundVolumeSliderListener());
+        
         stage.addActor(backButton);
         stage.addActor(musicVolumeSlider);
+        stage.addActor(soundVolumeSlider);
     }
     
     @Override
     public void show() {
-        mainMenuMusic.play();
+        
     }
 
     @Override
@@ -91,6 +107,7 @@ public class SettingsScreen implements Screen {
         stage.getBatch().draw(background, 0, 0, screenSize.width, screenSize.height);
         stage.getBatch().end();
         stage.draw();
+        stage.act(delta);
     }
 
     @Override
@@ -113,7 +130,6 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void hide() {
-        mainMenuMusic.stop();
         
     }
 
@@ -123,28 +139,26 @@ public class SettingsScreen implements Screen {
         
     }
     
-    private class Option1ButtonListener extends InputListener {
-        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-            return false;
-        }
-    }
-    
-    private class Option2ButtonListener extends InputListener {
-        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-            return false;
-        }
-    }
-    
     private class BackButtonListener extends InputListener {
         public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-            game.setScreen(new MainMenu(game));
+            polymorph.setScreen(new MainMenu(polymorph));
             return false;
         }
     }
     
-    private class MusicVolumeSliderListener extends InputListener {
+    private class MusicVolumeSliderListener extends ChangeListener {
         public void changed (ChangeEvent event, Actor actor) {
-            Gdx.app.log("UITest", "slider: ");
+            polymorph.setMusicVolume(musicVolumeSlider.getValue());
+            mainMenuMusic.setVolume(polymorph.getMusicVolume());
+        }
+    }
+    
+    private class SoundVolumeSliderListener extends ChangeListener {
+        public void changed (ChangeEvent event, Actor actor) {
+            polymorph.setSoundVolume(soundVolumeSlider.getValue());
+            for(Match match : Match.values()) {
+                match.getSound().setVolume(polymorph.getSoundVolume());
+            }
         }
     }
 

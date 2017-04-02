@@ -5,42 +5,42 @@ filter: Nearest,Nearest
 repeat: none
 playbutton
   rotate: false
-  xy: 1, 259
-  size: 768, 256
-  orig: 768, 256
+  xy: 1, 1
+  size: 1024, 256
+  orig: 1024, 256
   offset: 0, 0
   index: -1
 settingsbutton
   rotate: false
-  xy: 1, 1
-  size: 768, 256
-  orig: 768, 256
+  xy: 1027, 1
+  size: 1024, 256
+  orig: 1024, 256
   offset: 0, 0
   index: -1
 slider
   rotate: false
-  xy: 771, 495
+  xy: 2053, 237
   size: 209, 20
   orig: 209, 20
   offset: 0, 0
   index: -1
 creditsbutton
   rotate: false
-  xy: 771, 462
+  xy: 2053, 204
   size: 125, 31
   orig: 150, 50
   offset: 3, 5
   index: -1
 backbutton
   rotate: false
-  xy: 771, 414
+  xy: 2053, 156
   size: 48, 46
   orig: 48, 48
   offset: 0, 1
   index: -1
 pausebutton
   rotate: false
-  xy: 898, 463
+  xy: 2180, 205
   size: 28, 30
   orig: 48, 48
   offset: 10, 9

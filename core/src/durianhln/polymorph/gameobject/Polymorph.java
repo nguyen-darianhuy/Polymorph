@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import durianhln.polymorph.game.Match;
 import durianhln.polymorph.game.PolyGame;
 import durianhln.polymorph.screen.GameScreen;
 import durianhln.polymorph.screen.Splash;
@@ -38,6 +39,7 @@ public class Polymorph extends Game {
         musicVolume = 1.0f;
         soundVolume = 1.0f;
         loadAssets();
+        initAssets();
         setScreen(new Splash(this));
     }
 
@@ -56,6 +58,12 @@ public class Polymorph extends Game {
         assetManager.load(SLIDER_PATH, Texture.class);
         assetManager.finishLoading();
     }
+    
+    private void initAssets() {
+        Match.values()[0].setSound(assetManager.get(Polymorph.GOOD_PATH, Sound.class));
+        Match.values()[1].setSound(assetManager.get(Polymorph.HALF_PATH, Sound.class));
+        Match.values()[2].setSound(assetManager.get(Polymorph.BAD_PATH, Sound.class));
+    }
 
     @Override
     public void dispose() {
@@ -67,11 +75,20 @@ public class Polymorph extends Game {
         return assetManager;
     }
     
-    public void changeMusicVolume(float changeInVolume) {
-        musicVolume+=changeInVolume;
+    public float getMusicVolume() {
+        return musicVolume;
     }
     
-    public void changeSoundVolume(float changeInVolume) {
-        soundVolume+=changeInVolume;
+    public void setMusicVolume(float musicVolume) {
+        this.musicVolume=musicVolume;
+        System.out.print(musicVolume+"  ");
+    }
+    
+    public float getSoundVolume() {
+        return soundVolume;
+    }
+    
+    public void setSoundVolume(float soundVolume) {
+        this.soundVolume=soundVolume;
     }
 }

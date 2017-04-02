@@ -71,35 +71,23 @@ public class MainMenu implements Screen {
         buttonSkin = new Skin();
         buttonSkin.addRegions(buttonAtlas);
         
-        ImageButtonStyle playButtonStyle = new ImageButtonStyle();
-        playButtonStyle.up = buttonSkin.getDrawable("playbutton");
-        playButtonStyle.down = buttonSkin.getDrawable("playbutton"); //change all down to actual down button images
-        
-        ImageButtonStyle settingsButtonStyle = new ImageButtonStyle();
-        settingsButtonStyle.up = buttonSkin.getDrawable("settingsbutton");
-        settingsButtonStyle.down = buttonSkin.getDrawable("settingsbutton");
-        
-        ImageButtonStyle creditsButtonStyle = new ImageButtonStyle();
-        creditsButtonStyle.up = buttonSkin.getDrawable("creditsbutton");
-        creditsButtonStyle.down = buttonSkin.getDrawable("creditsbutton");
-        
-        ImageButton playButton = new ImageButton(playButtonStyle);
-        playButton.setSize(198, 64);
+        ImageButton playButton = new ImageButton(buttonSkin.getDrawable("playbutton"), buttonSkin.getDrawable("playbutton"));
+        playButton.setSize(256, 64);
         playButton.setPosition(screenSize.width/2-playButton.getWidth()/2, screenSize.height/2-playButton.getHeight()/2+50);
         playButton.addListener(new PlayButtonListener());
         
-        ImageButton settingsButton = new ImageButton(settingsButtonStyle);
-        settingsButton.setSize(198, 64);
+        ImageButton settingsButton = new ImageButton(buttonSkin.getDrawable("settingsbutton"), buttonSkin.getDrawable("settingsbutton"));
+        settingsButton.setSize(256, 64);
         settingsButton.setPosition(playButton.getX(), playButton.getY()-settingsButton.getHeight()-playButton.getHeight()/2);
         settingsButton.addListener(new SettingsButtonListener());
         
         //change to another button
-        ImageButton otherButton = new ImageButton(settingsButtonStyle);
-        otherButton.setSize(198, 64);
+        ImageButton otherButton = new ImageButton(buttonSkin.getDrawable("settingsbutton"), buttonSkin.getDrawable("settingsbutton"));
+        otherButton.setSize(256, 64);
         otherButton.setPosition(settingsButton.getX(), settingsButton.getY()-settingsButton.getHeight()-settingsButton.getHeight()/2);
         otherButton.addListener(new OtherButtonListener());
         
-        ImageButton creditsButton = new ImageButton(creditsButtonStyle);
+        ImageButton creditsButton = new ImageButton(buttonSkin.getDrawable("creditsbutton"), buttonSkin.getDrawable("creditsbutton"));
         creditsButton.setSize(112.5f, 37.5f);
         creditsButton.setPosition(0, 0);
         creditsButton.addListener(new OtherButtonListener());
@@ -113,6 +101,7 @@ public class MainMenu implements Screen {
     
     @Override
     public void show() {
+        mainMenuMusic.setVolume(game.getMusicVolume());
         mainMenuMusic.play();
     }
 
@@ -147,7 +136,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void hide() {
-        mainMenuMusic.stop();
+        
     }
 
     @Override
