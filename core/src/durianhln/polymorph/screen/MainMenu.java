@@ -74,23 +74,41 @@ public class MainMenu implements Screen {
         ImageButton playButton = new ImageButton(buttonSkin.getDrawable("playbutton"), buttonSkin.getDrawable("playbutton"));
         playButton.setSize(256, 64);
         playButton.setPosition(screenSize.width/2-playButton.getWidth()/2, screenSize.height/2-playButton.getHeight()/2+50);
-        playButton.addListener(new PlayButtonListener());
+        playButton.addListener(new InputListener(){
+        	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new GameScreen(game));
+                return false;
+            }
+        });
         
         ImageButton settingsButton = new ImageButton(buttonSkin.getDrawable("settingsbutton"), buttonSkin.getDrawable("settingsbutton"));
         settingsButton.setSize(256, 64);
         settingsButton.setPosition(playButton.getX(), playButton.getY()-settingsButton.getHeight()-playButton.getHeight()/2);
-        settingsButton.addListener(new SettingsButtonListener());
+        settingsButton.addListener(new InputListener(){
+        	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new SettingsScreen(game));
+                return false;
+            }
+        });
         
         //change to another button
         ImageButton otherButton = new ImageButton(buttonSkin.getDrawable("settingsbutton"), buttonSkin.getDrawable("settingsbutton"));
         otherButton.setSize(256, 64);
         otherButton.setPosition(settingsButton.getX(), settingsButton.getY()-settingsButton.getHeight()-settingsButton.getHeight()/2);
-        otherButton.addListener(new OtherButtonListener());
+        otherButton.addListener(new InputListener(){
+        		public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+            return false;
+        	}
+        });
         
         ImageButton creditsButton = new ImageButton(buttonSkin.getDrawable("creditsbutton"), buttonSkin.getDrawable("creditsbutton"));
         creditsButton.setSize(112.5f, 37.5f);
         creditsButton.setPosition(0, 0);
-        creditsButton.addListener(new OtherButtonListener());
+        creditsButton.addListener(new InputListener(){
+    		public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return false;
+            	}
+            });
         
         stage.addActor(playButton);
         stage.addActor(settingsButton);
@@ -144,7 +162,7 @@ public class MainMenu implements Screen {
         // TODO Auto-generated method stub
 
     }
-    
+    /*
     private class PlayButtonListener extends InputListener {
         public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
             game.setScreen(new GameScreen(game));
@@ -164,4 +182,5 @@ public class MainMenu implements Screen {
             return false;
         }
     }
+    */
 }

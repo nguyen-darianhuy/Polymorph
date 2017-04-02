@@ -70,7 +70,12 @@ public class SettingsScreen implements Screen {
         ImageButton backButton = new ImageButton(backButtonStyle);
         backButton.setSize(48, 48);
         backButton.setPosition(0f, screenSize.height-backButton.getHeight());
-        backButton.addListener(new BackButtonListener());
+        backButton.addListener(new InputListener(){
+        	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                polymorph.setScreen(new MainMenu(polymorph));
+                return false;
+            }
+        });
         
         Skin sliderSkin = new Skin(Gdx.files.internal("uiskin.json"));
         
@@ -79,14 +84,26 @@ public class SettingsScreen implements Screen {
         System.out.println("INIT: " + musicVolumeSlider.getValue());
         musicVolumeSlider.setAnimateDuration(0.05f);
         musicVolumeSlider.setPosition(100,100);
-        musicVolumeSlider.addListener(new MusicVolumeSliderListener());
+        musicVolumeSlider.addListener(new ChangeListener(){
+        	public void changed (ChangeEvent event, Actor actor) {
+                polymorph.setMusicVolume(musicVolumeSlider.getValue());
+                mainMenuMusic.setVolume(polymorph.getMusicVolume());
+            }
+        });
         
         soundVolumeSlider = new Slider(0f, 1f, 0.1f, false, sliderSkin);
         soundVolumeSlider.setValue(polymorph.getMusicVolume());
         System.out.println("INIT: " + soundVolumeSlider.getValue());
         soundVolumeSlider.setAnimateDuration(0.05f);
         soundVolumeSlider.setPosition(100,300);
-        soundVolumeSlider.addListener(new SoundVolumeSliderListener());
+        soundVolumeSlider.addListener(new ChangeListener(){
+        	public void changed (ChangeEvent event, Actor actor) {
+                polymorph.setSoundVolume(soundVolumeSlider.getValue());
+                for(Match match : Match.values()) {
+                    match.getSound().setVolume(polymorph.getSoundVolume());
+                }
+            }
+        });
         
         stage.addActor(backButton);
         stage.addActor(musicVolumeSlider);
@@ -138,7 +155,7 @@ public class SettingsScreen implements Screen {
         // TODO Auto-generated method stub
         
     }
-    
+    /*
     private class BackButtonListener extends InputListener {
         public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
             polymorph.setScreen(new MainMenu(polymorph));
@@ -161,5 +178,5 @@ public class SettingsScreen implements Screen {
             }
         }
     }
-
+    */
 }
