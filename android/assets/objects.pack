@@ -38,3 +38,24 @@ capsule
   orig: 600, 188
   offset: 0, 0
   index: -1
+hpbar-empty
+  rotate: false
+  xy: 1837, 1667
+  size: 85, 572
+  orig: 103, 600
+  offset: 9, 11
+  index: -1
+hpbar-full
+  rotate: false
+  xy: 1734, 1001
+  size: 41, 531
+  orig: 103, 600
+  offset: 31, 34
+  index: -1
+splash
+  rotate: false
+  xy: 1733, 373
+  size: 441, 449
+  orig: 512, 512
+  offset: 36, 27
+  index: -1

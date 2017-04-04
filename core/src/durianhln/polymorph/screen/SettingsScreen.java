@@ -5,10 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -16,26 +14,23 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 
+import durianhln.polymorph.Polymorph;
 import durianhln.polymorph.game.Match;
-import durianhln.polymorph.gameobject.Polymorph;
 
 /**
 *
 * @author Evan
 */
 public class SettingsScreen implements Screen {
-    
+
     private Polymorph polymorph;
     private Dimension screenSize;
-    
+
     private AssetManager assetManager;
     private Music mainMenuMusic;
 
@@ -46,28 +41,29 @@ public class SettingsScreen implements Screen {
 
     private Slider musicVolumeSlider;
     private Slider soundVolumeSlider;
-    
+
     public SettingsScreen(Polymorph polymorph) {
         this.polymorph = polymorph;
         assetManager = polymorph.getAssetManager();
-        
+
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         mainMenuMusic = assetManager.get(Polymorph.MAIN_MENU_MUSIC_PATH, Music.class);
         background = assetManager.get(Polymorph.SETTINGS_SCREEN_BACKGROUND_PATH);
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        
+
         stage = new Stage();
         stage.clear();
         initButtons();
         Gdx.input.setInputProcessor(stage);
     }
-    
+
     public void initButtons() {
         TextureAtlas buttonAtlas = assetManager.get(Polymorph.BUTTONS_PATH);
-        
+
         Skin buttonSkin = new Skin();
         buttonSkin.addRegions(buttonAtlas);
-        
+
+        //TODO FIX THIS SHIT INDENTATION
         ImageButtonStyle backButtonStyle = new ImageButtonStyle();
         backButtonStyle.up = buttonSkin.getDrawable("backbutton"); //change to back button texture
         backButtonStyle.down = buttonSkin.getDrawable("backbutton");
@@ -80,9 +76,9 @@ public class SettingsScreen implements Screen {
         	    return false;
             }
         });
-        
+
         Skin sliderSkin = new Skin(Gdx.files.internal("uiskin.json"));
-        
+
         musicVolumeTexture = new Texture(Gdx.files.internal("raw/musicvolume.png"));
         musicVolumeSlider = new Slider(0f, 1f, 0.1f, false, sliderSkin);
         musicVolumeSlider.setValue(polymorph.getMusicVolume());
@@ -95,7 +91,7 @@ public class SettingsScreen implements Screen {
         	    mainMenuMusic.setVolume(polymorph.getMusicVolume());
             }
         });
-        
+
         soundVolumeTexture = new Texture(Gdx.files.internal("raw/soundvolume.png"));
         soundVolumeSlider = new Slider(0f, 1f, 0.1f, false, sliderSkin);
         soundVolumeSlider.setValue(polymorph.getMusicVolume());
@@ -114,17 +110,17 @@ public class SettingsScreen implements Screen {
         stage.addActor(musicVolumeSlider);
         stage.addActor(soundVolumeSlider);
     }
-    
+
     @Override
     public void show() {
-        
+
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, screenSize.width, screenSize.height);
         stage.getBatch().draw(musicVolumeTexture, musicVolumeSlider.getX()-25, musicVolumeSlider.getY()+musicVolumeSlider.getHeight(), 200, 50);
@@ -137,30 +133,30 @@ public class SettingsScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void pause() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void resume() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void hide() {
-        
+
     }
 
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
-        
+
     }
     /*
     private class BackButtonListener extends InputListener {
@@ -169,14 +165,14 @@ public class SettingsScreen implements Screen {
             return false;
         }
     }
-    
+
     private class MusicVolumeSliderListener extends ChangeListener {
         public void changed (ChangeEvent event, Actor actor) {
             polymorph.setMusicVolume(musicVolumeSlider.getValue());
             mainMenuMusic.setVolume(polymorph.getMusicVolume());
         }
     }
-    
+
     private class SoundVolumeSliderListener extends ChangeListener {
         public void changed (ChangeEvent event, Actor actor) {
             polymorph.setSoundVolume(soundVolumeSlider.getValue());

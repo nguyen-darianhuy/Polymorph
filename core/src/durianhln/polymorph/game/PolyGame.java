@@ -5,17 +5,12 @@ import durianhln.polymorph.gameobject.Updatable;
 import durianhln.polymorph.gameobject.Slot;
 import durianhln.polymorph.gameobject.Map;
 import durianhln.polymorph.gameobject.Player;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
-import durianhln.polymorph.gameobject.Polymorph;
-import durianhln.polymorph.gameobject.ShapeColor;
 import java.awt.Dimension;
 
 /**
@@ -25,10 +20,6 @@ import java.awt.Dimension;
 public class PolyGame implements Updatable {
     //game variables
     private State state;
-
-    //assets
-    private TextureAtlas textureAtlas;
-    private Music backgroundMusic;
 
     //entities
     private Player player;
@@ -47,53 +38,31 @@ public class PolyGame implements Updatable {
     private final float MIN_SLOT_SPAWN_TIME;
     private final float MAX_SLOT_VELOCITY;
 
-    public PolyGame(AssetManager assetManager) {
-        initAssets(assetManager);
+    public PolyGame(TextureAtlas textureAtlas) {
         initGameVariables();
-        initEntities();
+        initEntities(textureAtlas);
 
         //init entity constants
         Dimension screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        SLOT_SPAWN_POINT = new Vector2(screenSize.width/2 - player.getSize().width/2, -player.getSize().height);
+        SLOT_SPAWN_POINT = new Vector2(screenSize.width/2 - player.getSize().width/2,screenSize.height);
         MIN_SLOT_SPAWN_TIME = 0.8f;
-        MAX_SLOT_VELOCITY = 0.55f*screenSize.height;
+        MAX_SLOT_VELOCITY = -0.55f*screenSize.height;
 
         //init game fields
         state = State.READY;
     }
 
-    private void initAssets(AssetManager assetManager) {
-        //init textures
-        textureAtlas = assetManager.get(Polymorph.OBJECTS_PATH, TextureAtlas.class);
-        for (TextureRegion texture : textureAtlas.getRegions()) {
-            texture.flip(false, true); //flip y axis
-        }
-        for (Shape shape : Shape.values()) {
-            shape.setTexture(textureAtlas.findRegion(shape.name));
-        }
-        for (ShapeColor shapeColor : ShapeColor.values()) {
-            shapeColor.setTexture(textureAtlas.findRegion("capsule"));
-        }
-
-        //init sounds
-        backgroundMusic = assetManager.get(Polymorph.MUSIC_PATH, Music.class);
-        backgroundMusic.setLooping(true);
-        Match.values()[0].setSound(assetManager.get(Polymorph.GOOD_PATH, Sound.class));
-    	Match.values()[1].setSound(assetManager.get(Polymorph.HALF_PATH, Sound.class));
-    	Match.values()[2].setSound(assetManager.get(Polymorph.BAD_PATH, Sound.class));
-    }
-
     private void initGameVariables() {
         timeSinceLastSlotSpawn = 0;
         slotSpawnTime = 3.0f;
-        slotVelocity = new Vector2(0, 100);
-        mapVelocity = new Vector2(0, 200);
+        slotVelocity = new Vector2(0, -100);
+        mapVelocity = new Vector2(0, -200);
     }
 
-    private void initEntities() {
+    private void initEntities(TextureAtlas textureAtlas) {
         Dimension screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         final int mobWidth = screenSize.width/4;
-        player = new Player(new Vector2(screenSize.width/2 - mobWidth/2, 2*screenSize.height/3),
+        player = new Player(new Vector2(screenSize.width/2 - mobWidth/2, screenSize.height/3-mobWidth),
                             new Dimension(mobWidth, mobWidth));
 
         slots = new Array<Slot>();
@@ -138,8 +107,8 @@ public class PolyGame implements Updatable {
             if (slotSpawnTime > MIN_SLOT_SPAWN_TIME) {
                 slotSpawnTime -= 0.1f;
             }
-            if (slotVelocity.y < MAX_SLOT_VELOCITY) {
-                slotVelocity.y += 20;
+            if (slotVelocity.y > MAX_SLOT_VELOCITY) {
+                slotVelocity.y -= 20;
             }
             timeSinceLastSlotSpawn = 0;
         }
@@ -147,13 +116,9 @@ public class PolyGame implements Updatable {
         //collision detection
         for (int i = slots.size; --i >= 0;) { //safe concurrent modification
             Slot slot = slots.get(i);
-            if (slot.getPosition().y >= player.getPosition().y) {
+            if (slot.getPosition().y <= player.getPosition().y) {
                 Match match = player.match(slot);
                 match.getSound().play();
-
-                //TODO: rework this calculation
-                int scoreDelta = (int)(player.getMultiplier()*(slot.getVelocity().y*match.multiplier));
-                player.setScore(player.getScore() + scoreDelta);
 
                 slots.removeIndex(i);
                 slotPool.free(slot);
@@ -178,12 +143,10 @@ public class PolyGame implements Updatable {
 
     public void start() {
         state = State.RUNNING;
-        backgroundMusic.play();
     }
 
     public void stop() {
         state = State.STOPPED;
-        backgroundMusic.stop();
     }
 
     public Player getPlayer() { //TODO: temporary

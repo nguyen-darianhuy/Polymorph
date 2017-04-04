@@ -29,12 +29,12 @@ public class Player extends Mob {
     }
 
     public Match match(Slot slot) {
-        if (slot.getPosition().y < this.getPosition().y) {
+        if (slot.getPosition().y > this.getPosition().y) {
             throw new IllegalArgumentException("Slot and Player are not within range!");
         }
 
         Match match;
-        if (slot.getShape() == this.getShape() && slot.getColor() == this.getColor()) {
+        if (slot.getShape() == this.getShape() && slot.getColor().equals(this.getColor())) {
             match = Match.GOOD;
         } else if (slot.getShape() == this.getShape()) {
             match = Match.HALF;
@@ -43,13 +43,21 @@ public class Player extends Mob {
             multiplier = 1;
         }
 
+        //update hp
         if (hitpoints + match.value > 100) {
             if (multiplier <= 2.0f) {
                 multiplier += 0.05f;
             }
+        } else if (hitpoints + match.value < 0) {
+            hitpoints = 0;
         } else {
             hitpoints += match.value;
         }
+
+        //update score
+        //TODO: rework this calculation
+        score += multiplier*(-slot.getVelocity().y*match.multiplier);
+
         return match;
     }
 
@@ -59,10 +67,6 @@ public class Player extends Mob {
 
     public int getScore() {
         return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 
     public int getHitpoints() {

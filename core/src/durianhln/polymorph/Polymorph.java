@@ -1,17 +1,14 @@
-package durianhln.polymorph.gameobject;
+package durianhln.polymorph;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import durianhln.polymorph.game.Match;
-import durianhln.polymorph.game.PolyGame;
-import durianhln.polymorph.screen.GameScreen;
 import durianhln.polymorph.screen.Splash;
 
 public class Polymorph extends Game {
@@ -29,7 +26,7 @@ public class Polymorph extends Game {
     public final static String BUTTONS_PATH = "buttons/buttons.pack";
 
     private AssetManager assetManager;
-    
+
     private float musicVolume;
     private float soundVolume;
 
@@ -58,11 +55,11 @@ public class Polymorph extends Game {
         assetManager.load(BUTTONS_PATH, TextureAtlas.class);
         assetManager.finishLoading();
     }
-    
+
     private void initAssets() {
-        Match.values()[0].setSound(assetManager.get(Polymorph.GOOD_PATH, Sound.class));
-        Match.values()[1].setSound(assetManager.get(Polymorph.HALF_PATH, Sound.class));
-        Match.values()[2].setSound(assetManager.get(Polymorph.BAD_PATH, Sound.class));
+        Match.GOOD.setSound(assetManager.get(Polymorph.GOOD_PATH, Sound.class));
+        Match.HALF.setSound(assetManager.get(Polymorph.HALF_PATH, Sound.class));
+        Match.BAD.setSound(assetManager.get(Polymorph.BAD_PATH, Sound.class));
     }
 
     @Override
@@ -74,20 +71,20 @@ public class Polymorph extends Game {
     public AssetManager getAssetManager() {
         return assetManager;
     }
-    
+
     public float getMusicVolume() {
         return musicVolume;
     }
-    
+
     public void setMusicVolume(float musicVolume) {
         this.musicVolume=musicVolume;
         System.out.print(musicVolume+"  ");
     }
-    
+
     public float getSoundVolume() {
         return soundVolume;
     }
-    
+
     public void setSoundVolume(float soundVolume) {
         this.soundVolume=soundVolume;
     }
