@@ -30,6 +30,8 @@ import java.awt.Dimension;
  * @author Darian
  */
 public class GameScreen implements Screen {
+    
+    private Polymorph polymorph;
     private PolyGame polyGame;
     private Dimension screenSize;
 
@@ -43,8 +45,9 @@ public class GameScreen implements Screen {
 
     private FPSLogger fps;
 
-    public GameScreen(Polymorph game) {
-        assetManager = game.getAssetManager();
+    public GameScreen(Polymorph polymorph) {
+        this.polymorph = polymorph;
+        assetManager = polymorph.getAssetManager();
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         this.polyGame = new PolyGame(assetManager);
 
@@ -123,6 +126,9 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         assetManager.get(Polymorph.MAIN_MENU_MUSIC_PATH, Music.class).stop();
+        assetManager.get(Polymorph.MUSIC_PATH, Music.class).setVolume(polymorph.getMusicVolume());
+        assetManager.get(Polymorph.MUSIC_PATH, Music.class).play();
+
     }
 
     @Override

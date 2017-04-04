@@ -25,8 +25,8 @@ public class Polymorph extends Game {
     public final static String SPLASH_PATH = "raw/splashscreen.png";
     public final static String MAIN_MENU_BACKGROUND_PATH = "raw/mainmenu.png";
     public final static String SETTINGS_SCREEN_BACKGROUND_PATH = "raw/settingsscreen.png";
+    public final static String SETTINGS_SCREEN_OPTIONS_PATH = "raw/settingsscreenoptions.pack";
     public final static String BUTTONS_PATH = "buttons/buttons.pack";
-    public final static String SLIDER_PATH = "buttons/slider.png";
 
     private AssetManager assetManager;
     
@@ -36,8 +36,8 @@ public class Polymorph extends Game {
     @Override
     public void create() {
         assetManager = new AssetManager();
-        musicVolume = 1.0f;
-        soundVolume = 1.0f;
+        musicVolume = 0.5f;
+        soundVolume = 0.5f;
         loadAssets();
         initAssets();
         setScreen(new Splash(this));
@@ -54,8 +54,8 @@ public class Polymorph extends Game {
         assetManager.load(SPLASH_PATH, Texture.class);
         assetManager.load(MAIN_MENU_BACKGROUND_PATH, Texture.class);
         assetManager.load(SETTINGS_SCREEN_BACKGROUND_PATH, Texture.class);
+        assetManager.load(SETTINGS_SCREEN_OPTIONS_PATH, TextureAtlas.class);
         assetManager.load(BUTTONS_PATH, TextureAtlas.class);
-        assetManager.load(SLIDER_PATH, Texture.class);
         assetManager.finishLoading();
     }
     

@@ -1,0 +1,19 @@
+
+settingsscreenoptions.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+soundvolume
+  rotate: false
+  xy: 1, 28
+  size: 199, 24
+  orig: 200, 50
+  offset: 1, 13
+  index: -1
+musicvolume
+  rotate: false
+  xy: 1, 1
+  size: 194, 25
+  orig: 200, 50
+  offset: 3, 9
+  index: -1

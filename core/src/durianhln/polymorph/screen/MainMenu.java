@@ -37,7 +37,7 @@ import durianhln.polymorph.gameobject.Polymorph;
  */
 public class MainMenu implements Screen {
 
-    private Polymorph game;
+    private Polymorph polymorph;
     private Dimension screenSize;
     
     private AssetManager assetManager;
@@ -49,9 +49,9 @@ public class MainMenu implements Screen {
     private TextureAtlas buttonAtlas;
     private Skin buttonSkin;
 
-    public MainMenu(Polymorph game) {
-        this.game = game;
-        assetManager = game.getAssetManager();
+    public MainMenu(Polymorph polymorph) {
+        this.polymorph = polymorph;
+        assetManager = polymorph.getAssetManager();
         
         mainMenuMusic = assetManager.get(Polymorph.MAIN_MENU_MUSIC_PATH);
         mainMenuMusic.setLooping(true);
@@ -74,9 +74,9 @@ public class MainMenu implements Screen {
         ImageButton playButton = new ImageButton(buttonSkin.getDrawable("playbutton"), buttonSkin.getDrawable("playbutton"));
         playButton.setSize(256, 64);
         playButton.setPosition(screenSize.width/2-playButton.getWidth()/2, screenSize.height/2-playButton.getHeight()/2+50);
-        playButton.addListener(new InputListener(){
+        playButton.addListener(new InputListener() {
         	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen(game));
+                polymorph.setScreen(new GameScreen(polymorph));
                 return false;
             }
         });
@@ -84,9 +84,9 @@ public class MainMenu implements Screen {
         ImageButton settingsButton = new ImageButton(buttonSkin.getDrawable("settingsbutton"), buttonSkin.getDrawable("settingsbutton"));
         settingsButton.setSize(256, 64);
         settingsButton.setPosition(playButton.getX(), playButton.getY()-settingsButton.getHeight()-playButton.getHeight()/2);
-        settingsButton.addListener(new InputListener(){
-        	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new SettingsScreen(game));
+        settingsButton.addListener(new InputListener() {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                polymorph.setScreen(new SettingsScreen(polymorph));
                 return false;
             }
         });
@@ -95,20 +95,20 @@ public class MainMenu implements Screen {
         ImageButton otherButton = new ImageButton(buttonSkin.getDrawable("settingsbutton"), buttonSkin.getDrawable("settingsbutton"));
         otherButton.setSize(256, 64);
         otherButton.setPosition(settingsButton.getX(), settingsButton.getY()-settingsButton.getHeight()-settingsButton.getHeight()/2);
-        otherButton.addListener(new InputListener(){
+        otherButton.addListener(new InputListener() {
         		public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-            return false;
-        	}
+        		    return false;
+        		}
         });
         
         ImageButton creditsButton = new ImageButton(buttonSkin.getDrawable("creditsbutton"), buttonSkin.getDrawable("creditsbutton"));
         creditsButton.setSize(112.5f, 37.5f);
         creditsButton.setPosition(0, 0);
-        creditsButton.addListener(new InputListener(){
+        creditsButton.addListener(new InputListener() {
     		public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                return false;
-            	}
-            });
+                    return false;
+            }
+        });
         
         stage.addActor(playButton);
         stage.addActor(settingsButton);
@@ -119,7 +119,7 @@ public class MainMenu implements Screen {
     
     @Override
     public void show() {
-        mainMenuMusic.setVolume(game.getMusicVolume());
+        mainMenuMusic.setVolume(polymorph.getMusicVolume());
         mainMenuMusic.play();
     }
 
@@ -162,25 +162,4 @@ public class MainMenu implements Screen {
         // TODO Auto-generated method stub
 
     }
-    /*
-    private class PlayButtonListener extends InputListener {
-        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-            game.setScreen(new GameScreen(game));
-            return false;
-        }
-    }
-    
-    private class SettingsButtonListener extends InputListener {
-        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-            game.setScreen(new SettingsScreen(game));
-            return false;
-        }
-    }
-    
-    private class OtherButtonListener extends InputListener {
-        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-            return false;
-        }
-    }
-    */
 }

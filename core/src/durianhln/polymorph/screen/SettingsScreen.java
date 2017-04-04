@@ -38,7 +38,10 @@ public class SettingsScreen implements Screen {
     
     private AssetManager assetManager;
     private Music mainMenuMusic;
+
     private Texture background;
+    private Texture musicVolumeTexture;
+    private Texture soundVolumeTexture;
     private Stage stage;
 
     private Slider musicVolumeSlider;
@@ -48,6 +51,7 @@ public class SettingsScreen implements Screen {
         this.polymorph = polymorph;
         assetManager = polymorph.getAssetManager();
         
+        screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         mainMenuMusic = assetManager.get(Polymorph.MAIN_MENU_MUSIC_PATH, Music.class);
         background = assetManager.get(Polymorph.SETTINGS_SCREEN_BACKGROUND_PATH);
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -72,39 +76,40 @@ public class SettingsScreen implements Screen {
         backButton.setPosition(0f, screenSize.height-backButton.getHeight());
         backButton.addListener(new InputListener(){
         	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                polymorph.setScreen(new MainMenu(polymorph));
-                return false;
+        	    polymorph.setScreen(new MainMenu(polymorph));
+        	    return false;
             }
         });
         
         Skin sliderSkin = new Skin(Gdx.files.internal("uiskin.json"));
         
+        musicVolumeTexture = new Texture(Gdx.files.internal("raw/musicvolume.png"));
         musicVolumeSlider = new Slider(0f, 1f, 0.1f, false, sliderSkin);
         musicVolumeSlider.setValue(polymorph.getMusicVolume());
         System.out.println("INIT: " + musicVolumeSlider.getValue());
         musicVolumeSlider.setAnimateDuration(0.05f);
-        musicVolumeSlider.setPosition(100,100);
+        musicVolumeSlider.setPosition(screenSize.width/2-musicVolumeSlider.getWidth()/2, 2*screenSize.height/3);
         musicVolumeSlider.addListener(new ChangeListener(){
         	public void changed (ChangeEvent event, Actor actor) {
-                polymorph.setMusicVolume(musicVolumeSlider.getValue());
-                mainMenuMusic.setVolume(polymorph.getMusicVolume());
+        	    polymorph.setMusicVolume(musicVolumeSlider.getValue());
+        	    mainMenuMusic.setVolume(polymorph.getMusicVolume());
             }
         });
         
+        soundVolumeTexture = new Texture(Gdx.files.internal("raw/soundvolume.png"));
         soundVolumeSlider = new Slider(0f, 1f, 0.1f, false, sliderSkin);
         soundVolumeSlider.setValue(polymorph.getMusicVolume());
         System.out.println("INIT: " + soundVolumeSlider.getValue());
         soundVolumeSlider.setAnimateDuration(0.05f);
-        soundVolumeSlider.setPosition(100,300);
+        soundVolumeSlider.setPosition(screenSize.width/2-soundVolumeSlider.getWidth()/2, screenSize.height/2 - 2*soundVolumeTexture.getHeight());
         soundVolumeSlider.addListener(new ChangeListener(){
         	public void changed (ChangeEvent event, Actor actor) {
                 polymorph.setSoundVolume(soundVolumeSlider.getValue());
                 for(Match match : Match.values()) {
-                    match.getSound().setVolume(polymorph.getSoundVolume());
+                    match.getSound().setVolume(match.getSound().play(0.0f), polymorph.getSoundVolume());
                 }
             }
         });
-        
         stage.addActor(backButton);
         stage.addActor(musicVolumeSlider);
         stage.addActor(soundVolumeSlider);
@@ -122,6 +127,8 @@ public class SettingsScreen implements Screen {
         
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, screenSize.width, screenSize.height);
+        stage.getBatch().draw(musicVolumeTexture, musicVolumeSlider.getX()-25, musicVolumeSlider.getY()+musicVolumeSlider.getHeight(), 200, 50);
+        stage.getBatch().draw(soundVolumeTexture, soundVolumeSlider.getX()-25, soundVolumeSlider.getY()+soundVolumeSlider.getHeight(), 200, 50);
         stage.getBatch().end();
         stage.draw();
         stage.act(delta);
