@@ -34,7 +34,7 @@ public class Player extends Mob {
         }
 
         Match match;
-        if (slot.getShape() == this.getShape() && slot.getColor() == this.getColor()) {
+        if (slot.getShape() == this.getShape() && slot.getColor().equals(this.getColor())) {
             match = Match.GOOD;
         } else if (slot.getShape() == this.getShape()) {
             match = Match.HALF;
@@ -56,7 +56,7 @@ public class Player extends Mob {
 
         //update score
         //TODO: rework this calculation
-        score += multiplier*(slot.getVelocity().y*match.multiplier);
+        score += multiplier*(-slot.getVelocity().y*match.multiplier);
 
         return match;
     }

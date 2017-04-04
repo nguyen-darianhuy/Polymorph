@@ -10,25 +10,25 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import durianhln.polymorph.game.PolyGame;
 import durianhln.polymorph.game.Shape;
 import durianhln.polymorph.gameobject.ShapeColor;
 import durianhln.polymorph.game.State;
 import durianhln.polymorph.hud.HealthBar;
+import durianhln.polymorph.hud.ColorButton;
 import durianhln.polymorph.Polymorph;
 import durianhln.polymorph.game.Match;
+import durianhln.polymorph.hud.ShapeButton;
 import java.awt.Dimension;
 
 /**
@@ -69,15 +69,12 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         font = new BitmapFont(false);
 
-        Gdx.input.setInputProcessor(new InputMultiplexer(new InputHandler(), hud));
+        Gdx.input.setInputProcessor(new InputMultiplexer(new KeyboardInputHandler(), hud));
         fps = new FPSLogger();
     }
 
     private void initAssets(AssetManager assetManager) {
         textureAtlas = assetManager.get(Polymorph.OBJECTS_PATH, TextureAtlas.class);
-        for (TextureRegion texture : textureAtlas.getRegions()) {
-            texture.flip(true,false); //flip y axis
-        }
         for (Shape shape : Shape.values()) {
             shape.setTexture(textureAtlas.findRegion(shape.name));
         }
@@ -85,26 +82,61 @@ public class GameScreen implements Screen {
             shapeColor.setTexture(textureAtlas.findRegion("capsule"));
         }
 
-        //init sounds
+        //init audio
         music = assetManager.get(Polymorph.MUSIC_PATH, Music.class);
         music.setLooping(true);
-        Match.values()[0].setSound(assetManager.get(Polymorph.GOOD_PATH, Sound.class));
-    	Match.values()[1].setSound(assetManager.get(Polymorph.HALF_PATH, Sound.class));
-    	Match.values()[2].setSound(assetManager.get(Polymorph.BAD_PATH, Sound.class));
+        Match.GOOD.setSound(assetManager.get(Polymorph.GOOD_PATH, Sound.class));
+    	Match.HALF.setSound(assetManager.get(Polymorph.HALF_PATH, Sound.class));
+    	Match.BAD.setSound(assetManager.get(Polymorph.BAD_PATH, Sound.class));
     }
+
     private void initHud() {
         hud = new Stage();
 
+        //init widgets
+        playerHealthBar = initHealthBar();
+        ColorButton[] colorButtons = initColorButtons();
+        Button[] shapeButtons = initShapeButtons(colorButtons);
+
+        //add widgets to stage
+        for (ColorButton colorButton : colorButtons) {
+            hud.addActor(colorButton);
+        }
+        for (Button shapeButton : shapeButtons) {
+            hud.addActor(shapeButton);
+        }
+        hud.addActor(playerHealthBar);
+    }
+
+    private HealthBar initHealthBar() {
         Image barImage = new Image(textureAtlas.findRegion("hpbar-empty"));
         barImage.setBounds(10, screenSize.height/5, screenSize.width/6, 3*screenSize.height/4);
-        playerHealthBar = new HealthBar(barImage, new Image(textureAtlas.findRegion("hpbar-full")));
+        return new HealthBar(barImage, new Image(textureAtlas.findRegion("hpbar-full")));
+    }
 
-        // TODO make this work
-        /*Button triangleButton = new Button(new TextureRegionDrawable(Shape.TRIANGLE.getTexture()));
-        triangleButton.setSize(screenSize.width / 5, screenSize.width/5);
-        triangleButton.setScale(5f);
-        hud.addActor(triangleButton);*/
-        hud.addActor(playerHealthBar);
+    private ColorButton[] initColorButtons() {
+        final ShapeColor[] shapeColors = ShapeColor.values();
+
+        ColorButton[] colorButtons = new ColorButton[shapeColors.length];
+        for (int i = 0; i < colorButtons.length; i++) {
+            colorButtons[i] = new ColorButton(shapeColors[i].getTexture(), shapeColors[i].color,
+                                              new Vector2(i*screenSize.width/3 + 25, 90));
+            colorButtons[i].setSize(screenSize.width/5, 20);
+        }
+
+        return colorButtons;
+    }
+
+    private ShapeButton[] initShapeButtons(ColorButton[] colorButtons) {
+        final Shape[] shapes = Shape.values();
+
+        ShapeButton[] shapeButtons = new ShapeButton[shapes.length];
+        for (int i = 0; i < shapeButtons.length; i++) {
+            shapeButtons[i] = new ShapeButton(game.getPlayer(), shapes[i], colorButtons);
+            shapeButtons[i].setBounds(i*screenSize.width/3 + 25, 10, screenSize.width/5, screenSize.width/5);
+        }
+
+        return shapeButtons;
     }
 
     @Override
@@ -131,32 +163,19 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.render(batch);
-        playerHealthBar.setValue(player.getHitpoints());
-        // >>>DEMO START
-        for (int i = 0; i < Shape.values().length; i++) {
-            Shape shape = Shape.values()[i];
-            int x = i * screenSize.width / 3 + 25;
-            int y =  10;
-            int width = screenSize.width / 5;
-            batch.draw(shape.getTexture(), x, y, width, width);
 
-            Color originalColor = batch.getColor();
-            batch.setColor(ShapeColor.values()[i].color);
-            batch.draw(ShapeColor.values()[i].getTexture(), x, y+80, width, 20);
-            batch.setColor(originalColor);
-        }
-        // draw text
         font.draw(batch, String.format("Score: %d\n", player.getScore()), screenSize.width - 100, screenSize.height-10);
         font.draw(batch, String.format("Multiplier: %.2f\n%s",
                   player.getMultiplier(), player.isDead() ? "Oh dear, you are dead!" : ""),
                   10, screenSize.height-10);
 
-        // >>>DEMO END
         batch.end();
 
-        fps.log();
+        //fps.log();
+        playerHealthBar.setValue(player.getHitpoints());
         hud.draw();
         hud.act(delta);
+
     }
 
     @Override
@@ -184,8 +203,7 @@ public class GameScreen implements Screen {
     public void dispose() {
     }
 
-    private class InputHandler implements InputProcessor { // touch coordinates
-                                                           // are y-down!!!
+    private class KeyboardInputHandler implements InputProcessor { // touch coordinates are y-down!!!
         private Shape shapeHeld;
 
         @Override
@@ -235,10 +253,9 @@ public class GameScreen implements Screen {
         public boolean touchDown(int x, int y, int pointer, int button) {
             if (game.getState() == State.STOPPED) {
                 game = new PolyGame(textureAtlas);
-            } else {
-                System.out.printf("X: %d, Y: %d\n", x, y);
+                return true;
             }
-            return true;
+            return false;
         }
 
         @Override

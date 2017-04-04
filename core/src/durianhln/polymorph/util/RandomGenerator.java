@@ -11,13 +11,15 @@ import java.util.Random;
  * @author Darian
  */
 public abstract class RandomGenerator {
+    private static Shape[] shapes = Shape.values();
+    private static ShapeColor[] shapeColors = ShapeColor.values();
     public static final Random rng = new Random();
 
     public static Shape getRandomShape() {
-        return Shape.values()[rng.nextInt(Shape.values().length)];
+        return shapes[rng.nextInt(Shape.values().length)];
     }
 
     public static Color getRandomColor() {
-        return ShapeColor.values()[rng.nextInt(ShapeColor.values().length)].color;
+        return shapeColors[rng.nextInt(ShapeColor.values().length)].color;
     }
 }
