@@ -22,11 +22,9 @@ import durianhln.polymorph.Polymorph;
  * @author Evan
  */
 public class MainMenu implements Screen {
-
     private Polymorph polymorph;
     private Dimension screenSize;
 
-    private AssetManager assetManager;
     private Music mainMenuMusic;
     private Texture background;
 
@@ -37,7 +35,7 @@ public class MainMenu implements Screen {
 
     public MainMenu(Polymorph polymorph) {
         this.polymorph = polymorph;
-        assetManager = polymorph.getAssetManager();
+        AssetManager assetManager = polymorph.getAssetManager();
 
         mainMenuMusic = assetManager.get(Polymorph.MAIN_MENU_MUSIC_PATH);
         mainMenuMusic.setLooping(true);
@@ -53,7 +51,7 @@ public class MainMenu implements Screen {
     }
 
     public void initButtons() {
-        buttonAtlas = assetManager.get(Polymorph.BUTTONS_PATH);
+        buttonAtlas = polymorph.getAssetManager().get(Polymorph.BUTTONS_PATH);
         buttonSkin = new Skin();
         buttonSkin.addRegions(buttonAtlas);
 
@@ -108,7 +106,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void show() {
-        mainMenuMusic.setVolume(polymorph.getMusicVolume());
+        mainMenuMusic.setVolume(polymorph.getPreferences().getFloat(Polymorph.MUSIC_VOLUME));
         mainMenuMusic.play();
     }
 

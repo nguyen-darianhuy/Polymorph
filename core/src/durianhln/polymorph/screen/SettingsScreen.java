@@ -2,9 +2,11 @@ package durianhln.polymorph.screen;
 
 import java.awt.Dimension;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -31,7 +33,6 @@ public class SettingsScreen implements Screen {
     private Polymorph polymorph;
     private Dimension screenSize;
 
-    private AssetManager assetManager;
     private Music mainMenuMusic;
 
     private Texture background;
@@ -43,8 +44,8 @@ public class SettingsScreen implements Screen {
     private Slider soundVolumeSlider;
 
     public SettingsScreen(Polymorph polymorph) {
+        AssetManager assetManager = polymorph.getAssetManager();
         this.polymorph = polymorph;
-        assetManager = polymorph.getAssetManager();
 
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         mainMenuMusic = assetManager.get(Polymorph.MAIN_MENU_MUSIC_PATH, Music.class);
@@ -53,13 +54,13 @@ public class SettingsScreen implements Screen {
 
         stage = new Stage();
         stage.clear();
-        initButtons();
+        initButtons(assetManager);
         Gdx.input.setInputProcessor(stage);
     }
 
-    public void initButtons() {
-        TextureAtlas buttonAtlas = assetManager.get(Polymorph.BUTTONS_PATH);
-
+    public void initButtons(AssetManager assetManager) {
+        TextureAtlas buttonAtlas = polymorph.getAssetManager().get(Polymorph.BUTTONS_PATH);
+        final Preferences preferences = polymorph.getPreferences();
         Skin buttonSkin = new Skin();
         buttonSkin.addRegions(buttonAtlas);
 
@@ -71,39 +72,36 @@ public class SettingsScreen implements Screen {
         backButton.setSize(48, 48);
         backButton.setPosition(0f, screenSize.height-backButton.getHeight());
         backButton.addListener(new InputListener(){
+                @Override
         	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
         	    polymorph.setScreen(new MainMenu(polymorph));
         	    return false;
             }
         });
 
-        Skin sliderSkin = new Skin(Gdx.files.internal("uiskin.json"));
+        Skin sliderSkin = assetManager.get(Polymorph.SKIN_PATH, Skin.class);
 
-        musicVolumeTexture = new Texture(Gdx.files.internal("raw/musicvolume.png"));
+        musicVolumeTexture = new Texture(Gdx.files.internal("raw/musicvolume.png")); //TODO Get this shit from assetManager!
         musicVolumeSlider = new Slider(0f, 1f, 0.1f, false, sliderSkin);
-        musicVolumeSlider.setValue(polymorph.getMusicVolume());
-        System.out.println("INIT: " + musicVolumeSlider.getValue());
+        musicVolumeSlider.setValue(preferences.getFloat(Polymorph.MUSIC_VOLUME));
         musicVolumeSlider.setAnimateDuration(0.05f);
         musicVolumeSlider.setPosition(screenSize.width/2-musicVolumeSlider.getWidth()/2, 2*screenSize.height/3);
         musicVolumeSlider.addListener(new ChangeListener(){
-        	public void changed (ChangeEvent event, Actor actor) {
-        	    polymorph.setMusicVolume(musicVolumeSlider.getValue());
-        	    mainMenuMusic.setVolume(polymorph.getMusicVolume());
+            public void changed (ChangeEvent event, Actor actor) {
+                preferences.putFloat(Polymorph.MUSIC_VOLUME, musicVolumeSlider.getValue());
+                mainMenuMusic.setVolume(preferences.getFloat(Polymorph.MUSIC_VOLUME));
             }
         });
 
         soundVolumeTexture = new Texture(Gdx.files.internal("raw/soundvolume.png"));
         soundVolumeSlider = new Slider(0f, 1f, 0.1f, false, sliderSkin);
-        soundVolumeSlider.setValue(polymorph.getMusicVolume());
-        System.out.println("INIT: " + soundVolumeSlider.getValue());
+        soundVolumeSlider.setValue(preferences.getFloat(Polymorph.SOUND_VOLUME));
         soundVolumeSlider.setAnimateDuration(0.05f);
         soundVolumeSlider.setPosition(screenSize.width/2-soundVolumeSlider.getWidth()/2, screenSize.height/2 - 2*soundVolumeTexture.getHeight());
         soundVolumeSlider.addListener(new ChangeListener(){
-        	public void changed (ChangeEvent event, Actor actor) {
-                polymorph.setSoundVolume(soundVolumeSlider.getValue());
-                for(Match match : Match.values()) {
-                    match.getSound().setVolume(match.getSound().play(0.0f), polymorph.getSoundVolume());
-                }
+            public void changed (ChangeEvent event, Actor actor) {
+                preferences.putFloat(Polymorph.SOUND_VOLUME, soundVolumeSlider.getValue());
+                Match.GOOD.getSound().play(soundVolumeSlider.getValue());
             }
         });
         stage.addActor(backButton);
@@ -150,7 +148,7 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void hide() {
-
+        polymorph.getPreferences().flush();
     }
 
     @Override

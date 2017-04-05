@@ -27,6 +27,7 @@ import durianhln.polymorph.game.State;
 import durianhln.polymorph.hud.HealthBar;
 import durianhln.polymorph.hud.ColorButton;
 import durianhln.polymorph.Polymorph;
+import durianhln.polymorph.game.Match;
 import durianhln.polymorph.hud.ShapeButton;
 
 import java.awt.Dimension;
@@ -149,7 +150,10 @@ public class GameScreen implements Screen {
                 gameMusic.play();
                 break;
             case RUNNING:
-                polyGame.update(delta);
+                Match match = polyGame.update(delta);
+                if (match != null) { //TODO Optimize this a bit more
+                    match.getSound().play(polymorph.getPreferences().getFloat(Polymorph.SOUND_VOLUME));
+                }
                 break;
             case STOPPED: // TODO: gracefully end the game
                 gameMusic.stop();
@@ -177,7 +181,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        gameMusic.setVolume(polymorph.getMusicVolume());
+        gameMusic.setVolume(polymorph.getPreferences().getFloat(Polymorph.MUSIC_VOLUME));
         gameMusic.play();
 
     }

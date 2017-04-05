@@ -17,7 +17,7 @@ import java.awt.Dimension;
  * Represents the core Polymorph game logic.
  * @author Darian
  */
-public class PolyGame implements Updatable {
+public class PolyGame {
     //game variables
     private State state;
 
@@ -82,8 +82,7 @@ public class PolyGame implements Updatable {
         maps = new Map[]{mapFront, mapBack};
     }
 
-    @Override
-    public void update(float delta) {
+    public Match update(float delta) {
         if (player.isDead()) {
             stop();//TODO: change this shit
         }
@@ -118,12 +117,14 @@ public class PolyGame implements Updatable {
             Slot slot = slots.get(i);
             if (slot.getPosition().y <= player.getPosition().y) {
                 Match match = player.match(slot);
-                match.getSound().play();
 
                 slots.removeIndex(i);
                 slotPool.free(slot);
+                return match;
             }
         }
+
+        return null;
     }
 
     public void render(SpriteBatch batch) {
