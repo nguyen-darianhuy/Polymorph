@@ -8,7 +8,7 @@ import java.awt.Dimension;
  * Represents a game entity that has a position, can move, and has a texture.
  * @author Darian
  */
-public abstract class Entity implements Updatable {
+public abstract class Entity {
     private final Vector2 position;
     private final Vector2 velocity;
     private Dimension size;
@@ -19,6 +19,8 @@ public abstract class Entity implements Updatable {
         this.size = size;
     }
 
+    public abstract void update(float delta);
+    
     public abstract void render(Batch batch);
 
     public Vector2 getPosition() {

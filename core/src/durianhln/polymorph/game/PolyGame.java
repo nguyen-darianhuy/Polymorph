@@ -1,7 +1,6 @@
 package durianhln.polymorph.game;
 
 import com.badlogic.gdx.Gdx;
-import durianhln.polymorph.gameobject.Updatable;
 import durianhln.polymorph.gameobject.Slot;
 import durianhln.polymorph.gameobject.Map;
 import durianhln.polymorph.gameobject.Player;

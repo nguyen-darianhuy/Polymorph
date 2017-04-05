@@ -109,7 +109,7 @@ public class GameScreen implements Screen {
     private HealthBar initHealthBar() {
         Image barImage = new Image(textureAtlas.findRegion("hpbar-empty"));
         barImage.setBounds(10, screenSize.height/5, screenSize.width/6, 3*screenSize.height/4);
-        return new HealthBar(barImage, new Image(textureAtlas.findRegion("hpbar-full")));
+        return new HealthBar(polyGame.getPlayer(), barImage, new Image(textureAtlas.findRegion("hpbar-full")));
     }
 
     private ColorButton[] initColorButtons() {
@@ -173,7 +173,6 @@ public class GameScreen implements Screen {
         batch.end();
 
         //fps.log();
-        playerHealthBar.setValue(player.getHitpoints());
         hud.draw();
         hud.act(delta);
 
