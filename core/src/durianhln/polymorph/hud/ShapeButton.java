@@ -1,5 +1,6 @@
 package durianhln.polymorph.hud;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -9,7 +10,7 @@ import durianhln.polymorph.game.Shape;
 import durianhln.polymorph.gameobject.Mob;
 
 /**
- *
+ * Represents a shaped button that a player touches and drags to a ColorButton in order to morph.
  * @author Darian
  */
 public class ShapeButton extends Button {

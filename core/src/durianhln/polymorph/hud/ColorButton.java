@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 
 /**
- *
+ * Represents the colored capsule button that a player drags a touch to in order to morph.
  * @author Darian
  */
 public class ColorButton extends Image {
@@ -17,24 +17,30 @@ public class ColorButton extends Image {
     public ColorButton(TextureRegion texture, Color color, Vector2 targetPosition) {
         super(texture);
         setColor(color);
-        setPosition(0, -getHeight());
+        reset();
 
         this.targetPosition = targetPosition;
     }
 
     public void moveFrom(Button button) {
-        setPosition(button.getX(), button.getY());
-        addAction(Actions.moveTo(targetPosition.x, targetPosition.y, 0.1f));
+        setVisible(true);
+        setPosition(button.getX()+button.getWidth()/2, button.getY()+button.getY()/2);
+
+        final float ANIMATION_SPEED = 0.1f;
+        addAction(Actions.parallel(Actions.moveTo(targetPosition.x, targetPosition.y, ANIMATION_SPEED),
+                                   Actions.scaleTo(1.0f, 1.0f, ANIMATION_SPEED)));
     }
 
-    public void reset() {
+    public final void reset() {
         clearActions();
-        setPosition(0, -getHeight());
+        setVisible(false);
+        addAction(Actions.scaleTo(0, 0));
     }
 
     public boolean contains(Vector2 point) {
-        //height intentionally larger for more lenient hit detection
-        return getX() <= point.x && point.x <= getX()+getWidth() &&
-               getY() <= point.y && point.y <= getY()+getWidth(); //intentional
+        //height intentionally square for more lenient hit detection
+        if (!isTouchable()) return false;
+        return targetPosition.x <= point.x && point.x <= targetPosition.x+getWidth() &&
+               targetPosition.y <= point.y && point.y <= targetPosition.y+getWidth(); //intentional
     }
 }

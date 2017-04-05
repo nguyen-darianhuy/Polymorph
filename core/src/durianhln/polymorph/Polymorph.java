@@ -28,9 +28,10 @@ public class Polymorph extends Game {
     public final static String MAIN_MENU_BACKGROUND_PATH = "raw/mainmenu.png";
     public final static String SETTINGS_SCREEN_BACKGROUND_PATH = "raw/settingsscreen.png";
 
-    //settings paths
+    //preferences paths
     public final static String MUSIC_VOLUME = "musicVolume";
     public final static String SOUND_VOLUME = "soundVolume";
+    public final static String HIGH_SCORE = "highScore";
 
     private AssetManager assetManager;
     private Preferences preferences;
@@ -48,6 +49,7 @@ public class Polymorph extends Game {
     private void initSettings() {
         preferences.putFloat(MUSIC_VOLUME, preferences.getFloat(MUSIC_VOLUME, 0.5f));
         preferences.putFloat(SOUND_VOLUME, preferences.getFloat(SOUND_VOLUME, 0.5f));
+        preferences.putInteger(HIGH_SCORE, preferences.getInteger(HIGH_SCORE, 0));
         preferences.flush();
     }
 

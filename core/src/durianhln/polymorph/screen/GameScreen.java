@@ -1,11 +1,11 @@
 package durianhln.polymorph.screen;
 
-import durianhln.polymorph.gameobject.Player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -16,11 +16,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import durianhln.polymorph.game.PolyGame;
+import durianhln.polymorph.gameobject.Player;
 import durianhln.polymorph.game.Shape;
 import durianhln.polymorph.gameobject.ShapeColor;
 import durianhln.polymorph.game.State;
@@ -48,7 +49,7 @@ public class GameScreen implements Screen {
     //utils
     private SpriteBatch batch;
     private BitmapFont font;
-    private TextureAtlas textureAtlas;
+    private TextureAtlas textureAtlas; //TODO remove this
 
     //game variables
     private PolyGame polyGame;
@@ -94,13 +95,13 @@ public class GameScreen implements Screen {
         //init widgets
         playerHealthBar = initHealthBar();
         ColorButton[] colorButtons = initColorButtons();
-        Button[] shapeButtons = initShapeButtons(colorButtons);
+        ShapeButton[] shapeButtons = initShapeButtons(colorButtons);
 
         //add widgets to stage
         for (ColorButton colorButton : colorButtons) {
             hud.addActor(colorButton);
         }
-        for (Button shapeButton : shapeButtons) {
+        for (ShapeButton shapeButton : shapeButtons) {
             hud.addActor(shapeButton);
         }
         hud.addActor(playerHealthBar);
@@ -142,6 +143,7 @@ public class GameScreen implements Screen {
         delta = Math.min(delta, 0.03f);
 
         Player player = polyGame.getPlayer(); // TODO temporary
+        Preferences preferences = polymorph.getPreferences();
 
         switch (polyGame.getState()) {
             case READY: // TODO: Change this shit
@@ -152,13 +154,17 @@ public class GameScreen implements Screen {
             case RUNNING:
                 Match match = polyGame.update(delta);
                 if (match != null) { //TODO Optimize this a bit more
-                    match.getSound().play(polymorph.getPreferences().getFloat(Polymorph.SOUND_VOLUME));
+                    match.getSound().play(preferences.getFloat(Polymorph.SOUND_VOLUME));
                 }
                 break;
-            case STOPPED: // TODO: gracefully end the game
+            case STOPPED: // TODO: gracefully save and end the game
+                preferences.putInteger(Polymorph.HIGH_SCORE, player.getScore());
+                preferences.flush();
                 gameMusic.stop();
                 break;
         }
+        hud.act(delta);
+
         batch.begin();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -174,15 +180,12 @@ public class GameScreen implements Screen {
 
         //fps.log();
         hud.draw();
-        hud.act(delta);
-
     }
 
     @Override
     public void show() {
         gameMusic.setVolume(polymorph.getPreferences().getFloat(Polymorph.MUSIC_VOLUME));
         gameMusic.play();
-
     }
 
     @Override

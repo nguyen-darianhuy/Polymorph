@@ -30,9 +30,6 @@ public class MainMenu implements Screen {
 
     private Stage stage;
 
-    private TextureAtlas buttonAtlas;
-    private Skin buttonSkin;
-
     public MainMenu(Polymorph polymorph) {
         this.polymorph = polymorph;
         AssetManager assetManager = polymorph.getAssetManager();
@@ -46,13 +43,13 @@ public class MainMenu implements Screen {
 
         stage = new Stage();
         stage.clear();
-        initButtons();
+        initButtons(assetManager.get(Polymorph.BUTTONS_PATH, TextureAtlas.class));
         Gdx.input.setInputProcessor(stage);
     }
 
-    public void initButtons() {
-        buttonAtlas = polymorph.getAssetManager().get(Polymorph.BUTTONS_PATH);
-        buttonSkin = new Skin();
+    //Make init methods PRIVATE!
+    public void initButtons(TextureAtlas buttonAtlas) {
+        Skin buttonSkin = new Skin();
         buttonSkin.addRegions(buttonAtlas);
 
         //TODO FIX THIS SHIT INDENTATION
