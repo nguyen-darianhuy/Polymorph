@@ -28,7 +28,6 @@ import durianhln.polymorph.hud.HealthBar;
 import durianhln.polymorph.hud.ColorButton;
 import durianhln.polymorph.Polymorph;
 import durianhln.polymorph.game.Match;
-import durianhln.polymorph.hud.Hud;
 import durianhln.polymorph.hud.ShapeButton;
 
 import java.awt.Dimension;
@@ -55,7 +54,6 @@ public class GameScreen implements Screen {
     private PolyGame polyGame;
     private Music gameMusic;
     private Stage hud;
-    private HealthBar playerHealthBar;
 
     public GameScreen(Polymorph polymorph) {
         this.polymorph = polymorph;
@@ -90,13 +88,20 @@ public class GameScreen implements Screen {
     }
 
     private void initHud() {
+        hud = new Stage();
+
         //init widgets
-        playerHealthBar = initHealthBar();
+        HealthBar playerHealthBar = initHealthBar();
         ColorButton[] colorButtons = initColorButtons();
         ShapeButton[] shapeButtons = initShapeButtons(colorButtons);
 
         //add widgets to stage
-        hud = new Hud(colorButtons, shapeButtons);
+        for (ShapeButton shapeButton : shapeButtons) {
+            hud.addActor(shapeButton);
+        }
+        for (ColorButton colorButton : colorButtons) {
+            hud.addActor(colorButton);
+        }
         hud.addActor(playerHealthBar);
     }
 

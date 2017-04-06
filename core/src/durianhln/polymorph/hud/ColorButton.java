@@ -22,9 +22,9 @@ public class ColorButton extends Image {
         this.targetPosition = targetPosition;
     }
 
-    public void moveFrom(Button button) {
+    public void moveFrom(ShapeButton shapeButton) {
         setVisible(true);
-        setPosition(button.getX()+button.getWidth()/2, button.getY()+button.getY()/2);
+        setPosition(shapeButton.getCenterX(), shapeButton.getCenterY());
 
         final float ANIMATION_SPEED = 0.1f;
         addAction(Actions.parallel(Actions.moveTo(targetPosition.x, targetPosition.y, ANIMATION_SPEED),
@@ -42,13 +42,5 @@ public class ColorButton extends Image {
         if (!isTouchable()) return false;
         return targetPosition.x <= point.x && point.x <= targetPosition.x+getWidth() &&
                targetPosition.y <= point.y && point.y <= targetPosition.y+getWidth(); //intentional
-    }
-
-    public float getCenterX() {
-        return getX() + getWidth()/2;
-    }
-
-    public float getCenterY() {
-        return getY() + getHeight()/2;
     }
 }
