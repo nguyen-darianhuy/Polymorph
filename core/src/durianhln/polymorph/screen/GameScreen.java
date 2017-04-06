@@ -16,7 +16,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
@@ -29,6 +28,7 @@ import durianhln.polymorph.hud.HealthBar;
 import durianhln.polymorph.hud.ColorButton;
 import durianhln.polymorph.Polymorph;
 import durianhln.polymorph.game.Match;
+import durianhln.polymorph.hud.Hud;
 import durianhln.polymorph.hud.ShapeButton;
 
 import java.awt.Dimension;
@@ -90,20 +90,13 @@ public class GameScreen implements Screen {
     }
 
     private void initHud() {
-        hud = new Stage();
-
         //init widgets
         playerHealthBar = initHealthBar();
         ColorButton[] colorButtons = initColorButtons();
         ShapeButton[] shapeButtons = initShapeButtons(colorButtons);
 
         //add widgets to stage
-        for (ColorButton colorButton : colorButtons) {
-            hud.addActor(colorButton);
-        }
-        for (ShapeButton shapeButton : shapeButtons) {
-            hud.addActor(shapeButton);
-        }
+        hud = new Hud(colorButtons, shapeButtons);
         hud.addActor(playerHealthBar);
     }
 

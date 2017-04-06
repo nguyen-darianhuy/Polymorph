@@ -43,4 +43,12 @@ public class ColorButton extends Image {
         return targetPosition.x <= point.x && point.x <= targetPosition.x+getWidth() &&
                targetPosition.y <= point.y && point.y <= targetPosition.y+getWidth(); //intentional
     }
+
+    public float getCenterX() {
+        return getX() + getWidth()/2;
+    }
+
+    public float getCenterY() {
+        return getY() + getHeight()/2;
+    }
 }

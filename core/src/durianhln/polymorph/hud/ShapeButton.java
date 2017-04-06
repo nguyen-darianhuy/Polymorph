@@ -1,6 +1,5 @@
 package durianhln.polymorph.hud;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -14,8 +13,10 @@ import durianhln.polymorph.gameobject.Mob;
  * @author Darian
  */
 public class ShapeButton extends Button {
+    private boolean held;
     public ShapeButton(final Mob mob, final Shape shape, final ColorButton[] colorButtons) {
         super(new TextureRegionDrawable(shape.getTexture()));
+        held = false;
 
         addListener(new InputListener() {
             @Override
@@ -23,7 +24,7 @@ public class ShapeButton extends Button {
                 for (ColorButton colorButton : colorButtons) {
                     colorButton.moveFrom(ShapeButton.this);
                 }
-                return true;
+                return held = true;
             }
 
             @Override
@@ -38,7 +39,20 @@ public class ShapeButton extends Button {
                 for (ColorButton colorButton : colorButtons) {
                     colorButton.reset();
                 }
+                held = false;
             }
         });
+    }
+
+    public float getCenterX() {
+        return getX() + getWidth()/2;
+    }
+
+    public float getCenterY() {
+        return getY() + getHeight()/2;
+    }
+
+    public boolean isHeld() {
+        return held;
     }
 }
