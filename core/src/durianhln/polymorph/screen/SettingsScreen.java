@@ -72,7 +72,7 @@ public class SettingsScreen implements Screen {
         backButton.setSize(48, 48);
         backButton.setPosition(0f, screenSize.height-backButton.getHeight());
         backButton.addListener(new InputListener(){
-                @Override
+            @Override
         	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
         	    polymorph.setScreen(new MainMenu(polymorph));
         	    return false;
@@ -87,7 +87,8 @@ public class SettingsScreen implements Screen {
         musicVolumeSlider.setAnimateDuration(0.05f);
         musicVolumeSlider.setPosition(screenSize.width/2-musicVolumeSlider.getWidth()/2, 2*screenSize.height/3);
         musicVolumeSlider.addListener(new ChangeListener(){
-            public void changed (ChangeEvent event, Actor actor) {
+            @Override
+        	public void changed (ChangeEvent event, Actor actor) {
                 preferences.putFloat(Polymorph.MUSIC_VOLUME, musicVolumeSlider.getValue());
                 mainMenuMusic.setVolume(preferences.getFloat(Polymorph.MUSIC_VOLUME));
             }
@@ -99,7 +100,8 @@ public class SettingsScreen implements Screen {
         soundVolumeSlider.setAnimateDuration(0.05f);
         soundVolumeSlider.setPosition(screenSize.width/2-soundVolumeSlider.getWidth()/2, screenSize.height/2 - 2*soundVolumeTexture.getHeight());
         soundVolumeSlider.addListener(new ChangeListener(){
-            public void changed (ChangeEvent event, Actor actor) {
+            @Override
+        	public void changed (ChangeEvent event, Actor actor) {
                 preferences.putFloat(Polymorph.SOUND_VOLUME, soundVolumeSlider.getValue());
                 Match.GOOD.getSound().play(soundVolumeSlider.getValue());
             }
@@ -156,28 +158,5 @@ public class SettingsScreen implements Screen {
         // TODO Auto-generated method stub
 
     }
-    /*
-    private class BackButtonListener extends InputListener {
-        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-            polymorph.setScreen(new MainMenu(polymorph));
-            return false;
-        }
-    }
 
-    private class MusicVolumeSliderListener extends ChangeListener {
-        public void changed (ChangeEvent event, Actor actor) {
-            polymorph.setMusicVolume(musicVolumeSlider.getValue());
-            mainMenuMusic.setVolume(polymorph.getMusicVolume());
-        }
-    }
-
-    private class SoundVolumeSliderListener extends ChangeListener {
-        public void changed (ChangeEvent event, Actor actor) {
-            polymorph.setSoundVolume(soundVolumeSlider.getValue());
-            for(Match match : Match.values()) {
-                match.getSound().setVolume(polymorph.getSoundVolume());
-            }
-        }
-    }
-    */
 }

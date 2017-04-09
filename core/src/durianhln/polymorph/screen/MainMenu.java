@@ -58,6 +58,7 @@ public class MainMenu implements Screen {
         playButton.setSize(256, 64);
         playButton.setPosition(screenSize.width/2-playButton.getWidth()/2, screenSize.height/2-playButton.getHeight()/2+50);
         playButton.addListener(new InputListener() {
+        	@Override
         	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 polymorph.setScreen(new GameScreen(polymorph));
                 mainMenuMusic.stop();
@@ -69,7 +70,8 @@ public class MainMenu implements Screen {
         settingsButton.setSize(256, 64);
         settingsButton.setPosition(playButton.getX(), playButton.getY()-settingsButton.getHeight()-playButton.getHeight()/2);
         settingsButton.addListener(new InputListener() {
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+            @Override
+        	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 polymorph.setScreen(new SettingsScreen(polymorph));
                 return false;
             }
@@ -80,7 +82,8 @@ public class MainMenu implements Screen {
         otherButton.setSize(256, 64);
         otherButton.setPosition(settingsButton.getX(), settingsButton.getY()-settingsButton.getHeight()-settingsButton.getHeight()/2);
         otherButton.addListener(new InputListener() {
-        		public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+        	@Override	
+        	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
         		    return false;
         		}
         });
@@ -89,7 +92,8 @@ public class MainMenu implements Screen {
         creditsButton.setSize(112.5f, 37.5f);
         creditsButton.setPosition(0, 0);
         creditsButton.addListener(new InputListener() {
-    		public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+    		@Override
+        	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                     return false;
             }
         });
