@@ -7,5 +7,6 @@ package durianhln.polymorph.game;
 public enum State {
     READY,
     RUNNING,
+    PAUSED,
     STOPPED;
 }

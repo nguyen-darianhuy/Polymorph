@@ -119,13 +119,13 @@ public class GameScreen implements Screen {
         pauseButton.addListener(new InputListener() {
         	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 if(polyGame.getState()==State.RUNNING) {
-                	polyGame.stop();
+                	polyGame.pause();
                 	for (ShapeButton shapeButton : shapeButtons) {
                         shapeButton.setTouchable(Touchable.disabled);
                     }
                 	return true;
                 }
-                if (polyGame.getState()==State.STOPPED) {
+                if (polyGame.getState()==State.PAUSED) {
                 	polyGame.start();
                 	for (ShapeButton shapeButton : shapeButtons) {
                         shapeButton.setTouchable(Touchable.enabled);
@@ -190,6 +190,7 @@ public class GameScreen implements Screen {
                 preferences.putInteger(Polymorph.HIGH_SCORE, player.getScore());
                 preferences.flush();
                 gameMusic.stop();
+                polymorph.setScreen(new DeathScreen(polymorph,player.getScore()));
                 break;
         }
         hud.act(delta);
@@ -201,9 +202,6 @@ public class GameScreen implements Screen {
         polyGame.render(batch);
 
         font.draw(batch, String.format("Score: %d\n", player.getScore()), screenSize.width - 100, screenSize.height-10);
-        font.draw(batch, String.format("Multiplier: %.2f\n%s",
-                  player.getMultiplier(), player.isDead() ? "Oh dear, you are dead!" : ""),
-                  10, screenSize.height-10);
 
         batch.end();
 
@@ -243,9 +241,6 @@ public class GameScreen implements Screen {
 
         @Override
         public boolean keyDown(int keycode) {
-            if(polyGame.getState()==State.STOPPED){
-            return true;
-            }
         	switch (keycode) {
             case Input.Keys.NUMPAD_4:
                 shapeHeld = Shape.TRIANGLE;
@@ -264,9 +259,6 @@ public class GameScreen implements Screen {
 
         @Override
         public boolean keyUp(int keycode) {
-        	if(polyGame.getState()==State.STOPPED){
-                return true;
-                }
             if (shapeHeld == null) {
                 return false;
             }

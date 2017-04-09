@@ -148,6 +148,11 @@ public class PolyGame {
     public void stop() {
         state = State.STOPPED;
     }
+    
+    public void pause(){
+    	if(state!=State.STOPPED)
+    	state=State.PAUSED;
+    }
 
     public Player getPlayer() { //TODO: temporary
         return player;

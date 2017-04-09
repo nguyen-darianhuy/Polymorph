@@ -72,22 +72,23 @@ public class SettingsScreen implements Screen {
         backButton.setSize(48, 48);
         backButton.setPosition(0f, screenSize.height-backButton.getHeight());
         backButton.addListener(new InputListener(){
-            @Override
+        	
+        	@Override
         	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-        	    polymorph.setScreen(new MainMenu(polymorph));
-        	    return false;
-            }
+        		polymorph.setScreen(new MainMenu(polymorph));
+        		return false;
+        	}
         });
-
         Skin sliderSkin = assetManager.get(Polymorph.SKIN_PATH, Skin.class);
 
-        musicVolumeTexture = new Texture(Gdx.files.internal("raw/musicvolume.png")); //TODO Get this shit from assetManager!
+        musicVolumeTexture = new Texture(Gdx.files.internal("raw/musicvolume.png")); // Get this shit from assetManager!
         musicVolumeSlider = new Slider(0f, 1f, 0.1f, false, sliderSkin);
         musicVolumeSlider.setValue(preferences.getFloat(Polymorph.MUSIC_VOLUME));
         musicVolumeSlider.setAnimateDuration(0.05f);
         musicVolumeSlider.setPosition(screenSize.width/2-musicVolumeSlider.getWidth()/2, 2*screenSize.height/3);
         musicVolumeSlider.addListener(new ChangeListener(){
-            @Override
+        	
+        	@Override
         	public void changed (ChangeEvent event, Actor actor) {
                 preferences.putFloat(Polymorph.MUSIC_VOLUME, musicVolumeSlider.getValue());
                 mainMenuMusic.setVolume(preferences.getFloat(Polymorph.MUSIC_VOLUME));
@@ -100,7 +101,8 @@ public class SettingsScreen implements Screen {
         soundVolumeSlider.setAnimateDuration(0.05f);
         soundVolumeSlider.setPosition(screenSize.width/2-soundVolumeSlider.getWidth()/2, screenSize.height/2 - 2*soundVolumeTexture.getHeight());
         soundVolumeSlider.addListener(new ChangeListener(){
-            @Override
+        	
+        	@Override
         	public void changed (ChangeEvent event, Actor actor) {
                 preferences.putFloat(Polymorph.SOUND_VOLUME, soundVolumeSlider.getValue());
                 Match.GOOD.getSound().play(soundVolumeSlider.getValue());
@@ -138,7 +140,7 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void pause() {
-        // TODO Auto-generated method stub
+        //  Auto-generated method stub
 
     }
 
