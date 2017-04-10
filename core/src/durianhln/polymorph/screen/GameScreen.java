@@ -54,7 +54,6 @@ public class GameScreen implements Screen {
     private SpriteBatch batch;
     private BitmapFont font;
     private TextureAtlas textureAtlas; //TODO remove this
-    private TextureAtlas buttonAtlas; //TODO repack all raw and remove this
 
     //game variables
     private PolyGame polyGame;
@@ -80,8 +79,7 @@ public class GameScreen implements Screen {
     }
 
     private void initAssets(AssetManager assetManager) {
-        textureAtlas = assetManager.get(Polymorph.OBJECTS_PATH, TextureAtlas.class);
-        buttonAtlas = assetManager.get(Polymorph.BUTTONS_PATH, TextureAtlas.class);
+        textureAtlas = assetManager.get(Polymorph.MASTER_PATH, TextureAtlas.class);
         for (Shape shape : Shape.values()) {
             shape.setTexture(textureAtlas.findRegion(shape.name));
         }
@@ -112,7 +110,7 @@ public class GameScreen implements Screen {
         hud.addActor(playerHealthBar);
         
       //init pause button
-        Skin buttonSkin = new Skin(buttonAtlas);
+        Skin buttonSkin = new Skin(textureAtlas);
         ImageButton pauseButton=new ImageButton(buttonSkin.getDrawable("pausebutton"),buttonSkin.getDrawable("pausebutton"));
         pauseButton.setSize(50, 50);
         pauseButton.setPosition(screenSize.width-pauseButton.getWidth(), screenSize.height-pauseButton.getHeight());

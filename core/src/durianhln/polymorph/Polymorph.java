@@ -16,9 +16,7 @@ import durianhln.polymorph.screen.Splash;
 public class Polymorph extends Game {
     //assets paths
     public final static String SKIN_PATH = "skin/uiskin.json";
-    public final static String OBJECTS_PATH = "objects.pack";
-    public final static String SETTINGS_SCREEN_OPTIONS_PATH = "settingsscreenoptions.pack";
-    public final static String BUTTONS_PATH = "buttons.pack";
+    public final static String MASTER_PATH = "master.pack";
     public final static String MUSIC_PATH = "music/mainmusic.ogg";
     public final static String MAIN_MENU_MUSIC_PATH = "music/mainmenumusic.ogg";
     public final static String GOOD_PATH = "music/match.mp3";
@@ -54,10 +52,8 @@ public class Polymorph extends Game {
     }
 
     private void loadAssets() {
+        assetManager.load(MASTER_PATH, TextureAtlas.class);
         assetManager.load(SKIN_PATH, Skin.class);
-        assetManager.load(OBJECTS_PATH, TextureAtlas.class);
-        assetManager.load(SETTINGS_SCREEN_OPTIONS_PATH, TextureAtlas.class);
-        assetManager.load(BUTTONS_PATH, TextureAtlas.class);
         assetManager.load(MUSIC_PATH, Music.class);
         assetManager.load(MAIN_MENU_MUSIC_PATH, Music.class);
         assetManager.load(GOOD_PATH, Sound.class);

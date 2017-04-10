@@ -59,7 +59,7 @@ public class SettingsScreen implements Screen {
     }
 
     public void initButtons(AssetManager assetManager) {
-        TextureAtlas buttonAtlas = polymorph.getAssetManager().get(Polymorph.BUTTONS_PATH);
+        TextureAtlas buttonAtlas = polymorph.getAssetManager().get(Polymorph.MASTER_PATH);
         final Preferences preferences = polymorph.getPreferences();
         Skin buttonSkin = new Skin();
         buttonSkin.addRegions(buttonAtlas);
@@ -69,7 +69,6 @@ public class SettingsScreen implements Screen {
         backButtonStyle.up = buttonSkin.getDrawable("backbutton"); //change to back button texture
         backButtonStyle.down = buttonSkin.getDrawable("backbutton");
         ImageButton backButton = new ImageButton(backButtonStyle);
-        backButton.setSize(48, 48);
         backButton.setPosition(0f, screenSize.height-backButton.getHeight());
         backButton.addListener(new InputListener(){
         	
@@ -120,6 +119,7 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void render(float delta) {
+    	//TODO Fix magic numbers
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 

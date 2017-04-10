@@ -62,7 +62,7 @@ public class DeathScreen implements Screen {
         stage.clear();
         font = new BitmapFont(false);
 
-        buttonAtlas = assetManager.get(Polymorph.BUTTONS_PATH, TextureAtlas.class);
+        buttonAtlas = assetManager.get(Polymorph.MASTER_PATH, TextureAtlas.class);
         initButtons(score,buttonAtlas);
         Gdx.input.setInputProcessor(stage);
         
