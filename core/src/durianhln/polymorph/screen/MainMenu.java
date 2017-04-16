@@ -57,12 +57,12 @@ public class MainMenu implements Screen {
         playButton.setSize(4*screenSize.width/5, screenSize.height/8);
         playButton.setPosition(screenSize.width/2-playButton.getWidth()/2, screenSize.height/2);
         playButton.addListener(new InputListener() {
-        	@Override
-        	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-        	    polymorph.setScreen(new GameScreen(polymorph));
-        	    mainMenuMusic.stop();
-        	    return true;
-        	}
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                polymorph.setScreen(new GameScreen(polymorph));
+                mainMenuMusic.stop();
+                return true;
+                }
         });
 
         ImageButton settingsButton = new ImageButton(buttonSkin.getDrawable("settingsbutton"), buttonSkin.getDrawable("settingsbutton"));
@@ -81,10 +81,10 @@ public class MainMenu implements Screen {
         otherButton.setSize(4*screenSize.width/5, screenSize.height/8);
         otherButton.setPosition(settingsButton.getX(), settingsButton.getY()-5*settingsButton.getHeight()/4);
         otherButton.addListener(new InputListener() {
-        	@Override	
-        	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-        	    return false;
-        	    }
+            @Override	
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return false;
+                }
         });
 
         ImageButton creditsButton = new ImageButton(buttonSkin.getDrawable("creditsbutton"), buttonSkin.getDrawable("creditsbutton"));
@@ -92,7 +92,7 @@ public class MainMenu implements Screen {
         creditsButton.addListener(new InputListener() {
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                       return false;
+                return false;
             }
         });
 

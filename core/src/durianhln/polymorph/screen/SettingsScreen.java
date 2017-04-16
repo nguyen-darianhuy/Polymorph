@@ -72,11 +72,11 @@ public class SettingsScreen implements Screen {
         backButton.setPosition(0f, screenSize.height-backButton.getHeight());
         backButton.addListener(new InputListener(){
         	
-        	@Override
-        	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-        	    polymorph.setScreen(new MainMenu(polymorph));
-        	    return false;
-        	}
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                polymorph.setScreen(new MainMenu(polymorph));
+                return false;
+            }
         });
         Skin sliderSkin = assetManager.get(Polymorph.SKIN_PATH, Skin.class);
 
@@ -87,11 +87,11 @@ public class SettingsScreen implements Screen {
         musicVolumeSlider.setPosition(screenSize.width/2-musicVolumeSlider.getWidth()/2, 2*screenSize.height/3);
         musicVolumeSlider.addListener(new ChangeListener(){
         	
-        	@Override
-        	public void changed (ChangeEvent event, Actor actor) {
-        	    preferences.putFloat(Polymorph.MUSIC_VOLUME, musicVolumeSlider.getValue());
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                preferences.putFloat(Polymorph.MUSIC_VOLUME, musicVolumeSlider.getValue());
                 mainMenuMusic.setVolume(preferences.getFloat(Polymorph.MUSIC_VOLUME));
-        	}
+            }
         });
 
         soundVolumeTexture = new Texture(Gdx.files.internal("raw/soundvolume.png"));
@@ -101,11 +101,11 @@ public class SettingsScreen implements Screen {
         soundVolumeSlider.setPosition(screenSize.width/2-soundVolumeSlider.getWidth()/2, screenSize.height/2 - 2*soundVolumeTexture.getHeight());
         soundVolumeSlider.addListener(new ChangeListener(){
         	
-        	@Override
-        	public void changed (ChangeEvent event, Actor actor) {
-        	    preferences.putFloat(Polymorph.SOUND_VOLUME, soundVolumeSlider.getValue());
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                preferences.putFloat(Polymorph.SOUND_VOLUME, soundVolumeSlider.getValue());
                 Match.GOOD.getSound().play(soundVolumeSlider.getValue());
-        	}
+            }
         });
         stage.addActor(backButton);
         stage.addActor(musicVolumeSlider);
