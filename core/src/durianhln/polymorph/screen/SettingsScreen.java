@@ -74,8 +74,8 @@ public class SettingsScreen implements Screen {
         	
         	@Override
         	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-        		polymorph.setScreen(new MainMenu(polymorph));
-        		return false;
+        	    polymorph.setScreen(new MainMenu(polymorph));
+        	    return false;
         	}
         });
         Skin sliderSkin = assetManager.get(Polymorph.SKIN_PATH, Skin.class);
@@ -89,9 +89,9 @@ public class SettingsScreen implements Screen {
         	
         	@Override
         	public void changed (ChangeEvent event, Actor actor) {
-                preferences.putFloat(Polymorph.MUSIC_VOLUME, musicVolumeSlider.getValue());
+        	    preferences.putFloat(Polymorph.MUSIC_VOLUME, musicVolumeSlider.getValue());
                 mainMenuMusic.setVolume(preferences.getFloat(Polymorph.MUSIC_VOLUME));
-            }
+        	}
         });
 
         soundVolumeTexture = new Texture(Gdx.files.internal("raw/soundvolume.png"));
@@ -103,9 +103,9 @@ public class SettingsScreen implements Screen {
         	
         	@Override
         	public void changed (ChangeEvent event, Actor actor) {
-                preferences.putFloat(Polymorph.SOUND_VOLUME, soundVolumeSlider.getValue());
+        	    preferences.putFloat(Polymorph.SOUND_VOLUME, soundVolumeSlider.getValue());
                 Match.GOOD.getSound().play(soundVolumeSlider.getValue());
-            }
+        	}
         });
         stage.addActor(backButton);
         stage.addActor(musicVolumeSlider);

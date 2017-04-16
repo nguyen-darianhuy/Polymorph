@@ -114,20 +114,20 @@ public class GameScreen implements Screen {
         pauseButton.setSize(50, 50);
         pauseButton.setPosition(screenSize.width-pauseButton.getWidth(), screenSize.height-pauseButton.getHeight());
         pauseButton.addListener(new InputListener() {
-        	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 if(polyGame.getState()==State.RUNNING) {
-                	polyGame.pause();
-                	for (ShapeButton shapeButton : shapeButtons) {
+                    polyGame.pause();
+                    for (ShapeButton shapeButton : shapeButtons) {
                         shapeButton.setTouchable(Touchable.disabled);
                     }
-                	return true;
+                    return true;
                 }
                 if (polyGame.getState()==State.PAUSED) {
-                	polyGame.start();
-                	for (ShapeButton shapeButton : shapeButtons) {
+                    polyGame.start();
+                    for (ShapeButton shapeButton : shapeButtons) {
                         shapeButton.setTouchable(Touchable.enabled);
                     }
-                	return true;
+                    return true;
                 }
                 return true;
             }

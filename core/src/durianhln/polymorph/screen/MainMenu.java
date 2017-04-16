@@ -59,10 +59,10 @@ public class MainMenu implements Screen {
         playButton.addListener(new InputListener() {
         	@Override
         	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                polymorph.setScreen(new GameScreen(polymorph));
-                mainMenuMusic.stop();
-                return true;
-            }
+        	    polymorph.setScreen(new GameScreen(polymorph));
+        	    mainMenuMusic.stop();
+        	    return true;
+        	}
         });
 
         ImageButton settingsButton = new ImageButton(buttonSkin.getDrawable("settingsbutton"), buttonSkin.getDrawable("settingsbutton"));
@@ -70,7 +70,7 @@ public class MainMenu implements Screen {
         settingsButton.setPosition(playButton.getX(), playButton.getY()-5*playButton.getHeight()/4);
         settingsButton.addListener(new InputListener() {
             @Override
-        	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 polymorph.setScreen(new SettingsScreen(polymorph));
                 return false;
             }
@@ -83,16 +83,16 @@ public class MainMenu implements Screen {
         otherButton.addListener(new InputListener() {
         	@Override	
         	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-        		    return false;
-        		}
+        	    return false;
+        	    }
         });
 
         ImageButton creditsButton = new ImageButton(buttonSkin.getDrawable("creditsbutton"), buttonSkin.getDrawable("creditsbutton"));
         creditsButton.setPosition(0, 0);
         creditsButton.addListener(new InputListener() {
-    		@Override
-        	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                    return false;
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                       return false;
             }
         });
 
