@@ -2,7 +2,8 @@ package durianhln.polymorph.gameobject;
 
 import com.badlogic.gdx.math.Vector2;
 import durianhln.polymorph.game.Match;
-import java.awt.Dimension;
+import durianhln.polymorph.util.Dimension;
+
 
 /**
  * Represents a Player-controlled Mob that can shape-shift.

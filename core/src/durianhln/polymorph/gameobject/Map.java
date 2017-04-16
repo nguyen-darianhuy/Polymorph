@@ -3,7 +3,8 @@ package durianhln.polymorph.gameobject;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import java.awt.Dimension;
+import durianhln.polymorph.util.Dimension;
+
 
 /**
  * Represents a moving Entity backdrop that moves vertically.
@@ -24,7 +25,7 @@ public class Map extends Entity {
     @Override
     public void update(float delta) {
         getPosition().add(getVelocity().cpy().scl(delta));
-        int height = getSize().height;
+        float height = getSize().height;
         if (getPosition().y <= -height) {
             getPosition().y = height;
         }

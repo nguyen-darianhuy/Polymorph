@@ -2,7 +2,8 @@ package durianhln.polymorph.gameobject;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
-import java.awt.Dimension;
+import durianhln.polymorph.util.Dimension;
+
 
 /**
  * Represents a game entity that has a position, can move, and has a texture.
@@ -20,7 +21,7 @@ public abstract class Entity {
     }
 
     public abstract void update(float delta);
-    
+
     public abstract void render(Batch batch);
 
     public Vector2 getPosition() {

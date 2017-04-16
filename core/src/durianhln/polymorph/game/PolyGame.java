@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
-import java.awt.Dimension;
+import durianhln.polymorph.util.Dimension;
 
 /**
  * Represents the core Polymorph game logic.
@@ -60,7 +60,7 @@ public class PolyGame {
 
     private void initEntities(TextureAtlas textureAtlas) {
         Dimension screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        final int mobWidth = screenSize.width/4;
+        final float mobWidth = screenSize.width/4;
         player = new Player(new Vector2(screenSize.width/2 - mobWidth/2, screenSize.height/3-mobWidth),
                             new Dimension(mobWidth, mobWidth));
 
@@ -148,7 +148,7 @@ public class PolyGame {
     public void stop() {
         state = State.STOPPED;
     }
-    
+
     public void pause(){
     	if(state!=State.STOPPED)
     	state=State.PAUSED;

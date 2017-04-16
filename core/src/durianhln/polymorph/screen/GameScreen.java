@@ -34,8 +34,7 @@ import durianhln.polymorph.hud.ColorButton;
 import durianhln.polymorph.Polymorph;
 import durianhln.polymorph.game.Match;
 import durianhln.polymorph.hud.ShapeButton;
-
-import java.awt.Dimension;
+import durianhln.polymorph.util.Dimension;
 
 /**
  *
@@ -59,7 +58,7 @@ public class GameScreen implements Screen {
     private PolyGame polyGame;
     private Music gameMusic;
     private Stage hud;
- 
+
     public GameScreen(Polymorph polymorph) {
         this.polymorph = polymorph;
         initAssets(polymorph.getAssetManager());
@@ -108,7 +107,7 @@ public class GameScreen implements Screen {
             hud.addActor(colorButton);
         }
         hud.addActor(playerHealthBar);
-        
+
       //init pause button
         Skin buttonSkin = new Skin(textureAtlas);
         ImageButton pauseButton=new ImageButton(buttonSkin.getDrawable("pausebutton"),buttonSkin.getDrawable("pausebutton"));
@@ -161,7 +160,7 @@ public class GameScreen implements Screen {
         ShapeButton[] shapeButtons = new ShapeButton[shapes.length];
         for (int i = 0; i < shapeButtons.length; i++) {
             shapeButtons[i] = new ShapeButton(polyGame.getPlayer(), shapes[i], colorButtons);
-            shapeButtons[i].setBounds(i*screenSize.width/3 + 25, 10, screenSize.width/5, screenSize.width/5); 
+            shapeButtons[i].setBounds(i*screenSize.width/3 + 25, 10, screenSize.width/5, screenSize.width/5);
         }
         return shapeButtons;
     }
