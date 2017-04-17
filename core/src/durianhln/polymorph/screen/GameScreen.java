@@ -23,6 +23,9 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import durianhln.polymorph.game.PolyGame;
 import durianhln.polymorph.gameobject.Player;
@@ -48,6 +51,7 @@ public class GameScreen implements Screen {
 
     //screen properties
     private OrthographicCamera camera;
+    private Viewport viewport;
 
     //utils
     private SpriteBatch batch;
@@ -60,20 +64,23 @@ public class GameScreen implements Screen {
     private Stage hud;
 
     public GameScreen(Polymorph polymorph) {
+        screenSize = new Dimension(480, 800);
         this.polymorph = polymorph;
         initAssets(polymorph.getAssetManager());
         this.polyGame = new PolyGame(textureAtlas);
 
-        screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        initHud();
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, screenSize.width, screenSize.height); //change this
-
+        camera = new OrthographicCamera(480, 800);
+        camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2, 0);
+        camera.update();
+        viewport = new ScalingViewport(Scaling.stretch, 480, 800);
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
         font = new BitmapFont(false);
 
+        hud = new Stage(viewport, batch);
+        initHud();
         Gdx.input.setInputProcessor(new InputMultiplexer(new KeyboardInputHandler(), hud));
+
         fps = new FPSLogger();
     }
 
@@ -92,8 +99,6 @@ public class GameScreen implements Screen {
     }
 
     private void initHud() {
-        hud = new Stage();
-
         //init widgets
         HealthBar playerHealthBar = initHealthBar();
         ColorButton[] colorButtons = initColorButtons();
@@ -137,7 +142,7 @@ public class GameScreen implements Screen {
 
     private HealthBar initHealthBar() {
         Image barImage = new Image(textureAtlas.findRegion("hpbar-empty"));
-        barImage.setBounds(10, screenSize.height/5, screenSize.width/6, 3*screenSize.height/4);
+        barImage.setBounds(screenSize.width/35, screenSize.height/5, screenSize.width/6, 3*screenSize.height/4);
         return new HealthBar(polyGame.getPlayer(), barImage, new Image(textureAtlas.findRegion("hpbar-full")));
     }
 
@@ -147,8 +152,8 @@ public class GameScreen implements Screen {
         ColorButton[] colorButtons = new ColorButton[shapeColors.length];
         for (int i = 0; i < colorButtons.length; i++) {
             colorButtons[i] = new ColorButton(shapeColors[i].getTexture(), shapeColors[i].color,
-                                              new Vector2(i*screenSize.width/3 + 25, 90));
-            colorButtons[i].setSize(screenSize.width/5, 20);
+                                              new Vector2(i*screenSize.width/3 + 25, screenSize.height/6.5f));
+            colorButtons[i].setSize(screenSize.width/5, screenSize.height/32);
         }
 
         return colorButtons;
@@ -160,7 +165,7 @@ public class GameScreen implements Screen {
         ShapeButton[] shapeButtons = new ShapeButton[shapes.length];
         for (int i = 0; i < shapeButtons.length; i++) {
             shapeButtons[i] = new ShapeButton(polyGame.getPlayer(), shapes[i], colorButtons);
-            shapeButtons[i].setBounds(i*screenSize.width/3 + 25, 10, screenSize.width/5, screenSize.width/5);
+            shapeButtons[i].setBounds(i*screenSize.width/3 + screenSize.width/15, screenSize.height/50, screenSize.width/5, screenSize.width/5);
         }
         return shapeButtons;
     }
@@ -215,6 +220,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
+        viewport.update(width, height);
     }
 
     @Override

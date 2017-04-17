@@ -17,4 +17,9 @@ public class Dimension {
         this.width = width;
         this.height = height;
     }
+
+    @Override
+    public String toString() {
+        return String.format("W: %.2f, H: %.2f\n", width, height);
+    }
 }

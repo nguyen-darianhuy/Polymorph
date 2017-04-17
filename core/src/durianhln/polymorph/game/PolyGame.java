@@ -36,16 +36,17 @@ public class PolyGame {
     private final Vector2 SLOT_SPAWN_POINT;
     private final float MIN_SLOT_SPAWN_TIME;
     private final float MAX_SLOT_VELOCITY;
+    private final Dimension SCREEN_SIZE;
 
     public PolyGame(TextureAtlas textureAtlas) {
+        SCREEN_SIZE = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         initGameVariables();
         initEntities(textureAtlas);
 
         //init entity constants
-        Dimension screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        SLOT_SPAWN_POINT = new Vector2(screenSize.width/2 - player.getSize().width/2,screenSize.height);
+        SLOT_SPAWN_POINT = new Vector2(SCREEN_SIZE.width/2 - player.getSize().width/2, SCREEN_SIZE.height);
         MIN_SLOT_SPAWN_TIME = 0.8f;
-        MAX_SLOT_VELOCITY = -0.55f*screenSize.height;
+        MAX_SLOT_VELOCITY = -0.55f*SCREEN_SIZE.height;
 
         //init game fields
         state = State.READY;
@@ -54,14 +55,14 @@ public class PolyGame {
     private void initGameVariables() {
         timeSinceLastSlotSpawn = 0;
         slotSpawnTime = 3.0f;
-        slotVelocity = new Vector2(0, -100);
-        mapVelocity = new Vector2(0, -200);
+
+        slotVelocity = new Vector2(0, -SCREEN_SIZE.height/6);
+        mapVelocity = new Vector2(0, slotVelocity.y*2);
     }
 
     private void initEntities(TextureAtlas textureAtlas) {
-        Dimension screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        final float mobWidth = screenSize.width/4;
-        player = new Player(new Vector2(screenSize.width/2 - mobWidth/2, screenSize.height/3-mobWidth),
+        final float mobWidth = SCREEN_SIZE.width/4;
+        player = new Player(new Vector2(SCREEN_SIZE.width/2 - mobWidth/2, SCREEN_SIZE.height/3-mobWidth),
                             new Dimension(mobWidth, mobWidth));
 
         slots = new Array<Slot>();
@@ -74,7 +75,7 @@ public class PolyGame {
             }
         };
 
-        Dimension mapSize = new Dimension(screenSize.width, (int)(screenSize.height*1.1f));
+        Dimension mapSize = new Dimension(SCREEN_SIZE.width, (int)(SCREEN_SIZE.height*1.1f));
         TextureRegion mapTexture = textureAtlas.findRegion("background");
         Map mapFront = new Map(new Vector2(0, 0), mapVelocity, mapSize, mapTexture);
         Map mapBack = new Map(new Vector2(0, -mapSize.height + 5), mapVelocity, mapSize, mapTexture);

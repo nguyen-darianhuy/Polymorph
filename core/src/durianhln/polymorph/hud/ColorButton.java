@@ -38,7 +38,7 @@ public class ColorButton extends Image {
     }
 
     public boolean contains(Vector2 point) {
-        //height intentionally square for more lenient hit detection
+        //hitbox intentionally square for more lenient hit detection
         if (!isTouchable()) return false;
         return targetPosition.x <= point.x && point.x <= targetPosition.x+getWidth() &&
                targetPosition.y <= point.y && point.y <= targetPosition.y+getWidth(); //intentional
