@@ -47,51 +47,55 @@ public class MainMenu implements Screen {
         Gdx.input.setInputProcessor(stage);
     }
 
-    //Make init methods PRIVATE!
+    // Make init methods PRIVATE!
     public void initButtons(TextureAtlas textureAtlas) {
         Skin buttonSkin = new Skin();
         buttonSkin.addRegions(textureAtlas);
 
-        //TODO FIX THIS SHIT INDENTATION
-        ImageButton playButton = new ImageButton(buttonSkin.getDrawable("playbutton"), buttonSkin.getDrawable("playbutton"));
-        playButton.setSize(4*screenSize.width/5, screenSize.height/8);
-        playButton.setPosition(screenSize.width/2-playButton.getWidth()/2, screenSize.height/2);
+        // TODO FIX THIS SHIT INDENTATION
+        ImageButton playButton = new ImageButton(buttonSkin.getDrawable("playbutton"),
+                buttonSkin.getDrawable("playbutton"));
+        playButton.setSize(4 * screenSize.width / 5, screenSize.height / 8);
+        playButton.setPosition(screenSize.width / 2 - playButton.getWidth() / 2, screenSize.height / 2);
         playButton.addListener(new InputListener() {
             @Override
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 polymorph.setScreen(new GameScreen(polymorph));
                 mainMenuMusic.stop();
                 return true;
-                }
+            }
         });
 
-        ImageButton settingsButton = new ImageButton(buttonSkin.getDrawable("settingsbutton"), buttonSkin.getDrawable("settingsbutton"));
-        settingsButton.setSize(4*screenSize.width/5, screenSize.height/8);
-        settingsButton.setPosition(playButton.getX(), playButton.getY()-5*playButton.getHeight()/4);
+        ImageButton settingsButton = new ImageButton(buttonSkin.getDrawable("settingsbutton"),
+                buttonSkin.getDrawable("settingsbutton"));
+        settingsButton.setSize(4 * screenSize.width / 5, screenSize.height / 8);
+        settingsButton.setPosition(playButton.getX(), playButton.getY() - 5 * playButton.getHeight() / 4);
         settingsButton.addListener(new InputListener() {
             @Override
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 polymorph.setScreen(new SettingsScreen(polymorph));
                 return false;
             }
         });
 
-        //change to another button
-        ImageButton otherButton = new ImageButton(buttonSkin.getDrawable("settingsbutton"), buttonSkin.getDrawable("settingsbutton"));
-        otherButton.setSize(4*screenSize.width/5, screenSize.height/8);
-        otherButton.setPosition(settingsButton.getX(), settingsButton.getY()-5*settingsButton.getHeight()/4);
+        // change to another button
+        ImageButton otherButton = new ImageButton(buttonSkin.getDrawable("settingsbutton"),
+                buttonSkin.getDrawable("settingsbutton"));
+        otherButton.setSize(4 * screenSize.width / 5, screenSize.height / 8);
+        otherButton.setPosition(settingsButton.getX(), settingsButton.getY() - 5 * settingsButton.getHeight() / 4);
         otherButton.addListener(new InputListener() {
-            @Override	
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return false;
-                }
+            }
         });
 
-        ImageButton creditsButton = new ImageButton(buttonSkin.getDrawable("creditsbutton"), buttonSkin.getDrawable("creditsbutton"));
+        ImageButton creditsButton = new ImageButton(buttonSkin.getDrawable("creditsbutton"),
+                buttonSkin.getDrawable("creditsbutton"));
         creditsButton.setPosition(0, 0);
         creditsButton.addListener(new InputListener() {
             @Override
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return false;
             }
         });
@@ -101,7 +105,6 @@ public class MainMenu implements Screen {
         stage.addActor(otherButton);
         stage.addActor(creditsButton);
     }
-
 
     @Override
     public void show() {
