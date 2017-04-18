@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import durianhln.polymorph.Polymorph;
 import durianhln.polymorph.util.Dimension;
 
@@ -21,7 +22,6 @@ import durianhln.polymorph.util.Dimension;
  */
 public class MainMenu implements Screen {
     private Polymorph polymorph;
-    private Dimension screenSize;
 
     private Music mainMenuMusic;
     private TextureRegion background;
@@ -37,9 +37,8 @@ public class MainMenu implements Screen {
         mainMenuMusic.setLooping(true);
 
         background = textureAtlas.findRegion("mainmenu");
-        screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        stage = new Stage();
+        stage = new Stage(new StretchViewport(Polymorph.WORLD_WIDTH, Polymorph.WORLD_HEIGHT));
         stage.clear();
         initButtons(textureAtlas);
         Gdx.input.setInputProcessor(stage);
@@ -51,8 +50,8 @@ public class MainMenu implements Screen {
 
         ImageButton playButton = new ImageButton(buttonSkin.getDrawable("playbutton"),
                 buttonSkin.getDrawable("playbutton"));
-        playButton.setSize(4 * screenSize.width / 5, screenSize.height / 8);
-        playButton.setPosition(screenSize.width / 2 - playButton.getWidth() / 2, screenSize.height / 2);
+        playButton.setSize(4 * Polymorph.WORLD_WIDTH / 5, Polymorph.WORLD_HEIGHT / 8);
+        playButton.setPosition(Polymorph.WORLD_WIDTH / 2 - playButton.getWidth() / 2, Polymorph.WORLD_HEIGHT / 2);
         playButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -64,7 +63,7 @@ public class MainMenu implements Screen {
 
         ImageButton settingsButton = new ImageButton(buttonSkin.getDrawable("settingsbutton"),
                 buttonSkin.getDrawable("settingsbutton"));
-        settingsButton.setSize(4 * screenSize.width / 5, screenSize.height / 8);
+        settingsButton.setSize(4 * Polymorph.WORLD_WIDTH / 5, Polymorph.WORLD_HEIGHT / 8);
         settingsButton.setPosition(playButton.getX(), playButton.getY() - 5 * playButton.getHeight() / 4);
         settingsButton.addListener(new InputListener() {
             @Override
@@ -77,7 +76,7 @@ public class MainMenu implements Screen {
         // change to another button
         ImageButton otherButton = new ImageButton(buttonSkin.getDrawable("settingsbutton"),
                 buttonSkin.getDrawable("settingsbutton"));
-        otherButton.setSize(4 * screenSize.width / 5, screenSize.height / 8);
+        otherButton.setSize(4 * Polymorph.WORLD_WIDTH / 5, Polymorph.WORLD_HEIGHT / 8);
         otherButton.setPosition(settingsButton.getX(), settingsButton.getY() - 5 * settingsButton.getHeight() / 4);
         otherButton.addListener(new InputListener() {
             @Override
@@ -114,7 +113,7 @@ public class MainMenu implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.getBatch().begin();
-        stage.getBatch().draw(background, 0, 0, screenSize.width, screenSize.height);
+        stage.getBatch().draw(background, 0, 0, Polymorph.WORLD_WIDTH, Polymorph.WORLD_HEIGHT);
         stage.getBatch().end();
         stage.draw();
     }
