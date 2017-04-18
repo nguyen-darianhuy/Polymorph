@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import durianhln.polymorph.game.Match;
 import durianhln.polymorph.screen.Splash;
+import durianhln.polymorph.util.Dimension;
 
 public class Polymorph extends Game {
     //assets paths
@@ -30,6 +31,10 @@ public class Polymorph extends Game {
     public final static String MUSIC_VOLUME = "musicVolume";
     public final static String SOUND_VOLUME = "soundVolume";
     public final static String HIGH_SCORE = "highScore";
+
+    //app constants
+    public final static float WORLD_WIDTH = 1080; //banana units
+    public final static float WORLD_HEIGHT = 1920;
 
     private AssetManager assetManager;
     private Preferences preferences;

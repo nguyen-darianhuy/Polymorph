@@ -1,35 +1,33 @@
 package durianhln.polymorph.screen;
 
-import java.awt.Dimension;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import durianhln.polymorph.Polymorph;
+import durianhln.polymorph.game.Shape;
+import durianhln.polymorph.gameobject.ShapeColor;
 
 /**
- *
+ * The splash screen that is displayed when the app is launched.
  * @author Evan
  */
 public class Splash implements Screen {
     private Polymorph polymorph;
-    private Dimension screenSize;
 
     private SpriteBatch batch;
     private Texture splash;
 
     public Splash(final Polymorph polymorph) {
         this.polymorph = polymorph;
-
-        AssetManager assetManager = polymorph.getAssetManager();
-        splash = assetManager.get(Polymorph.SPLASH_PATH);
-
         batch = new SpriteBatch();
-        screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        initAssets();
         Timer.schedule(new Task() {
             @Override
             public void run() {
@@ -37,6 +35,20 @@ public class Splash implements Screen {
             }
 
         }, 3); //change screen after 3 seconds
+    }
+
+    private void initAssets() {
+        AssetManager assetManager = polymorph.getAssetManager();
+
+        splash = assetManager.get(Polymorph.SPLASH_PATH, Texture.class);
+
+        TextureAtlas textureAtlas = assetManager.get(Polymorph.MASTER_PATH, TextureAtlas.class);
+        for (Shape shape : Shape.values()) {
+            shape.setTexture(textureAtlas.findRegion(shape.name));
+        }
+        for (ShapeColor shapeColor : ShapeColor.values()) {
+            shapeColor.setTexture(textureAtlas.findRegion("capsule"));
+        }
     }
 
     @Override
@@ -47,7 +59,7 @@ public class Splash implements Screen {
     @Override
     public void render(float delta) {
         batch.begin();
-        batch.draw(splash, 0, 0, screenSize.width, screenSize.height);
+        batch.draw(splash, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
 
         if (Gdx.input.justTouched()) {

@@ -47,12 +47,10 @@ public class MainMenu implements Screen {
         Gdx.input.setInputProcessor(stage);
     }
 
-    // Make init methods PRIVATE!
-    public void initButtons(TextureAtlas textureAtlas) {
+    private void initButtons(TextureAtlas textureAtlas) {
         Skin buttonSkin = new Skin();
         buttonSkin.addRegions(textureAtlas);
 
-        // TODO FIX THIS SHIT INDENTATION
         ImageButton playButton = new ImageButton(buttonSkin.getDrawable("playbutton"),
                 buttonSkin.getDrawable("playbutton"));
         playButton.setSize(4 * screenSize.width / 5, screenSize.height / 8);

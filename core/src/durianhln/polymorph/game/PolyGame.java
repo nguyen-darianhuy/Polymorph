@@ -1,6 +1,5 @@
 package durianhln.polymorph.game;
 
-import com.badlogic.gdx.Gdx;
 import durianhln.polymorph.gameobject.Slot;
 import durianhln.polymorph.gameobject.Map;
 import durianhln.polymorph.gameobject.Player;
@@ -10,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
+import durianhln.polymorph.Polymorph;
 import durianhln.polymorph.util.Dimension;
 
 /**
@@ -36,33 +36,34 @@ public class PolyGame {
     private final Vector2 SLOT_SPAWN_POINT;
     private final float MIN_SLOT_SPAWN_TIME;
     private final float MAX_SLOT_VELOCITY;
-    private final Dimension SCREEN_SIZE;
 
     public PolyGame(TextureAtlas textureAtlas) {
-        SCREEN_SIZE = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         initGameVariables();
         initEntities(textureAtlas);
 
         //init entity constants
-        SLOT_SPAWN_POINT = new Vector2(SCREEN_SIZE.width/2 - player.getSize().width/2, SCREEN_SIZE.height);
+        SLOT_SPAWN_POINT = new Vector2(Polymorph.WORLD_WIDTH/2 - player.getSize().width/2,
+                                       Polymorph.WORLD_HEIGHT);
         MIN_SLOT_SPAWN_TIME = 0.8f;
-        MAX_SLOT_VELOCITY = -0.55f*SCREEN_SIZE.height;
+        MAX_SLOT_VELOCITY = -0.55f*Polymorph.WORLD_HEIGHT;
 
         //init game fields
         state = State.READY;
     }
 
     private void initGameVariables() {
+
         timeSinceLastSlotSpawn = 0;
         slotSpawnTime = 3.0f;
 
-        slotVelocity = new Vector2(0, -SCREEN_SIZE.height/6);
+        slotVelocity = new Vector2(0, -Polymorph.WORLD_HEIGHT/6);
         mapVelocity = new Vector2(0, slotVelocity.y*2);
+
     }
 
     private void initEntities(TextureAtlas textureAtlas) {
-        final float mobWidth = SCREEN_SIZE.width/4;
-        player = new Player(new Vector2(SCREEN_SIZE.width/2 - mobWidth/2, SCREEN_SIZE.height/3-mobWidth),
+        final float mobWidth = Polymorph.WORLD_WIDTH/4;
+        player = new Player(new Vector2(Polymorph.WORLD_WIDTH/2 - mobWidth/2, Polymorph.WORLD_HEIGHT/3-mobWidth),
                             new Dimension(mobWidth, mobWidth));
 
         slots = new Array<Slot>();
@@ -75,7 +76,7 @@ public class PolyGame {
             }
         };
 
-        Dimension mapSize = new Dimension(SCREEN_SIZE.width, (int)(SCREEN_SIZE.height*1.1f));
+        Dimension mapSize = new Dimension(Polymorph.WORLD_WIDTH, (int)(Polymorph.WORLD_HEIGHT*1.1f));
         TextureRegion mapTexture = textureAtlas.findRegion("background");
         Map mapFront = new Map(new Vector2(0, 0), mapVelocity, mapSize, mapTexture);
         Map mapBack = new Map(new Vector2(0, -mapSize.height + 5), mapVelocity, mapSize, mapTexture);

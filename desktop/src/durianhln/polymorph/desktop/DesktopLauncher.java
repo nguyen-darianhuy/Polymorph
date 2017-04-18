@@ -8,8 +8,8 @@ public class DesktopLauncher {
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "Polymorph";
-        config.width = 480;
-        config.height = 800;
+        config.width = 504;
+        config.height = 896;
         new LwjglApplication(new Polymorph(), config);
     }
 }
