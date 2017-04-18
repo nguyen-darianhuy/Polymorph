@@ -144,7 +144,7 @@ public class GameScreen implements Screen {
     private Image createPauseButton(TextureAtlas textureAtlas) {
         final Image pauseButton = new Image(textureAtlas.findRegion("pausebutton"));
         float width = Polymorph.WORLD_WIDTH/10;
-        pauseButton.setBounds(Polymorph.WORLD_WIDTH - width, Polymorph.WORLD_HEIGHT - width,
+        pauseButton.setBounds(Polymorph.WORLD_WIDTH - width*1.2f, Polymorph.WORLD_HEIGHT - width*1.2f,
                               width, width);
         pauseButton.addListener(new InputListener() {
             @Override
