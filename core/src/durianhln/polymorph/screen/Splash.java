@@ -4,9 +4,9 @@ package durianhln.polymorph.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import durianhln.polymorph.Polymorph;
@@ -21,7 +21,7 @@ public class Splash implements Screen {
     private Polymorph polymorph;
 
     private SpriteBatch batch;
-    private Texture splash;
+    private TextureRegion splash;
 
     public Splash(final Polymorph polymorph) {
         this.polymorph = polymorph;
@@ -39,10 +39,10 @@ public class Splash implements Screen {
 
     private void initAssets() {
         AssetManager assetManager = polymorph.getAssetManager();
-
-        splash = assetManager.get(Polymorph.SPLASH_PATH, Texture.class);
-
         TextureAtlas textureAtlas = assetManager.get(Polymorph.MASTER_PATH, TextureAtlas.class);
+
+        splash = textureAtlas.findRegion("splashscreen");
+
         for (Shape shape : Shape.values()) {
             shape.setTexture(textureAtlas.findRegion(shape.name));
         }

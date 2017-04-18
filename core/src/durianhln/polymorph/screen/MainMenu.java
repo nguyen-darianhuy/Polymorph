@@ -5,9 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -25,24 +24,24 @@ public class MainMenu implements Screen {
     private Dimension screenSize;
 
     private Music mainMenuMusic;
-    private Texture background;
+    private TextureRegion background;
 
     private Stage stage;
 
     public MainMenu(Polymorph polymorph) {
-        this.polymorph = polymorph;
         AssetManager assetManager = polymorph.getAssetManager();
+        TextureAtlas textureAtlas = assetManager.get(Polymorph.MASTER_PATH, TextureAtlas.class);
+        this.polymorph = polymorph;
 
         mainMenuMusic = assetManager.get(Polymorph.MAIN_MENU_MUSIC_PATH);
         mainMenuMusic.setLooping(true);
 
-        background = assetManager.get(Polymorph.MAIN_MENU_BACKGROUND_PATH);
-        background.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        background = textureAtlas.findRegion("mainmenu");
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         stage = new Stage();
         stage.clear();
-        initButtons(assetManager.get(Polymorph.MASTER_PATH, TextureAtlas.class));
+        initButtons(textureAtlas);
         Gdx.input.setInputProcessor(stage);
     }
 

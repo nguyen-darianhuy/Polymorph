@@ -6,11 +6,11 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -28,28 +28,27 @@ import durianhln.polymorph.util.Dimension;
 
 
 public class DeathScreen implements Screen {
-
-	private Polymorph polymorph;
+    private Polymorph polymorph;
     private Dimension screenSize; //TODO remove this
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private BitmapFont font;
-    private TextureAtlas buttonAtlas; //TODO repack all raw and remove this
+    private TextureAtlas textureAtlas; //TODO repack all raw and remove this
     private Music DeathScreenMusic;//TODO find death music
-    private Texture background;//TODO make a unique background
+    private TextureRegion background;//TODO make a unique background
     private Stage stage;
     private int score;
 
     public DeathScreen(Polymorph polymorph,int playerscore) {
+        AssetManager assetManager = polymorph.getAssetManager();
+        TextureAtlas textureAtlas = assetManager.get(Polymorph.MASTER_PATH, TextureAtlas.class);
         this.polymorph = polymorph;
         score=playerscore;
-        AssetManager assetManager = polymorph.getAssetManager();
 
         DeathScreenMusic = assetManager.get(Polymorph.MAIN_MENU_MUSIC_PATH);
         DeathScreenMusic.setLooping(true);
 
-        background = assetManager.get(Polymorph.MAIN_MENU_BACKGROUND_PATH); //TODO make a unique background for the death screen
-        background.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        background = textureAtlas.findRegion("mainmenu"); //TODO make a unique background for the death screen
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         camera = new OrthographicCamera();
@@ -61,8 +60,8 @@ public class DeathScreen implements Screen {
         stage.clear();
         font = new BitmapFont(false);
 
-        buttonAtlas = assetManager.get(Polymorph.MASTER_PATH, TextureAtlas.class);
-        initButtons(score,buttonAtlas);
+        textureAtlas = assetManager.get(Polymorph.MASTER_PATH, TextureAtlas.class);
+        initButtons(score,textureAtlas);
         Gdx.input.setInputProcessor(stage);
 
     }
