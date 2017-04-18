@@ -1,6 +1,5 @@
 package durianhln.polymorph.screen;
 
-import java.awt.Dimension;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
@@ -22,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 
 import durianhln.polymorph.Polymorph;
 import durianhln.polymorph.game.Match;
+import durianhln.polymorph.util.Dimension;
 
 /**
  *

@@ -1,7 +1,5 @@
 package durianhln.polymorph.screen;
 
-import java.awt.Dimension;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -20,16 +18,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import durianhln.polymorph.Polymorph;
+import durianhln.polymorph.util.Dimension;
 
 /**
- * 
+ *
  * @author Jason
  *
  */
 
 
 public class DeathScreen implements Screen {
-    	
+
 	private Polymorph polymorph;
     private Dimension screenSize; //TODO remove this
     private OrthographicCamera camera;
@@ -40,7 +39,7 @@ public class DeathScreen implements Screen {
     private Texture background;//TODO make a unique background
     private Stage stage;
     private int score;
-    
+
     public DeathScreen(Polymorph polymorph,int playerscore) {
         this.polymorph = polymorph;
         score=playerscore;
@@ -48,16 +47,16 @@ public class DeathScreen implements Screen {
 
         DeathScreenMusic = assetManager.get(Polymorph.MAIN_MENU_MUSIC_PATH);
         DeathScreenMusic.setLooping(true);
-        
+
         background = assetManager.get(Polymorph.MAIN_MENU_BACKGROUND_PATH); //TODO make a unique background for the death screen
         background.setFilter(TextureFilter.Linear, TextureFilter.Linear);
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, screenSize.width, screenSize.height); //change this
         batch=new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
-        
+
         stage = new Stage();
         stage.clear();
         font = new BitmapFont(false);
@@ -65,7 +64,7 @@ public class DeathScreen implements Screen {
         buttonAtlas = assetManager.get(Polymorph.MASTER_PATH, TextureAtlas.class);
         initButtons(score,buttonAtlas);
         Gdx.input.setInputProcessor(stage);
-        
+
     }
 
     public void initButtons(int score,TextureAtlas buttonAtlas) {
@@ -80,7 +79,7 @@ public class DeathScreen implements Screen {
         playButton.setPosition(screenSize.width/2-playButton.getWidth()/2,
         		               screenSize.height/2-playButton.getHeight()/2+50);
         playButton.addListener(new InputListener() {
-        	
+
         	@Override
         	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
         		polymorph.setScreen(new GameScreen(polymorph));
@@ -90,13 +89,13 @@ public class DeathScreen implements Screen {
         });
 
         stage.addActor(playButton);
-        
+
     }
 
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
     @Override
@@ -114,33 +113,33 @@ public class DeathScreen implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		
+
 	}
-    
-    
-    
+
+
+
 }

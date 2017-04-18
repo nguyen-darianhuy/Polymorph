@@ -1,7 +1,5 @@
 package durianhln.polymorph.screen;
 
-import java.awt.Dimension;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -16,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import durianhln.polymorph.Polymorph;
+import durianhln.polymorph.util.Dimension;
 
 /**
  *
