@@ -21,8 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -91,10 +89,10 @@ public class GameScreen implements Screen {
         hud = new Stage(viewport, batch);
 
         //init widgets
-        HealthBar playerHealthBar = initHealthBar(textureAtlas);
-        ColorButton[] colorButtons = initColorButtons();
-        final ShapeButton[] shapeButtons = initShapeButtons(colorButtons);
-        Image pauseButton = initPauseButton(textureAtlas);
+        HealthBar playerHealthBar = createHealthBar(textureAtlas);
+        ColorButton[] colorButtons = createColorButtons();
+        final ShapeButton[] shapeButtons = createShapeButtons(colorButtons);
+        Image pauseButton = createPauseButton(textureAtlas);
         // add widgets to stage
         for (ShapeButton shapeButton : shapeButtons) {
             hud.addActor(shapeButton);
@@ -109,7 +107,7 @@ public class GameScreen implements Screen {
         hud.addActor(pauseButton);
     }
 
-    private HealthBar initHealthBar(TextureAtlas textureAtlas) {
+    private HealthBar createHealthBar(TextureAtlas textureAtlas) {
         Image barImage = new Image(textureAtlas.findRegion("hpbar-empty"));
         barImage.setBounds(Polymorph.WORLD_WIDTH/35, Polymorph.WORLD_HEIGHT/5,
                 Polymorph.WORLD_WIDTH/6, 3*Polymorph.WORLD_HEIGHT/4);
@@ -118,7 +116,7 @@ public class GameScreen implements Screen {
         return new HealthBar(polyGame.getPlayer(), barImage, healthImage);
     }
 
-    private ColorButton[] initColorButtons() {
+    private ColorButton[] createColorButtons() {
         final ShapeColor[] shapeColors = ShapeColor.values();
 
         ColorButton[] colorButtons = new ColorButton[shapeColors.length];
@@ -131,7 +129,7 @@ public class GameScreen implements Screen {
         return colorButtons;
     }
 
-    private ShapeButton[] initShapeButtons(ColorButton[] colorButtons) {
+    private ShapeButton[] createShapeButtons(ColorButton[] colorButtons) {
         final Shape[] shapes = Shape.values();
 
         ShapeButton[] shapeButtons = new ShapeButton[shapes.length];
@@ -143,7 +141,7 @@ public class GameScreen implements Screen {
         return shapeButtons;
     }
 
-    private Image initPauseButton(TextureAtlas textureAtlas) {
+    private Image createPauseButton(TextureAtlas textureAtlas) {
         final Image pauseButton = new Image(textureAtlas.findRegion("pausebutton"));
         float width = Polymorph.WORLD_WIDTH/10;
         pauseButton.setBounds(Polymorph.WORLD_WIDTH - width, Polymorph.WORLD_HEIGHT - width,
