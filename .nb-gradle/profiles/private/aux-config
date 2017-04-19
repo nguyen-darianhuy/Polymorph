@@ -4,17 +4,15 @@
   <auxiliary>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-      <group>
-        <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/screen/MainMenu.java</file>
-        <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/screen/GameScreen.java</file>
-      </group>
+      <group/>
     </open-files>
     <editor-bookmarks lastBookmarkId="0" xmlns="http://www.netbeans.org/ns/editor-bookmarks/2"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
       <group>
-        <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/hud/HealthBar.java</file>
-        <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/game/PolyGame.java</file>
+        <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/hud/ShapeButton.java</file>
+        <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/screen/DeathScreen.java</file>
         <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/screen/MainMenu.java</file>
+        <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/Polymorph.java</file>
         <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/screen/Splash.java</file>
         <file>file:/C:/Users/Darian/Documents/GitHub/Polymorph/core/src/durianhln/polymorph/screen/GameScreen.java</file>
       </group>

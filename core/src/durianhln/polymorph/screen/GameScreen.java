@@ -11,9 +11,12 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -71,7 +74,13 @@ public class GameScreen implements Screen {
 
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
-        font = new BitmapFont(false);
+
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("timeburnerbold.ttf"));
+        FreeTypeFontParameter fontSettings = new FreeTypeFontParameter();
+        fontSettings.size = 80;
+        fontSettings.minFilter = TextureFilter.Linear;
+        fontSettings.magFilter = TextureFilter.Linear;
+        font = fontGenerator.generateFont(fontSettings);
 
         initHud(textureAtlas);
         Gdx.input.setInputProcessor(new InputMultiplexer(new KeyboardInputHandler(), hud));
@@ -109,7 +118,7 @@ public class GameScreen implements Screen {
 
     private HealthBar createHealthBar(TextureAtlas textureAtlas) {
         Image barImage = new Image(textureAtlas.findRegion("hpbar-empty"));
-        barImage.setBounds(Polymorph.WORLD_WIDTH/35, Polymorph.WORLD_HEIGHT/5,
+        barImage.setBounds(Polymorph.WORLD_WIDTH/35, Polymorph.WORLD_HEIGHT/5.3f,
                 Polymorph.WORLD_WIDTH/6, 3*Polymorph.WORLD_HEIGHT/4);
         Image healthImage = new Image(textureAtlas.findRegion("hpbar-full"));
 
@@ -208,8 +217,11 @@ public class GameScreen implements Screen {
 
         polyGame.render(batch);
 
-        font.draw(batch, String.format("Score: %d\n", player.getScore()), 3*Polymorph.WORLD_WIDTH/4,
-                49*Polymorph.WORLD_HEIGHT/50);
+        String multiplier = player.getMultiplier() > 1.0f ? String.format(" x %.2f", player.getMultiplier()) : "";
+        int alignment = player.getScore() > 1000 ? -1 : 1;
+        font.draw(batch, player.getScore() + multiplier,
+                 Polymorph.WORLD_WIDTH/35, Polymorph.WORLD_HEIGHT*0.98f,
+                 Polymorph.WORLD_WIDTH/6, alignment, false);
 
         batch.end();
 
