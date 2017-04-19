@@ -75,6 +75,7 @@ public class GameScreen implements Screen {
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
 
+        //TODO Load font into AssetManager and dynamically calculate font size
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("timeburnerbold.ttf"));
         FreeTypeFontParameter fontSettings = new FreeTypeFontParameter();
         fontSettings.size = 80;

@@ -45,7 +45,7 @@ public class PolyGame {
         SLOT_SPAWN_POINT = new Vector2(Polymorph.WORLD_WIDTH/2 - player.getSize().width/2,
                                        Polymorph.WORLD_HEIGHT);
         MIN_SLOT_SPAWN_TIME = 0.8f;
-        MAX_SLOT_VELOCITY = -0.55f*Polymorph.WORLD_HEIGHT;
+        MAX_SLOT_VELOCITY = Polymorph.WORLD_HEIGHT*-0.55f;
 
         //init game fields
         state = State.READY;
@@ -56,7 +56,7 @@ public class PolyGame {
         timeSinceLastSlotSpawn = 0;
         slotSpawnTime = 3.0f;
 
-        slotVelocity = new Vector2(0, -Polymorph.WORLD_HEIGHT/6);
+        slotVelocity = new Vector2(0, Polymorph.WORLD_HEIGHT*-0.15f);
         mapVelocity = new Vector2(0, slotVelocity.y*2);
 
     }
@@ -108,7 +108,8 @@ public class PolyGame {
                 slotSpawnTime -= 0.1f;
             }
             if (slotVelocity.y > MAX_SLOT_VELOCITY) {
-                slotVelocity.y -= 20;
+                slotVelocity.y -= Polymorph.WORLD_HEIGHT/32;
+                mapVelocity.y = slotVelocity.y*2;
             }
             timeSinceLastSlotSpawn = 0;
         }
