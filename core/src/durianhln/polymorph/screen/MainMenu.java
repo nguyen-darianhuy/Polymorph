@@ -13,12 +13,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import durianhln.polymorph.Polymorph;
 import durianhln.polymorph.gameobject.ShapeColor;
@@ -34,17 +36,9 @@ public class MainMenu implements Screen {
     private TextureRegion background;
 
     private Stage stage;
-    private BitmapFont font;
 
     public MainMenu(Polymorph polymorph) {
         this.polymorph = polymorph;
-
-        FreeTypeFontGenerator fontGenerator = polymorph.getAssetManager().get(Polymorph.FONT_PATH);
-        FreeTypeFontParameter fontSettings = new FreeTypeFontParameter();
-        fontSettings.size = 124;
-        fontSettings.minFilter = Texture.TextureFilter.Linear;
-        fontSettings.magFilter = Texture.TextureFilter.Linear;
-        font = fontGenerator.generateFont(fontSettings);
 
         initAssets();
         initStage();
@@ -64,82 +58,86 @@ public class MainMenu implements Screen {
         stage = new Stage(new StretchViewport(Polymorph.WORLD_WIDTH, Polymorph.WORLD_HEIGHT));
         Gdx.input.setInputProcessor(stage);
 
-        font.getData().markupEnabled = true;
+        createTitle();
+        createButtons();
+    }
+
+    private BitmapFont generateFont(int size, boolean bold) {
+        AssetManager assetManager = polymorph.getAssetManager();
+        FreeTypeFontGenerator fontGenerator = bold ? assetManager.get(Polymorph.FONT_BOLD_PATH, FreeTypeFontGenerator.class)
+                                                   : assetManager.get(Polymorph.FONT_NORMAL_PATH, FreeTypeFontGenerator.class);
+
+        FreeTypeFontParameter fontSettings = new FreeTypeFontParameter();
+        fontSettings.size = size;
+        fontSettings.minFilter = Texture.TextureFilter.Linear;
+        fontSettings.magFilter = Texture.TextureFilter.Linear;
+
+        return fontGenerator.generateFont(fontSettings);
+    }
+
+    private void createTitle() {
+        BitmapFont titleFont = generateFont(124, true);
+        titleFont.getData().markupEnabled = true;
         Label title = new Label(String.format("[#%s]P[] o l y [#%s]m[] o r p [#%s]h[]",
                                     ShapeColor.RED.color, ShapeColor.GREEN.color, ShapeColor.BLUE.color),
-                                new LabelStyle(font, Color.WHITE));
+                                new LabelStyle(titleFont, Color.WHITE));
         title.setPosition(Polymorph.WORLD_WIDTH/2 - title.getWidth()/2, 4*Polymorph.WORLD_HEIGHT/5.5f);
 
-        Skin buttonSkin = new Skin();
-        buttonSkin.addRegions(polymorph.getAssetManager().get(Polymorph.MASTER_PATH, TextureAtlas.class));
+        stage.addActor(title);
+    }
 
-        ImageButton playButton = new ImageButton(buttonSkin.getDrawable("buttontemplate"),
-                buttonSkin.getDrawable("downbuttontemplate"));
+    private void createButtons() {
+        BitmapFont buttonFont = generateFont(140, false); //Bug where if font size is > ~140, text is not rendered!
+        buttonFont.getData().setScale(1.1f);
+        TextureAtlas textureAtlas = polymorph.getAssetManager().get(Polymorph.MASTER_PATH, TextureAtlas.class);
+        TextButton.TextButtonStyle buttonStyle = new TextButtonStyle(new TextureRegionDrawable(textureAtlas.findRegion("buttontemplate")),
+                                                                     new TextureRegionDrawable(textureAtlas.findRegion("downbuttontemplate")),
+                                                                     null, buttonFont);
+        buttonStyle.fontColor = Color.GRAY;
+
+        TextButton playButton = new TextButton("Play", buttonStyle);
         playButton.setSize(4 * Polymorph.WORLD_WIDTH / 5, Polymorph.WORLD_HEIGHT / 8);
         playButton.setPosition(Polymorph.WORLD_WIDTH / 2 - playButton.getWidth() / 2, Polymorph.WORLD_HEIGHT / 2);
-        playButton.addListener(new InputListener() {
+        playButton.addListener(new ClickListener() {
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y) {
                 polymorph.setScreen(new GameScreen(polymorph));
                 mainMenuMusic.stop();
             }
         });
+        stage.addActor(playButton);
 
-        ImageButton settingsButton = new ImageButton(buttonSkin.getDrawable("buttontemplate"),
-                buttonSkin.getDrawable("downbuttontemplate"));
+        TextButton settingsButton = new TextButton("Settings", buttonStyle);
         settingsButton.setSize(4 * Polymorph.WORLD_WIDTH / 5, Polymorph.WORLD_HEIGHT / 8);
         settingsButton.setPosition(playButton.getX(), playButton.getY() - 5 * playButton.getHeight() / 4);
-        settingsButton.addListener(new InputListener() {
+        settingsButton.addListener(new ClickListener() {
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y) {
                 polymorph.setScreen(new SettingsScreen(polymorph));
             }
         });
+        stage.addActor(settingsButton);
 
-        // change to another button
-        ImageButton otherButton = new ImageButton(buttonSkin.getDrawable("buttontemplate"),
-                buttonSkin.getDrawable("downbuttontemplate"));
+        //TODO change to another button
+        TextButton otherButton = new TextButton("Other", buttonStyle);
         otherButton.setSize(4 * Polymorph.WORLD_WIDTH / 5, Polymorph.WORLD_HEIGHT / 8);
         otherButton.setPosition(settingsButton.getX(), settingsButton.getY() - 5 * settingsButton.getHeight() / 4);
-        otherButton.addListener(new InputListener() {
+        otherButton.addListener(new ClickListener() {
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return false;
-            }
-
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y) {
             }
         });
-
-        ImageButton creditsButton = new ImageButton(buttonSkin.getDrawable("creditsbutton"),
-                buttonSkin.getDrawable("creditsbutton"));
-        creditsButton.setPosition(0, 0);
-        creditsButton.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return false;
-            }
-
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-            }
-        });
-
-        stage.addActor(title);
-        stage.addActor(playButton);
-        stage.addActor(settingsButton);
         stage.addActor(otherButton);
+
+        //TODO scale it up
+        ImageButton creditsButton = new ImageButton(new TextureRegionDrawable(textureAtlas.findRegion("creditsbutton")),
+                new TextureRegionDrawable(textureAtlas.findRegion("creditsbutton")));
+        creditsButton.setPosition(0, 0);
+        creditsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            }
+        });
         stage.addActor(creditsButton);
     }
 

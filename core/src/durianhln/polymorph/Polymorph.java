@@ -19,7 +19,8 @@ public class Polymorph extends Game {
     //assets paths
     public final static String SKIN_PATH = "skin/uiskin.json";
     public final static String MASTER_PATH = "master.pack";
-    public final static String FONT_PATH = "timeburnerbold.ttf";
+    public final static String FONT_NORMAL_PATH = "timeburnernormal.ttf";
+    public final static String FONT_BOLD_PATH = "timeburnerbold.ttf";
     public final static String MUSIC_PATH = "music/mainmusic.ogg";
     public final static String MAIN_MENU_MUSIC_PATH = "music/mainmenumusic.ogg";
     public final static String GOOD_PATH = "music/match.mp3";
@@ -59,10 +60,11 @@ public class Polymorph extends Game {
         InternalFileHandleResolver fileHandler = new InternalFileHandleResolver();
         assetManager = new AssetManager(fileHandler);
         assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(fileHandler));
-        
+
         assetManager.load(SKIN_PATH, Skin.class);
         assetManager.load(MASTER_PATH, TextureAtlas.class);
-        assetManager.load(FONT_PATH, FreeTypeFontGenerator.class);
+        assetManager.load(FONT_NORMAL_PATH, FreeTypeFontGenerator.class);
+        assetManager.load(FONT_BOLD_PATH, FreeTypeFontGenerator.class);
         assetManager.load(MUSIC_PATH, Music.class);
         assetManager.load(MAIN_MENU_MUSIC_PATH, Music.class);
         assetManager.load(GOOD_PATH, Sound.class);

@@ -6,7 +6,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
@@ -82,7 +81,7 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
 
         //init font
-        FreeTypeFontGenerator fontGenerator = polymorph.getAssetManager().get(Polymorph.FONT_PATH, FreeTypeFontGenerator.class);
+        FreeTypeFontGenerator fontGenerator = polymorph.getAssetManager().get(Polymorph.FONT_BOLD_PATH, FreeTypeFontGenerator.class);
         FreeTypeFontParameter fontSettings = new FreeTypeFontParameter();
         fontSettings.size = 80;
         fontSettings.minFilter = TextureFilter.Linear;
