@@ -48,40 +48,52 @@ public class MainMenu implements Screen {
         Skin buttonSkin = new Skin();
         buttonSkin.addRegions(textureAtlas);
 
-        ImageButton playButton = new ImageButton(buttonSkin.getDrawable("playbutton"),
-                buttonSkin.getDrawable("playbutton"));
+        ImageButton playButton = new ImageButton(buttonSkin.getDrawable("buttontemplate"),
+                buttonSkin.getDrawable("downbuttontemplate"));
         playButton.setSize(4 * Polymorph.WORLD_WIDTH / 5, Polymorph.WORLD_HEIGHT / 8);
         playButton.setPosition(Polymorph.WORLD_WIDTH / 2 - playButton.getWidth() / 2, Polymorph.WORLD_HEIGHT / 2);
         playButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 polymorph.setScreen(new GameScreen(polymorph));
                 mainMenuMusic.stop();
-                return true;
             }
         });
 
-        ImageButton settingsButton = new ImageButton(buttonSkin.getDrawable("settingsbutton"),
-                buttonSkin.getDrawable("settingsbutton"));
+        ImageButton settingsButton = new ImageButton(buttonSkin.getDrawable("buttontemplate"),
+                buttonSkin.getDrawable("downbuttontemplate"));
         settingsButton.setSize(4 * Polymorph.WORLD_WIDTH / 5, Polymorph.WORLD_HEIGHT / 8);
         settingsButton.setPosition(playButton.getX(), playButton.getY() - 5 * playButton.getHeight() / 4);
         settingsButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 polymorph.setScreen(new SettingsScreen(polymorph));
-                return false;
             }
         });
 
         // change to another button
-        ImageButton otherButton = new ImageButton(buttonSkin.getDrawable("settingsbutton"),
-                buttonSkin.getDrawable("settingsbutton"));
+        ImageButton otherButton = new ImageButton(buttonSkin.getDrawable("buttontemplate"),
+                buttonSkin.getDrawable("downbuttontemplate"));
         otherButton.setSize(4 * Polymorph.WORLD_WIDTH / 5, Polymorph.WORLD_HEIGHT / 8);
         otherButton.setPosition(settingsButton.getX(), settingsButton.getY() - 5 * settingsButton.getHeight() / 4);
         otherButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return false;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
             }
         });
 
@@ -92,6 +104,10 @@ public class MainMenu implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return false;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
             }
         });
 

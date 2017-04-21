@@ -45,107 +45,121 @@ circle
   orig: 1024, 768
   offset: 159, 30
   index: -1
-playbutton
+square
+  rotate: false
+  xy: 4915, 1345
+  size: 704, 704
+  orig: 1024, 768
+  offset: 160, 32
+  index: -1
+buttontemplate
   rotate: false
   xy: 4105, 376
   size: 1024, 256
   orig: 1024, 256
   offset: 0, 0
   index: -1
-settingsbutton
+downbuttontemplate
   rotate: false
   xy: 4105, 118
   size: 1024, 256
   orig: 1024, 256
   offset: 0, 0
   index: -1
-splash
-  rotate: false
-  xy: 4915, 1600
-  size: 441, 449
-  orig: 512, 512
-  offset: 36, 27
-  index: -1
-square
-  rotate: false
-  xy: 4812, 638
-  size: 704, 704
-  orig: 1024, 768
-  offset: 160, 32
-  index: -1
-capsule
-  rotate: false
-  xy: 4915, 1410
-  size: 600, 188
-  orig: 600, 188
-  offset: 0, 0
-  index: -1
 hpbar-empty
   rotate: false
-  xy: 5131, 64
+  xy: 5621, 1477
   size: 85, 572
   orig: 103, 600
   offset: 9, 11
   index: -1
+capsule
+  rotate: false
+  xy: 4915, 1155
+  size: 600, 188
+  orig: 600, 188
+  offset: 0, 0
+  index: -1
+playbutton
+  rotate: false
+  xy: 4812, 897
+  size: 1024, 256
+  orig: 1024, 256
+  offset: 0, 0
+  index: -1
+settingsbutton
+  rotate: false
+  xy: 4812, 639
+  size: 1024, 256
+  orig: 1024, 256
+  offset: 0, 0
+  index: -1
+splash
+  rotate: false
+  xy: 5131, 188
+  size: 441, 449
+  orig: 512, 512
+  offset: 36, 27
+  index: -1
 hpbar-full
   rotate: false
-  xy: 5218, 105
+  xy: 5708, 1518
   size: 41, 531
   orig: 103, 600
   offset: 31, 34
   index: -1
 smalltriangle
   rotate: false
-  xy: 5261, 459
+  xy: 5574, 460
   size: 202, 177
   orig: 256, 192
   offset: 27, 8
   index: -1
 Banner
   rotate: false
-  xy: 4915, 1381
+  xy: 4105, 89
   size: 340, 27
   orig: 351, 45
   offset: 1, 6
   index: -1
 slider
   rotate: false
-  xy: 4105, 96
+  xy: 5131, 166
   size: 209, 20
   orig: 209, 20
   offset: 0, 0
   index: -1
 soundvolume
   rotate: false
-  xy: 5261, 433
+  xy: 5574, 434
   size: 199, 24
   orig: 200, 50
   offset: 1, 13
   index: -1
 musicvolume
   rotate: false
-  xy: 4915, 1354
+  xy: 4105, 62
   size: 194, 25
   orig: 200, 50
   offset: 3, 9
   index: -1
 creditsbutton
   rotate: false
-  xy: 5358, 2018
+  xy: 5131, 133
   size: 125, 31
   orig: 150, 50
   offset: 3, 5
   index: -1
 backbutton
   rotate: false
-  xy: 5465, 590
+  xy: 5621, 1429
   size: 48, 46
   orig: 48, 48
   offset: 0, 1
   index: -1
 pausebutton
   rotate: false
-  xy: 5218, 73
+  xy: 4812, 1312
   size: 28, 30
   orig: 48, 48
   offset: 10, 9
