@@ -4,20 +4,22 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import durianhln.polymorph.game.Match;
 import durianhln.polymorph.screen.Splash;
-import durianhln.polymorph.util.Dimension;
 
 public class Polymorph extends Game {
     //assets paths
     public final static String SKIN_PATH = "skin/uiskin.json";
     public final static String MASTER_PATH = "master.pack";
+    public final static String FONT_PATH = "timeburnerbold.ttf";
     public final static String MUSIC_PATH = "music/mainmusic.ogg";
     public final static String MAIN_MENU_MUSIC_PATH = "music/mainmenumusic.ogg";
     public final static String GOOD_PATH = "music/match.mp3";
@@ -38,9 +40,9 @@ public class Polymorph extends Game {
 
     @Override
     public void create() {
-        assetManager = new AssetManager();
         preferences = Gdx.app.getPreferences("Polymorph");
         initSettings();
+
         loadAssets();
         initAssets();
         setScreen(new Splash(this));
@@ -54,8 +56,13 @@ public class Polymorph extends Game {
     }
 
     private void loadAssets() {
-        assetManager.load(MASTER_PATH, TextureAtlas.class);
+        InternalFileHandleResolver fileHandler = new InternalFileHandleResolver();
+        assetManager = new AssetManager(fileHandler);
+        assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(fileHandler));
+        
         assetManager.load(SKIN_PATH, Skin.class);
+        assetManager.load(MASTER_PATH, TextureAtlas.class);
+        assetManager.load(FONT_PATH, FreeTypeFontGenerator.class);
         assetManager.load(MUSIC_PATH, Music.class);
         assetManager.load(MAIN_MENU_MUSIC_PATH, Music.class);
         assetManager.load(GOOD_PATH, Sound.class);

@@ -62,47 +62,48 @@ public class GameScreen implements Screen {
     public GameScreen(Polymorph polymorph) {
         this.polymorph = polymorph;
 
-        AssetManager assetManager = polymorph.getAssetManager();
-        TextureAtlas textureAtlas = assetManager.get(Polymorph.MASTER_PATH, TextureAtlas.class);
-        initAssets(assetManager);
-        this.polyGame = new PolyGame(textureAtlas);
+        this.polyGame = new PolyGame(polymorph.getAssetManager().get(Polymorph.MASTER_PATH, TextureAtlas.class));
+        this.fps = new FPSLogger();
 
+        initUtils();
+        initAssets();
+        initHud();
+    }
+
+    private void initUtils() {
+        //init camera & viewport
         camera = new OrthographicCamera();
         viewport = new StretchViewport(Polymorph.WORLD_WIDTH, Polymorph.WORLD_HEIGHT, camera);
         viewport.apply(true);
         camera.update();
 
+        //init sprite batch
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
 
-        //TODO Load font into AssetManager and dynamically calculate font size
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("timeburnerbold.ttf"));
+        //init font
+        FreeTypeFontGenerator fontGenerator = polymorph.getAssetManager().get(Polymorph.FONT_PATH, FreeTypeFontGenerator.class);
         FreeTypeFontParameter fontSettings = new FreeTypeFontParameter();
         fontSettings.size = 80;
         fontSettings.minFilter = TextureFilter.Linear;
         fontSettings.magFilter = TextureFilter.Linear;
         font = fontGenerator.generateFont(fontSettings);
-
-        initHud(textureAtlas);
-        Gdx.input.setInputProcessor(new InputMultiplexer(new KeyboardInputHandler(), hud));
-
-        fps = new FPSLogger();
     }
 
-    private void initAssets(AssetManager assetManager) {
+    private void initAssets() {
         // init audio
-        gameMusic = assetManager.get(Polymorph.MUSIC_PATH, Music.class);
+        gameMusic = polymorph.getAssetManager().get(Polymorph.MUSIC_PATH, Music.class);
         gameMusic.setLooping(true);
     }
 
-    private void initHud(TextureAtlas textureAtlas) {
+    private void initHud() {
         hud = new Stage(viewport, batch);
+        Gdx.input.setInputProcessor(new InputMultiplexer(new KeyboardInputHandler(), hud));
 
         //init widgets
-        HealthBar playerHealthBar = createHealthBar(textureAtlas);
         ColorButton[] colorButtons = createColorButtons();
         final ShapeButton[] shapeButtons = createShapeButtons(colorButtons);
-        Image pauseButton = createPauseButton(textureAtlas);
+
         // add widgets to stage
         for (ShapeButton shapeButton : shapeButtons) {
             hud.addActor(shapeButton);
@@ -110,11 +111,10 @@ public class GameScreen implements Screen {
         for (ColorButton colorButton : colorButtons) {
             hud.addActor(colorButton);
         }
-        hud.addActor(playerHealthBar);
 
-        // init pause button
-
-        hud.addActor(pauseButton);
+        TextureAtlas textureAtlas = polymorph.getAssetManager().get(Polymorph.MASTER_PATH, TextureAtlas.class);
+        hud.addActor(createHealthBar(textureAtlas));
+        hud.addActor(createPauseButton(textureAtlas));
     }
 
     private HealthBar createHealthBar(TextureAtlas textureAtlas) {
