@@ -132,7 +132,7 @@ public class MainMenu implements Screen {
         //TODO scale it up
         ImageButton creditsButton = new ImageButton(new TextureRegionDrawable(textureAtlas.findRegion("creditsbutton")),
                 new TextureRegionDrawable(textureAtlas.findRegion("creditsbutton")));
-        creditsButton.setPosition(0, 0);
+        creditsButton.setPosition(Polymorph.WORLD_WIDTH/25, Polymorph.WORLD_HEIGHT/50);
         creditsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

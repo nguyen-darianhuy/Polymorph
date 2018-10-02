@@ -77,9 +77,10 @@ public class SettingsScreen implements Screen {
         //TODO set proper bounds for the sliders
         Skin sliderSkin = polymorph.getAssetManager().get(Polymorph.SKIN_PATH, Skin.class);
 
-        musicVolumeSlider = new Slider(0f, 1f, 0.1f, false, sliderSkin);
+        musicVolumeSlider = new Slider(0f, 1f, 0.01f, false, sliderSkin);
         musicVolumeSlider.setValue(preferences.getFloat(Polymorph.MUSIC_VOLUME));
         musicVolumeSlider.setAnimateDuration(0.05f);
+        musicVolumeSlider.setSize(2*Polymorph.WORLD_WIDTH/3, Polymorph.WORLD_HEIGHT/20);
         musicVolumeSlider.setPosition(Polymorph.WORLD_WIDTH / 2 - musicVolumeSlider.getWidth() / 2,
                 2 * Polymorph.WORLD_HEIGHT / 3);
         musicVolumeSlider.addListener(new ChangeListener() {
@@ -93,6 +94,7 @@ public class SettingsScreen implements Screen {
         soundVolumeSlider = new Slider(0f, 1f, 0.1f, false, sliderSkin);
         soundVolumeSlider.setValue(preferences.getFloat(Polymorph.SOUND_VOLUME));
         soundVolumeSlider.setAnimateDuration(0.05f);
+        soundVolumeSlider.setSize(2*Polymorph.WORLD_WIDTH/3, Polymorph.WORLD_HEIGHT/20);
         soundVolumeSlider.setPosition(Polymorph.WORLD_WIDTH / 2 - soundVolumeSlider.getWidth() / 2,
                 Polymorph.WORLD_HEIGHT / 2);
         soundVolumeSlider.addListener(new ChangeListener() {
@@ -121,10 +123,10 @@ public class SettingsScreen implements Screen {
 
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, Polymorph.WORLD_WIDTH, Polymorph.WORLD_HEIGHT);
-        stage.getBatch().draw(musicVolumeText, musicVolumeSlider.getX() - 25,
-                musicVolumeSlider.getY() + musicVolumeSlider.getHeight(), 200, 50);
-        stage.getBatch().draw(soundVolumeText, soundVolumeSlider.getX() - 25,
-                soundVolumeSlider.getY() + soundVolumeSlider.getHeight(), 200, 50);
+        stage.getBatch().draw(musicVolumeText, musicVolumeSlider.getX() + musicVolumeSlider.getWidth()/4,
+                musicVolumeSlider.getY() + musicVolumeSlider.getHeight(), musicVolumeSlider.getWidth()/2, musicVolumeSlider.getHeight());
+        stage.getBatch().draw(soundVolumeText, soundVolumeSlider.getX() + soundVolumeSlider.getWidth()/4,
+                soundVolumeSlider.getY() + soundVolumeSlider.getHeight(), soundVolumeSlider.getWidth()/2, soundVolumeSlider.getHeight());
         stage.getBatch().end();
         stage.draw();
         stage.act(delta);

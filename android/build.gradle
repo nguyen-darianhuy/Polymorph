@@ -1,6 +1,6 @@
 android {
-    buildToolsVersion '25.0.2'
-    compileSdkVersion 25
+    buildToolsVersion '28.0.2'
+    compileSdkVersion 26
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -12,15 +12,13 @@ android {
             jniLibs.srcDirs = ['libs']
         }
 
-        instrumentTest.setRoot('tests')
+        androidTest.setRoot('tests')
     }
     packagingOptions {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
         applicationId "durianhln.polymorph"
-        minSdkVersion 8
-        targetSdkVersion 25
     }
 }
 
