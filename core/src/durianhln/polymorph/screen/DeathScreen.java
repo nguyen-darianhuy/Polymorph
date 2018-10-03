@@ -47,7 +47,7 @@ public class DeathScreen implements Screen {
         DeathScreenMusic = assetManager.get(Polymorph.MAIN_MENU_MUSIC_PATH);
         DeathScreenMusic.setLooping(true);
 
-        background = textureAtlas.findRegion("mainmenu"); //TODO make a unique background for the death screen
+        background = textureAtlas.findRegion("background"); //TODO make a unique background for the death screen
         screenSize = new Dimension(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         camera = new OrthographicCamera();
@@ -69,13 +69,11 @@ public class DeathScreen implements Screen {
         Skin buttonSkin = new Skin();
         buttonSkin.addRegions(buttonAtlas);
 
-        //TODO FIX THIS SHIT INDENTATION
-        //TODO Long-term fix the magic numbers
         ImageButton playButton = new ImageButton(buttonSkin.getDrawable("playbutton"),
         		                                                        buttonSkin.getDrawable("playbutton"));
-        playButton.setSize(256, 64);
+        playButton.setSize(screenSize.width/3, screenSize.height/6);
         playButton.setPosition(screenSize.width/2-playButton.getWidth()/2,
-        		               screenSize.height/2-playButton.getHeight()/2+50);
+        		               screenSize.height/2-playButton.getHeight()/2);
         playButton.addListener(new InputListener() {
 
         	@Override
@@ -103,7 +101,7 @@ public class DeathScreen implements Screen {
 
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, screenSize.width, screenSize.height);
-        font.draw(stage.getBatch(), String.format("Score: %d\n", score), screenSize.width - 100, screenSize.height-10);
+        font.draw(stage.getBatch(), String.format("Score: %d\n", score), screenSize.width/3, screenSize.height-screenSize.height/3);
         stage.getBatch().end();
         stage.draw();
     }
