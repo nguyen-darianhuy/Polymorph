@@ -5,7 +5,7 @@ Quickly change shape and color to save the world.
 
 ## Built With
 
-* [libGDX](https://libgdx.badlogicgames.com/) - The game development library used
+* [libGDX](https://libgdx.badlogicgames.com/) - The game development framework used
 
 ## Authors
 
