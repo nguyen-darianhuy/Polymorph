@@ -7,7 +7,7 @@ Quickly change shape and color to save the world.
 
 * [libGDX](https://libgdx.badlogicgames.com/) - The game development library used
 
-## Author
+## Authors
 
 * [**Darian Nguyen**](https://github.com/nguyen-darianhuy)
 * [**Evan Ho**](https://github.com/evanho9)
